@@ -1,0 +1,40 @@
+{
+  "name": "Erin",
+  "displayName": "{{projectName}}",
+  "version": "0.0.1",
+  "description": "Define your browser newtab page",
+  "author": "Developer27149",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "package": "plasmo package"
+  },
+  "dependencies": {
+    "@plasmohq/messaging": "^0.3.3",
+    "crypto-js": "^4.1.1",
+    "plasmo": "0.74.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@plasmohq/prettier-plugin-sort-imports": "3.6.4",
+    "@types/chrome": "0.0.237",
+    "@types/node": "20.2.4",
+    "@types/react": "18.2.7",
+    "@types/react-dom": "18.2.4",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "prettier": "2.8.8",
+    "tailwindcss": "^3.3.2",
+    "typescript": "5.0.4"
+  },
+  "manifest": {
+    "host_permissions": [
+      "https://fanyi-api.baidu.com/"
+    ],
+    "permissions": [
+      "clipboard",
+      "storage"
+    ]
+  }
+}
