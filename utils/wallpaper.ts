@@ -48,6 +48,11 @@ export const onDownloadWallpaperByUrl = (url: string) => {
   })
 }
 
+// handle download bing wallpaper by urlbase
+export const onDownloadBingWallpaperByUrlbase = (urlbase: string) => {
+  const url = generateWallpaperUrl(urlbase)
+  onDownloadWallpaperByUrl(url)
+}
 
 // base64 to blob object
 const base64ToBlob = (base64: string) => {
@@ -116,4 +121,17 @@ export const onReverseLikeWallpaperByUrlbase = async (urlbase: string) => {
   chrome.storage.local.set({
     [EStorageKey.imageList]: imageListData
   })
+}
+
+// set urlbase to current wallpaper
+export const onSetUrlbaseToCurrentWallpaper = async (urlbase: string, renderCurrentWallpaper: (base64: string) => void) => {
+  const fullUrl = generateWallpaperUrl(urlbase)
+  const base64 = await getWallpaperBase64FromUrl(fullUrl)
+  chrome.storage.local.set({
+    [EStorageKey.currentWallpaper]: {
+      url: fullUrl,
+      base64
+    }
+  })
+  renderCurrentWallpaper(base64)
 }

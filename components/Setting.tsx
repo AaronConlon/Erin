@@ -55,6 +55,10 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
   }
 
   const onOpenWallpaperMarket = function (event) {
+    setSettingConfig((_config) => ({
+      ..._config,
+      showWallpaperMarket: !_config.showWallpaperMarket
+    }))
     event.preventDefault()
   }
 
@@ -137,6 +141,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
               </ContextMenu.ItemIndicator>
               壁纸Fans
             </ContextMenu.RadioItem>
+            {/* TODO:便签开发 */}
             <ContextMenu.RadioItem
               className="ContextMenuRadioItem"
               value="notes">
@@ -181,7 +186,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={onOpenWallpaperMarket as any}>
-                  壁纸市场 <div className="RightSlot">⌘+.</div>
+                  所有壁纸 <div className="RightSlot">⌘+.</div>
                 </ContextMenu.Item>
 
                 <ContextMenu.CheckboxItem

@@ -1,14 +1,23 @@
 import clsx from "clsx"
 import { useAtom } from "jotai"
 import { useEffect, useRef, useState } from "react"
+import { CiMaximize2 } from "react-icons/ci"
 import { FcLike, FcLikePlaceholder } from "react-icons/fc"
+import { FiDownload } from "react-icons/fi"
+import { MdUnfoldMore } from "react-icons/md"
 
 import useImageList from "~hooks/useImageList"
-import { isLoadingWallpaperStore } from "~store"
+import {
+  currentWallpaperStore,
+  isLoadingWallpaperStore,
+  settingConfigStore
+} from "~store"
 import { onRightClick } from "~utils/browser"
 import {
   generatePreviewWallpaperUrl,
-  onReverseLikeWallpaperByUrlbase
+  onDownloadBingWallpaperByUrlbase,
+  onReverseLikeWallpaperByUrlbase,
+  onSetUrlbaseToCurrentWallpaper
 } from "~utils/wallpaper"
 
 export default function () {
@@ -23,7 +32,9 @@ export default function () {
     type,
     onSwitchType
   } = useImageList()
-  const [, setLoading] = useAtom(isLoadingWallpaperStore)
+  const [, setSetting] = useAtom(settingConfigStore)
+  const [isLoading, setLoading] = useAtom(isLoadingWallpaperStore)
+  const [, setCurrentWallpaperBase64] = useAtom(currentWallpaperStore)
 
   const containerRef = useRef<HTMLDivElement>(null)
   const [loadRecordMap, setLoadRecordMap] = useState(
@@ -52,6 +63,18 @@ export default function () {
     })
   }
 
+  const onSetTargetWallpaper = async (urlbase: string) => {
+    if (isLoading) return
+    try {
+      setLoading((v) => !v)
+      await onSetUrlbaseToCurrentWallpaper(urlbase, setCurrentWallpaperBase64)
+    } catch (error) {
+      console.log("set target wallpaper failed. urlbase:", urlbase)
+    } finally {
+      setLoading((v) => !v)
+    }
+  }
+
   useEffect(() => {
     const init = async () => {}
     init()
@@ -72,85 +95,105 @@ export default function () {
 
   return (
     <div
-      className="w-[1200px] min-h-[520px] max-h-[65vh] max-w-[90vw]  p-4 bg-gray-50 rounded-md fixed left-[50%] top-[50%] transform -translate-x-[50%] -translate-y-[50%] overflow-y-scroll"
+      className="flex justify-center items-center fixed inset-0 w-screen h-screen backdrop-blur-sm"
       onContextMenu={onRightClick}
-      ref={containerRef}>
-      {/* tabs */}
-      <div className="mb-4 p-1 px-2 grid grid-cols-2 gap-2 bg-gray-200 text-gray-400 rounded-sm max-w-max items-center relative text-center text-[13px]">
-        <span className="z-10 pt-[1px]" onClick={() => onSwitchType("all")}>
-          全部
-        </span>
-        <span className="z-10 pt-[1px]" onClick={() => onSwitchType("like")}>
-          喜欢
-        </span>
-        <span
-          className={clsx(
-            "absolute left-[4px] bottom-[3px] w-[34px] bg-green-50 h-[22px] transition-all",
-            {
-              "transform translate-x-0": type === "all",
-              "transform translate-x-[34px]": type === "like"
-            }
-          )}></span>
-      </div>
-      {wallpaperList.length === 0 ? (
-        <div className="bg-gray-50 text-gray-400 h-[400px] flex justify-center items-center">
-          这儿什么都没有...
+      onClick={() => {
+        console.log("click outside area")
+        setSetting((prev) => ({ ...prev, showWallpaperMarket: false }))
+      }}>
+      <div
+        className="w-[1200px] min-h-[520px] max-h-[65vh] max-w-[90vw]  p-4 bg-gray-50 rounded-md fixed left-[50%] top-[50%] transform -translate-x-[50%] -translate-y-[50%] overflow-y-scroll"
+        ref={containerRef}
+        onClick={(e) => e.stopPropagation()}>
+        {/* tabs */}
+        <div className="mb-4 p-1 px-2 grid grid-cols-2 gap-2 bg-gray-300 text-gray-50 rounded-sm max-w-max items-center relative text-center text-[13px]">
+          <span className="z-10 pt-[1px]" onClick={() => onSwitchType("all")}>
+            全部
+          </span>
+          <span className="z-10 pt-[1px]" onClick={() => onSwitchType("like")}>
+            喜欢
+          </span>
+          <span
+            className={clsx(
+              "absolute left-[4px] bottom-[3px] w-[34px] bg-gray-600 h-[22px] transition-all",
+              {
+                "transform translate-x-0": type === "all",
+                "transform translate-x-[34px]": type === "like"
+              }
+            )}></span>
         </div>
-      ) : (
-        <div className="grid grid-cols-3 gap-4">
-          {wallpaperList.map(({ urlbase, copyright }) => {
-            return (
-              <div
-                key={urlbase}
-                className={clsx("relative", {
-                  "animate-pulse bg-gray-100": !loadRecordMap[urlbase]
-                })}>
-                <img
-                  src={generatePreviewWallpaperUrl(urlbase)}
-                  onLoad={() => onLoadSuccess(urlbase)}
-                  alt=""
-                  className={clsx(
-                    "w-full h-[214px] object-cover p-1 bg-gray-50 rounded-t-md",
-                    {
-                      "opacity-0": !loadRecordMap[urlbase]
-                    }
-                  )}
-                />
+        {wallpaperList.length === 0 ? (
+          <div className="bg-gray-50 text-gray-400 h-[400px] flex justify-center items-center">
+            这儿什么都没有...
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 gap-4">
+            {wallpaperList.map(({ urlbase, copyright }) => {
+              return (
                 <div
-                  className={clsx(
-                    "absolute bottom-0 left-0 right-0 p-2 bg-gray-900 bg-opacity-50 rounded-md",
-                    {
-                      "opacity-0": !loadRecordMap[urlbase]
-                    }
-                  )}>
-                  <div className="flex justify-between items-center">
-                    <div className="text-gray-50 text-sm max-w-[80%] truncate">
-                      {copyright}
-                    </div>
-                    <div className="text-gray-50 text-sm">
-                      {likeList.current?.includes(urlbase) ? (
-                        <FcLike
-                          onClick={() => onReverseLikeWallpaper(urlbase)}
+                  key={urlbase}
+                  className={clsx("relative group", {
+                    "animate-pulse bg-gray-100": !loadRecordMap[urlbase]
+                  })}>
+                  <img
+                    src={generatePreviewWallpaperUrl(urlbase)}
+                    onLoad={() => onLoadSuccess(urlbase)}
+                    alt=""
+                    className={clsx(
+                      "w-full h-[214px] object-cover p-1 bg-gray-50 rounded-t-md",
+                      {
+                        "opacity-0": !loadRecordMap[urlbase]
+                      }
+                    )}
+                  />
+                  <div
+                    className={clsx(
+                      "absolute bottom-0 left-0 right-0 p-2 bg-gray-900 bg-opacity-50 rounded-md  opacity-50 group-hover:opacity-100",
+                      {
+                        "opacity-0": !loadRecordMap[urlbase]
+                      }
+                    )}>
+                    <div className="flex justify-between items-center">
+                      <div className="text-gray-50 text-[12px] max-w-[55%] truncate">
+                        {copyright}
+                      </div>
+                      <div className="text-gray-50 text-sm flex gap-2 cursor-pointer">
+                        {likeList.current?.includes(urlbase) ? (
+                          <FcLike
+                            onClick={() => onReverseLikeWallpaper(urlbase)}
+                          />
+                        ) : (
+                          <FcLikePlaceholder
+                            className="opacity-50"
+                            onClick={() => onReverseLikeWallpaper(urlbase)}
+                          />
+                        )}
+                        <FiDownload
+                          onClick={() =>
+                            onDownloadBingWallpaperByUrlbase(urlbase)
+                          }>
+                          download
+                        </FiDownload>
+                        <CiMaximize2
+                          onClick={() => onSetTargetWallpaper(urlbase)}
                         />
-                      ) : (
-                        <FcLikePlaceholder
-                          className="opacity-50"
-                          onClick={() => onReverseLikeWallpaper(urlbase)}
-                        />
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>
+              )
+            })}
+            {hadMoreWallpaper ? (
+              <div className="h-[214px] flex justify-center items-center">
+                <MdUnfoldMore
+                  className="text-2xl opacity-40 hover:text-[32px] transition-all cursor-pointer hover:rotate-90 hover:opacity-100"
+                  onClick={loadMore}
+                />
               </div>
-            )
-          })}
-          {hadMoreWallpaper ?? (
-            <div className="h-[214px] flex justify-center items-center">
-              more
-            </div>
-          )}
-        </div>
-      )}
+            ) : null}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

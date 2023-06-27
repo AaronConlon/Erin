@@ -20,8 +20,8 @@ export default function () {
       style={{
         background: `url(${currentWallpaperBase64}) no-repeat`
       }}>
+      {settings.showWallpaperMarket && <WallpaperMarket />}
       {isLoading && <Loading />}
-      {!settings.showWallpaperMarket && <WallpaperMarket />}
     </div>
   )
 }
