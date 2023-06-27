@@ -6,7 +6,7 @@ Define your browser newtab page by ❤️.
 
 ## Preview
 
-![image-20230628004333170](./docs/image-20230628004333170.png)
+![image-20230628004333170](./docs/image-20230628004333170-min.png)
 
 
 
