@@ -1,10 +1,11 @@
-export enum ESettingMode {
-  plain,
-  image
-}
+
 
 export interface ISettingConfig {
-  mode: ESettingMode,
+  mode: string,
+  showWallpaperMarket: boolean,
+  showBookmark: boolean
+  showSearchBar: boolean
+  hadInit: boolean
 }
 
 export interface IBase64ListItem {

@@ -1,15 +1,12 @@
-import { Storage } from "@plasmohq/storage"
-import { useStorage } from "@plasmohq/storage/hook"
-import { ESettingMode, type ISettingConfig } from "~types"
+import type { ISettingConfig } from "~types"
+import { atom } from "jotai"
 
-const localInstance = new Storage({area: "local"})
+export const settingConfigStore = atom({
+  mode: 'wallpaper',
+  showBookmark: false,
+  showWallpaperMarket: false,
+  showSearchBar: false,
+  hadInit: false
+} as ISettingConfig)
 
-export const useSettingStore = () => {
-  const [settingConfig, setSettingConfig] = useStorage({
-    key: "settings",
-    instance: localInstance
-  }, {
-    mode: ESettingMode.image
-  } as ISettingConfig)
-  return { settingConfig,setSettingConfig }
-}
+export const currentWallpaperStore = atom('')
