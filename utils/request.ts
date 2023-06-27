@@ -26,8 +26,9 @@ export const getBingWeeklyImages = async (): Promise<IThisWeekData> => {
 
 // custom fetch function, add cache support
 export const fetchJsonResponse = async <T>(url: string, options?: RequestInit) => {
-  if (getResponseCache(url)) {
-    return getResponseCache<T>(url)
+  const cacheData = await getResponseCache<T>(url)
+  if (cacheData) {
+    return cacheData
   }
   const res = await fetch(url, options)
   const expireTime = endOfToday().getTime()
