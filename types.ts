@@ -20,6 +20,7 @@ export interface IWeekImage {
   enddate: string
   urlbase: string
   copyright: string
+  like?: boolean
 }
 export interface IThisWeekData {
   images: IWeekImage[]
@@ -31,5 +32,6 @@ export enum EStorageKey {
   currentWallpaper = 'currentWallpaper',
   settingConfig = 'settingConfig',
   imageList = 'imageList',
-  responseCache = 'responseCache'
+  responseCache = 'responseCache',
+  likeList = 'likeList'
 }

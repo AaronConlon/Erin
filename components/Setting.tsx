@@ -8,12 +8,17 @@ import hotkeys from "hotkeys-js"
 import { useAtom } from "jotai"
 import React, { type ReactNode, useEffect } from "react"
 
-import { currentWallpaperStore, settingConfigStore } from "~store"
+import {
+  currentWallpaperStore,
+  isLoadingWallpaperStore,
+  settingConfigStore
+} from "~store"
+import { DEFAULT_BING_WALLPAPER_DOMAIN } from "~types"
 import {
   getWallpaperBase64FromUrl,
   onDownloadCurrentWallpaper,
   onGetCurrentWallpaper,
-  onGetPrevWallpaper
+  onGetPrevOrNextWallpaper
 } from "~utils/wallpaper"
 
 const SettingContainer = ({ children }: { children: ReactNode }) => {
@@ -21,35 +26,39 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
   const [, setCurrentWallpaperBase64] = useAtom(currentWallpaperStore)
   const [systemShortcut, setSystemShortcut] = React.useState({ fullscreen: "" })
   const [isFullScreen, setIsFullScreen] = React.useState(false)
+  const [isLoading, setIsLoading] = useAtom(isLoadingWallpaperStore)
 
-  const onPrevWallpaper = function (event, handler) {
-    console.log("handler:", handler)
-    event.preventDefault()
-    onGetCurrentWallpaper()
-      .then(({ url }) => {
-        return onGetPrevWallpaper(url)
-      })
-      .then((image) => {
-        const { urlbase } = image
-        return getWallpaperBase64FromUrl(urlbase)
-      })
-      .then((base64) => {
-        setCurrentWallpaperBase64(base64)
-      })
-    return
-  }
-  const onNextWallpaper = function (event, handler) {
-    event.preventDefault()
-
-    return
-  }
-  const onOpenWallpaperMarket = function (event, handler) {
-    event.preventDefault()
-
-    return
+  const commandLogic = async (isPrev = true) => {
+    if (isLoading) return
+    try {
+      setIsLoading(true)
+      const { url } = await onGetCurrentWallpaper()
+      const { urlbase } = await onGetPrevOrNextWallpaper(url, isPrev)
+      const base64 = await getWallpaperBase64FromUrl(
+        `${DEFAULT_BING_WALLPAPER_DOMAIN}${urlbase}_UHD.jpg`
+      )
+      setCurrentWallpaperBase64(base64)
+    } catch (error) {
+      console.log("get prev or next wallpaper failed. isPrev:", isPrev)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const onSwitchIsShowBookmark = function (event, handler) {
+  const onPrevWallpaper = function (event) {
+    event.preventDefault()
+    commandLogic(true)
+  }
+  const onNextWallpaper = function (event) {
+    event.preventDefault()
+    commandLogic(false)
+  }
+
+  const onOpenWallpaperMarket = function (event) {
+    event.preventDefault()
+  }
+
+  const onSwitchIsShowBookmark = function (event) {
     event?.preventDefault?.()
     setSettingConfig((_config) => ({
       ..._config,
@@ -158,7 +167,9 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   onClick={onPrevWallpaper as any}>
                   上一张 <div className="RightSlot">⌘+[</div>
                 </ContextMenu.Item>
-                <ContextMenu.Item className="ContextMenuItem">
+                <ContextMenu.Item
+                  className="ContextMenuItem"
+                  onClick={onPrevWallpaper as any}>
                   下一张 <div className="RightSlot">⌘+]</div>
                 </ContextMenu.Item>
                 <ContextMenu.Item
@@ -166,13 +177,11 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   onClick={onDownloadCurrentWallpaper}>
                   下载当前壁纸… <div className="RightSlot">↓</div>
                 </ContextMenu.Item>
-                <ContextMenu.Item className="ContextMenuItem">
-                  随机切换
-                </ContextMenu.Item>
+
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={onOpenWallpaperMarket as any}>
-                  选择壁纸 <div className="RightSlot">⌘+.</div>
+                  壁纸市场 <div className="RightSlot">⌘+.</div>
                 </ContextMenu.Item>
 
                 <ContextMenu.CheckboxItem
@@ -221,9 +230,9 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   onClick={onDownloadCurrentWallpaper}>
                   下载当前壁纸… <div className="RightSlot">↓</div>
                 </ContextMenu.Item>
-                <ContextMenu.Item className="ContextMenuItem">
+                {/* <ContextMenu.Item className="ContextMenuItem">
                   随机切换
-                </ContextMenu.Item>
+                </ContextMenu.Item> */}
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={onOpenWallpaperMarket as any}>

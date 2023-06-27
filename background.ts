@@ -1,7 +1,7 @@
 import { DEFAULT_BING_WALLPAPER_DOMAIN, EStorageKey } from "~types";
+import { generateWallpaperUrl, getWallpaperBase64FromUrl } from "~utils/wallpaper";
 
 import { getBingWeeklyImages } from "~utils/request";
-import { getWallpaperBase64FromUrl } from "~utils/wallpaper";
 
 chrome.runtime.onInstalled.addListener(function (details) {
   if (details.reason === "install") {
@@ -9,9 +9,9 @@ chrome.runtime.onInstalled.addListener(function (details) {
     getBingWeeklyImages()
       .then(async (data) => {
         // fetch a image base64 and save to storage
-        const DEFAULT_WALLPAPER = `${DEFAULT_BING_WALLPAPER_DOMAIN}/th?id=OHR.VillandryGarden_EN-CN7756956366_UHD.jpg`
+        const DEFAULT_WALLPAPER = generateWallpaperUrl('/th?id=OHR.VillandryGarden_EN-CN7756956366')
         const imageData = data.images?.[0]
-        const url = imageData ? `${DEFAULT_BING_WALLPAPER_DOMAIN}${imageData.urlbase}_UHD.jpg` : DEFAULT_WALLPAPER
+        const url = imageData ? generateWallpaperUrl(imageData.urlbase) : DEFAULT_WALLPAPER
         return {
           base64: await getWallpaperBase64FromUrl(url, true),
           url

@@ -10,3 +10,4 @@ export const settingConfigStore = atom({
 } as ISettingConfig)
 
 export const currentWallpaperStore = atom('')
+export const isLoadingWallpaperStore = atom(false)

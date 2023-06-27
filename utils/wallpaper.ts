@@ -1,5 +1,8 @@
-import { EStorageKey, type IThisWeekData } from "~types"
+import { DEFAULT_BING_WALLPAPER_DOMAIN, EStorageKey, type IThisWeekData, type IWeekImage } from "~types"
 
+
+export const generateWallpaperUrl = (urlbase: string) => `${DEFAULT_BING_WALLPAPER_DOMAIN}${urlbase}_UHD.jpg`
+export const generatePreviewWallpaperUrl = (urlbase: string) => `${DEFAULT_BING_WALLPAPER_DOMAIN}${urlbase}_1920x1080.jpg`
 // cover blob to base64
 export function blobToBase64(blob: Blob): Promise<string> {
   return new Promise((resolve) => {
@@ -79,24 +82,38 @@ export const onGetCurrentWallpaperUrlIndex = async (url: string) => {
   return index
 }
 
-// handle return prev index image
-export const onGetPrevWallpaper = async (url: string) => {
+// handle return prev index image, default is prev img
+export const onGetPrevOrNextWallpaper = async (url: string, isPrev = true) => {
   const result = await chrome.storage.local.get(EStorageKey.imageList)
-  const imageListData = result[EStorageKey.imageList] as IThisWeekData
-  const index = imageListData.images.findIndex(item => item.urlbase === url)
-  if (index === 0) {
-    return imageListData.images[imageListData.images.length - 1]
+  const imageListData = result[EStorageKey.imageList] as IWeekImage[]
+  const index = imageListData.findIndex(item => url.includes(item.urlbase))
+  if (isPrev) {
+    if (index === 0) {
+      return imageListData[imageListData.length - 1]
+    }
+    return imageListData[index - 1]
+  } else {
+    if (index === imageListData.length - 1) {
+      return imageListData[0]
+    }
+    return imageListData[index + 1]
   }
-  return imageListData.images[index - 1]
 }
 
-// handle return next index image
-export const onGetNextWallpaper = async (url: string) => {
+export const onGetRandomWallpaper = async (url: string) => {
   const result = await chrome.storage.local.get(EStorageKey.imageList)
-  const imageListData = result[EStorageKey.imageList] as IThisWeekData
-  const index = imageListData.images.findIndex(item => item.urlbase === url)
-  if (index === imageListData.images.length - 1) {
-    return imageListData.images[0]
-  }
-  return imageListData.images[index + 1]
+  const imageListData = (result[EStorageKey.imageList] as IWeekImage[]).filter(item => !url.includes(item.urlbase))
+  const index = ~~(Math.random() * imageListData.length)
+  return imageListData[index]
+}
+
+
+export const onReverseLikeWallpaperByUrlbase = async (urlbase: string) => {
+  const result = await chrome.storage.local.get(EStorageKey.imageList)
+  const imageListData = result[EStorageKey.imageList] as IWeekImage[]
+  const index = imageListData.findIndex(item => item.urlbase === urlbase)
+  imageListData[index].like = !imageListData[index].like
+  chrome.storage.local.set({
+    [EStorageKey.imageList]: imageListData
+  })
 }

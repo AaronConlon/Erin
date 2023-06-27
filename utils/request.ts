@@ -7,13 +7,7 @@ import { uniqBy } from "lodash-es"
 export const getBingWeeklyImages = async (): Promise<IThisWeekData> => {
   try {
     const url = "https://cn.bing.com/HPImageArchive.aspx?format=js&n=6&uhd=1"
-    const cacheData = await getResponseCache(url)
-    if (cacheData) return cacheData
-    const data = await fetch(url)
-    const jsonData = (await data.json()) as IThisWeekData
-    // expire time is today 23:59:59 by date-fns
-    const expireTime = endOfToday().getTime()
-    setResponseCache(url, jsonData, expireTime)
+    const jsonData = await fetchJsonResponse<IThisWeekData>(url)
     // save new data into imageList
     const result = await chrome.storage.local.get(EStorageKey.imageList)
     const imageList = result[EStorageKey.imageList] as IWeekImage[] || []
@@ -28,4 +22,16 @@ export const getBingWeeklyImages = async (): Promise<IThisWeekData> => {
       images: []
     }
   }
+}
+
+// custom fetch function, add cache support
+export const fetchJsonResponse = async <T>(url: string, options?: RequestInit) => {
+  if (getResponseCache(url)) {
+    return getResponseCache<T>(url)
+  }
+  const res = await fetch(url, options)
+  const expireTime = endOfToday().getTime()
+  const jsonData = await res.json()
+  setResponseCache(url, jsonData, expireTime)
+  return jsonData as Promise<T>
 }

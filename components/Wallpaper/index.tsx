@@ -1,22 +1,18 @@
 import { useAtom } from "jotai"
-import { useEffect } from "react"
 
-import { currentWallpaperStore, settingConfigStore } from "~store"
-import { onGetCurrentWallpaper } from "~utils/wallpaper"
+import {
+  currentWallpaperStore,
+  isLoadingWallpaperStore,
+  settingConfigStore
+} from "~store"
+
+import Loading from "./Loading"
+import WallpaperMarket from "./WallpaperMarket"
 
 export default function () {
-  // const [settingConfig, setSettingConfig] = useAtom(settingConfigStore)
   const [currentWallpaperBase64] = useAtom(currentWallpaperStore)
-  // useEffect(() => {
-  //   const initWallpaper = async () => {
-  //     const { base64 } = await onGetCurrentWallpaper()
-  //     // setSettingConfig({ ...settingConfig, currentWallpaperBase64: base64 })
-  //     // setTimeout(() => {
-  //     //   console.log("settingConfig:", settingConfig)
-  //     // }, 300)
-  //   }
-  //   initWallpaper()
-  // }, [])
+  const [isLoading] = useAtom(isLoadingWallpaperStore)
+  const [settings] = useAtom(settingConfigStore)
 
   return (
     <div
@@ -24,7 +20,8 @@ export default function () {
       style={{
         background: `url(${currentWallpaperBase64}) no-repeat`
       }}>
-      <div>wallpaper</div>
+      {isLoading && <Loading />}
+      {!settings.showWallpaperMarket && <WallpaperMarket />}
     </div>
   )
 }
