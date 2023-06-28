@@ -7,6 +7,7 @@ import {
 } from "~store"
 
 import Loading from "./Loading"
+import SearchBar from "./SearchBar"
 import WallpaperMarket from "./WallpaperMarket"
 
 export default function () {
@@ -22,6 +23,7 @@ export default function () {
       }}>
       {settings.showWallpaperMarket && <WallpaperMarket />}
       {isLoading && <Loading />}
+      {settings.showSearchBar && <SearchBar />}
     </div>
   )
 }

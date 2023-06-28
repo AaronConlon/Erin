@@ -70,6 +70,14 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     }))
   }
 
+  const onSwitchIsShowSearchBar = function (event) {
+    event?.preventDefault?.()
+    setSettingConfig((_config) => ({
+      ..._config,
+      showSearchBar: !_config.showSearchBar
+    }))
+  }
+
   function toggleFullScreen() {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen()
@@ -98,12 +106,14 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     hotkeys("command+]", onNextWallpaper)
     hotkeys("command+.", onOpenWallpaperMarket)
     hotkeys("command+B", onSwitchIsShowBookmark)
+    hotkeys("command+K", onSwitchIsShowSearchBar)
 
     return () => {
       hotkeys.unbind("command+[")
       hotkeys.unbind("command+]")
       hotkeys.unbind("command+.")
       hotkeys.unbind("command+B")
+      hotkeys.unbind("command+K")
     }
   }, [])
 
@@ -188,7 +198,10 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   onClick={onOpenWallpaperMarket as any}>
                   所有壁纸 <div className="RightSlot">⌘+.</div>
                 </ContextMenu.Item>
-
+                <ContextMenu.Separator className="ContextMenuSeparator" />
+                <ContextMenu.Label className="ContextMenuLabel">
+                  页面组件
+                </ContextMenu.Label>
                 <ContextMenu.CheckboxItem
                   className="ContextMenuCheckboxItem"
                   checked={settingConfig.showBookmark}
@@ -199,7 +212,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
                     <CheckIcon />
                   </ContextMenu.ItemIndicator>
-                  我的书签 <div className="RightSlot">⌘+B</div>
+                  书签 <div className="RightSlot">⌘+B</div>
                 </ContextMenu.CheckboxItem>
                 <ContextMenu.CheckboxItem
                   className="ContextMenuCheckboxItem"
@@ -210,7 +223,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
                     <CheckIcon />
                   </ContextMenu.ItemIndicator>
-                  快速搜索
+                  搜索框 <div className="RightSlot">⌘+K</div>
                 </ContextMenu.CheckboxItem>
               </ContextMenu.SubContent>
             </ContextMenu.Portal>

@@ -2,7 +2,7 @@ import "../style.css"
 import "../radix.css"
 
 import { useAtom } from "jotai"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import Setting from "~components/Setting"
 import Wallpaper from "~components/Wallpaper"
@@ -12,15 +12,23 @@ import { onGetCurrentWallpaper } from "~utils/wallpaper"
 
 function Newtab() {
   const [setting, setSetting] = useAtom(settingConfigStore)
+  const [hadInit, setHadInit] = useState(false)
   const [, setCurrentWallpaperBase64] = useAtom(currentWallpaperStore)
   useEffect(() => {
-    if (setting.hadInit === false) {
-      onGetCurrentWallpaper().then(({ base64 }) => {
+    if (hadInit === false) {
+      setHadInit(true)
+      // init base64 store
+      onGetCurrentWallpaper().then((data) => {
+        const { base64 } = data
         setCurrentWallpaperBase64(base64)
       })
+      // init setting store
       chrome.storage.sync.get(EStorageKey.settingConfig, (result) => {
         const settingConfig = result[EStorageKey.settingConfig]
-        setSetting({ ...settingConfig, hadInit: true })
+        setSetting({
+          ...settingConfig,
+          showWallpaperMarket: false
+        })
       })
     } else {
       // save setting to chrome storage
@@ -28,7 +36,7 @@ function Newtab() {
     }
   }, [setting])
   // before init atom data
-  if (setting.hadInit === false) return null
+  if (hadInit === false) return null
   return (
     <Setting>
       <Wallpaper />

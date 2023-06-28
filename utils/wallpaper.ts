@@ -1,5 +1,4 @@
-import { DEFAULT_BING_WALLPAPER_DOMAIN, EStorageKey, type IThisWeekData, type IWeekImage } from "~types"
-
+import { DEFAULT_BING_WALLPAPER_DOMAIN, DEFAULT_WALLPAPER_URL, EStorageKey, IThisWeekData, IWeekImage } from "~types"
 
 export const generateWallpaperUrl = (urlbase: string) => `${DEFAULT_BING_WALLPAPER_DOMAIN}${urlbase}_UHD.jpg`
 export const generatePreviewWallpaperUrl = (urlbase: string) => `${DEFAULT_BING_WALLPAPER_DOMAIN}${urlbase}_1920x1080.jpg`
@@ -10,6 +9,11 @@ export function blobToBase64(blob: Blob): Promise<string> {
     reader.onloadend = () => resolve(reader.result as string)
     reader.readAsDataURL(blob)
   })
+}
+
+// save current wallpaper's base64 to storage
+const saveBase64ToStorage = (base64: string) => {
+  chrome.storage.local.set({ [EStorageKey.currentWallpaper]: base64 })
 }
 
 // get wallpaper's base64 from url
@@ -76,7 +80,18 @@ export const onDownloadCurrentWallpaper = async () => {
 // handle get current wallpaper info
 export const onGetCurrentWallpaper = async () => {
   const result = await chrome.storage.local.get(EStorageKey.currentWallpaper)
-  return result[EStorageKey.currentWallpaper] as { url: string, base64: string }
+  let data = result[EStorageKey.currentWallpaper] as { url: string, base64: string }
+  // if data is undefined, request default wallpaper
+  if (!data) {
+    const url = generateWallpaperUrl(DEFAULT_WALLPAPER_URL)
+    const base64 = await getWallpaperBase64FromUrl(url)
+    // save into storage
+    saveBase64ToStorage(base64)
+    data = {
+      url, base64
+    }
+  }
+  return data
 }
 
 // handle get current wallpaper index

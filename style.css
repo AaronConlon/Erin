@@ -1,12 +1,13 @@
 @tailwind base;
 :root {
-  --primary: #eee;
-  --secondary: #3e3e3e50;
+  --primary: #7c3aed;
+  --scroolbar-primary: #eee;
+  --scrollbar-secondary: #3e3e3e50;
 }
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--secondary) var(--primary);
+  scrollbar-color: var(--scrollbar-secondary) var(--scroolbar-primary);
 }
 
 /* Chrome, Edge, and Safari */
@@ -15,14 +16,14 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: var(--primary);
+  background: var(--scroolbar-primary);
   border-radius: 5px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: var(--secondary);
+  background-color: var(--scrollbar-secondary);
   border-radius: 14px;
-  border: 3px solid var(--primary);
+  border: 3px solid var(--scroolbar-primary);
 }
 @tailwind components;
 @tailwind utilities;
@@ -30,6 +31,12 @@
 @layer utilities {
   .bg-cover {
     background-size: cover !important;
+  }
+  .text-primary {
+    color: var(--primary) !important;
+  }
+  .bg-primary {
+    background-color: var(--primary) !important;
   }
 }
 
