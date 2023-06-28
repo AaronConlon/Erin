@@ -83,3 +83,9 @@ export const saveTabsTree = async (tab: chrome.tabs.Tab) => {
     tabsTree[openerTabId].children.push(id)
   }
 }
+
+// write random value and save to storage to trigger storage change event, update nav tree data update
+export const triggerNavTreeUpdate = () => {
+  const random = Math.random()
+  chrome.storage.local.set({ [EStorageKey.activatedTabs]: random })
+}

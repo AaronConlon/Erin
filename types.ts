@@ -38,6 +38,7 @@ export enum EStorageKey {
   responseCache = 'responseCache',
   likeList = 'likeList',
   tabsTree = 'tabsTree',
+  activatedTabs = 'activatedTabs',
 }
 
 export enum ESearchEngine {

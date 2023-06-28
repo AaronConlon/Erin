@@ -46,7 +46,8 @@
       "storage",
       "downloads",
       "unlimitedStorage",
-      "tabs"
+      "tabs",
+      "windows"
     ],
     "host_permissions": [
       "https://cn.bing.com/*",

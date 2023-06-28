@@ -28,6 +28,7 @@ export const getBingWeeklyImages = async (): Promise<IThisWeekData> => {
 export const fetchJsonResponse = async <T>(url: string, options?: RequestInit) => {
   const cacheData = await getResponseCache<T>(url)
   if (cacheData) {
+    console.log('get data from cache:', cacheData)
     return cacheData
   }
   const res = await fetch(url, options)

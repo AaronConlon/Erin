@@ -13,6 +13,7 @@ import {
   isLoadingWallpaperStore,
   settingConfigStore
 } from "~store"
+import { getBingWeeklyImages } from "~utils/request"
 import {
   generatePreviewWallpaperUrl,
   onDownloadBingWallpaperByUrlbase,
@@ -76,8 +77,9 @@ export default function () {
   }
 
   useEffect(() => {
-    const init = async () => {}
-    init()
+    // const init = async () => {}
+    // init()
+    getBingWeeklyImages()
     // 监听滚动事件，滚动到底部时加载更多
     const onScroll = () => {
       if (!hadMoreWallpaper) return
