@@ -1,7 +1,7 @@
 @tailwind base;
 :root {
   --primary: #7c3aed;
-  --scroolbar-primary: #eee;
+  --scroolbar-primary: #eeeeee80;
   --scrollbar-secondary: #3e3e3e50;
 }
 /* Firefox */
@@ -12,7 +12,7 @@
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
 }
 
 *::-webkit-scrollbar-track {

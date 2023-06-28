@@ -7,7 +7,8 @@ export const DEFAULT_SETTING = {
   showWallpaperMarket: false,
   showSearchBar: false,
   hadInit: false,
-  searchEngine: ESearchEngine.google
+  searchEngine: ESearchEngine.google,
+  showBrowserTreeNav: false,
 } as ISettingConfig
 
 export const settingConfigStore = atom(DEFAULT_SETTING)

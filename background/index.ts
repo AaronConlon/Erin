@@ -34,3 +34,31 @@ chrome.runtime.onInstalled.addListener(function (details) {
       })
   }
 });
+
+chrome.tabs.onCreated.addListener(
+  async (tab: chrome.tabs.Tab) => {
+    const { openerTabId, id } = tab
+    // get data from storage, update new data
+    const result = await chrome.storage.local.get(EStorageKey.tabsTree)
+    const { tabsTree = {} } = result
+    // key is openerTabId, value is children tab id
+    tabsTree[openerTabId] = tabsTree[openerTabId] || []
+    if (!tabsTree[openerTabId].includes(id)) {
+      tabsTree[openerTabId].push(id)
+    }
+    // save data to storage
+    chrome.storage.local.set({ tabsTree })
+  }
+)
+
+chrome.tabs.onRemoved.addListener(async (tabId) => {
+  const result = await chrome.storage.local.get(EStorageKey.tabsTree)
+  const { tabsTree = {} } = result
+  const parentTabId = Object.keys(tabsTree).find(key => tabsTree[key].includes(tabId))
+  // clear old data
+  if (parentTabId) {
+    tabsTree[parentTabId] = tabsTree[parentTabId].filter(id => id !== tabId)
+  }
+  tabsTree[tabId] = undefined
+  chrome.storage.local.set({ tabsTree })
+})

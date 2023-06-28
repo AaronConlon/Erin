@@ -41,7 +41,7 @@ export default function () {
         onChange={onChange}
       />
       <AiOutlineSearch
-        className="absolute top-2.5 right-2 text-[32px] p-1 cursor-pointer"
+        className="absolute top-2.5 right-2 text-[32px] p-1 cursor-pointer text-primary"
         onClick={(e) => {
           e.stopPropagation()
           onSearch()

@@ -1,5 +1,6 @@
 import { useAtom } from "jotai"
 
+import TreeNavigation from "~components/TreeNavigation"
 import {
   currentWallpaperStore,
   isLoadingWallpaperStore,
@@ -24,6 +25,7 @@ export default function () {
       {settings.showWallpaperMarket && <WallpaperMarket />}
       {isLoading && <Loading />}
       {settings.showSearchBar && <SearchBar />}
+      {settings.showBrowserTreeNav && <TreeNavigation />}
     </div>
   )
 }

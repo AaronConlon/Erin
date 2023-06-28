@@ -57,6 +57,8 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
   const onOpenWallpaperMarket = function (event) {
     setSettingConfig((_config) => ({
       ..._config,
+      showBrowserTreeNav: false,
+      showSearchBar: false,
       showWallpaperMarket: !_config.showWallpaperMarket
     }))
     event.preventDefault()
@@ -66,6 +68,8 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     event?.preventDefault?.()
     setSettingConfig((_config) => ({
       ..._config,
+      showBrowserTreeNav: false,
+      showSearchBar: false,
       showBookmark: !_config.showBookmark
     }))
   }
@@ -74,7 +78,19 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     event?.preventDefault?.()
     setSettingConfig((_config) => ({
       ..._config,
+      showBrowserTreeNav: false,
+      showBookmarkBar: false,
       showSearchBar: !_config.showSearchBar
+    }))
+  }
+
+  const onSwitchIsShowTreeNav = function (event) {
+    event?.preventDefault?.()
+    setSettingConfig((_config) => ({
+      ..._config,
+      showSearchBar: false,
+      showBookmarkBar: false,
+      showBrowserTreeNav: !_config.showBrowserTreeNav
     }))
   }
 
@@ -107,6 +123,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     hotkeys("command+.", onOpenWallpaperMarket)
     hotkeys("command+B", onSwitchIsShowBookmark)
     hotkeys("command+K", onSwitchIsShowSearchBar)
+    hotkeys("Ctrl+command+N", onSwitchIsShowTreeNav)
 
     return () => {
       hotkeys.unbind("command+[")
@@ -114,6 +131,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
       hotkeys.unbind("command+.")
       hotkeys.unbind("command+B")
       hotkeys.unbind("command+K")
+      hotkeys.unbind("Ctrl+command+N")
     }
   }, [])
 
@@ -131,7 +149,23 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             <div className="RightSlot">{systemShortcut.fullscreen}</div>
           </ContextMenu.Item>
 
-          {/* <ContextMenu.Separator className="ContextMenuSeparator" /> */}
+          <ContextMenu.Separator className="ContextMenuSeparator" />
+
+          <ContextMenu.Label className="ContextMenuLabel">
+            🔨 Tools
+          </ContextMenu.Label>
+          {/* 树形浏览器资源工具 */}
+          <ContextMenu.CheckboxItem
+            className="ContextMenuCheckboxItem"
+            checked={settingConfig.showBrowserTreeNav}
+            onCheckedChange={(v) => {
+              setSettingConfig({ ...settingConfig, showBrowserTreeNav: v })
+            }}>
+            <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
+              <CheckIcon />
+            </ContextMenu.ItemIndicator>
+            树形导航 <div className="RightSlot">Ctrl+⌘+N</div>
+          </ContextMenu.CheckboxItem>
 
           <ContextMenu.Separator className="ContextMenuSeparator" />
 
@@ -206,7 +240,6 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   className="ContextMenuCheckboxItem"
                   checked={settingConfig.showBookmark}
                   onCheckedChange={(v) => {
-                    console.log("current is checked:", v)
                     setSettingConfig({ ...settingConfig, showBookmark: v })
                   }}>
                   <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
@@ -261,7 +294,6 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   className="ContextMenuCheckboxItem"
                   checked={settingConfig.showBookmark}
                   onCheckedChange={(v) => {
-                    console.log("current is checked:", v)
                     setSettingConfig({ ...settingConfig, showBookmark: v })
                   }}>
                   <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">

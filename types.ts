@@ -6,6 +6,7 @@ export interface ISettingConfig {
   showBookmark: boolean
   showSearchBar: boolean
   searchEngine: ESearchEngine
+  showBrowserTreeNav: boolean
 }
 
 export interface IBase64ListItem {
@@ -35,7 +36,8 @@ export enum EStorageKey {
   settingConfig = 'settingConfig',
   imageList = 'imageList',
   responseCache = 'responseCache',
-  likeList = 'likeList'
+  likeList = 'likeList',
+  tabsTree = 'tabsTree',
 }
 
 export enum ESearchEngine {

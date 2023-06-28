@@ -1,4 +1,4 @@
-import type { IBase64ListItem, IWeekImage } from "~types"
+import { EStorageKey, type IBase64ListItem, type IWeekImage } from "~types"
 
 import { uniqBy } from 'lodash-es'
 
@@ -69,4 +69,17 @@ export const getResponseCache = async <T = null>(id: string): Promise<T> => {
   const cache = requestCache[id]
   const now = Date.now()
   return cache?.exprTimestamp > now ? cache.data : null
+}
+
+// save tab's parent and children relationship
+export const saveTabsTree = async (tab: chrome.tabs.Tab) => {
+  const { openerTabId, id } = tab
+  const result = await chrome.storage.local.get(EStorageKey.tabsTree)
+  const { tabsTree = {} } = result
+  tabsTree[openerTabId] = {
+    children: tabsTree[openerTabId]?.children || [],
+  }
+  if (!tabsTree[openerTabId].children.includes(id)) {
+    tabsTree[openerTabId].children.push(id)
+  }
 }

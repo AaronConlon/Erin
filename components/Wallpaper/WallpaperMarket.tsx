@@ -6,13 +6,13 @@ import { FcLike, FcLikePlaceholder } from "react-icons/fc"
 import { FiDownload } from "react-icons/fi"
 import { MdUnfoldMore } from "react-icons/md"
 
+import FullscreenFilterContainer from "~components/FullscreenFilterContainer"
 import useImageList from "~hooks/useImageList"
 import {
   currentWallpaperStore,
   isLoadingWallpaperStore,
   settingConfigStore
 } from "~store"
-import { onRightClick } from "~utils/browser"
 import {
   generatePreviewWallpaperUrl,
   onDownloadBingWallpaperByUrlbase,
@@ -94,11 +94,9 @@ export default function () {
   }, [])
 
   return (
-    <div
-      className="flex justify-center items-center fixed inset-0 w-screen h-screen backdrop-blur-sm"
-      onContextMenu={onRightClick}
-      onClick={() => {
-        console.log("click outside area")
+    <FullscreenFilterContainer
+      classnames="justify-center backdrop-blur-sm"
+      onClickOutside={() => {
         setSetting((prev) => ({ ...prev, showWallpaperMarket: false }))
       }}>
       <div
@@ -194,6 +192,6 @@ export default function () {
           </div>
         )}
       </div>
-    </div>
+    </FullscreenFilterContainer>
   )
 }
