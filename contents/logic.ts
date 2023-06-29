@@ -1,3 +1,12 @@
+import { sendToBackground } from "@plasmohq/messaging"
 import { triggerNavTreeUpdate } from "~utils/storage"
 export { }
-triggerNavTreeUpdate()
+document.addEventListener('DOMContentLoaded', () => {
+  triggerNavTreeUpdate()
+  sendToBackground({
+    name: 'updateOpenerId',
+    body: {
+      referrer: document.referrer
+    }
+  })
+})

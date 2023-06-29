@@ -1,4 +1,5 @@
 import { ESearchEngine } from "~types"
+import { blobToBase64 } from "./wallpaper"
 import { sendToBackground } from "@plasmohq/messaging"
 export const onRightClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
   e.stopPropagation()
@@ -35,7 +36,6 @@ export const resolveTabsTree = (tabs: chrome.tabs.Tab[]) => {
 // open target tab by tabId
 export const openTab = (tab: chrome.tabs.Tab) => {
   const { id, windowId, index } = tab
-  console.log('open tab', tab)
   sendToBackground({
     name: 'highlight',
     body: {
@@ -54,4 +54,25 @@ export const closeTab = (tab: chrome.tabs.Tab) => {
       tab
     }
   })
+}
+
+// get image address host from url
+export const getImageHost = (url: string, backup: string) => {
+  try {
+    return new URL(url).host
+
+  } catch (error) {
+    return backup
+  }
+}
+
+// get url base64 in browser 
+export const onGetUrlBase64InBrowser = async (url: string, backup?: string) => {
+  if (!url || !url?.startsWith('http')) {
+    throw Error()
+  }
+  const res = await fetch(url)
+  const blob = await res.blob()
+  const base64 = await blobToBase64(blob)
+  return base64
 }

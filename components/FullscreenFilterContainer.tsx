@@ -13,11 +13,10 @@ export default function ({
 }) {
   return (
     <div
-      className={clsx(
-        "flex items-center fixed inset-0 w-screen h-screen",
-        classnames
-      )}
-      onClick={onClickOutside}
+      className={clsx("fixed inset-0 w-screen h-screen", classnames)}
+      onClick={() => {
+        onClickOutside?.()
+      }}
       onContextMenu={onRightClick}>
       <div onClick={onRightClick} className="inline-block">
         {children}

@@ -39,10 +39,16 @@ export enum EStorageKey {
   likeList = 'likeList',
   tabsTree = 'tabsTree',
   activatedTabs = 'activatedTabs',
+  iconCache = 'iconCache',
 }
 
 export enum ESearchEngine {
   'google' = 'google',
   'bing' = 'bing',
   'baidu' = 'baidu'
+}
+
+export enum ENavTreeMode {
+  newtab = 'newtab',
+  content = 'content'
 }

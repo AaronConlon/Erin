@@ -150,3 +150,4 @@ export const onSetUrlbaseToCurrentWallpaper = async (urlbase: string, renderCurr
   })
   renderCurrentWallpaper(base64)
 }
+

@@ -84,6 +84,7 @@ export const saveTabsTree = async (tab: chrome.tabs.Tab) => {
   }
 }
 
+// 因为依赖了随机的 activatedTabs，所以每次更新都要重新生成，触发 storage change 事件
 // write random value and save to storage to trigger storage change event, update nav tree data update
 export const triggerNavTreeUpdate = () => {
   const random = Math.random()

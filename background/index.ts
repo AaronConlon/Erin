@@ -37,15 +37,12 @@ chrome.runtime.onInstalled.addListener(function (details) {
 
 chrome.tabs.onCreated.addListener(
   async (tab: chrome.tabs.Tab) => {
-    const { openerTabId, id } = tab
+    const { id } = tab
     // get data from storage, update new data
     const result = await chrome.storage.local.get(EStorageKey.tabsTree)
     const { tabsTree = {} } = result
     // key is openerTabId, value is children tab id
-    tabsTree[openerTabId] = tabsTree[openerTabId] || []
-    if (!tabsTree[openerTabId].includes(id)) {
-      tabsTree[openerTabId].push(id)
-    }
+    tabsTree[id] = []
     // save data to storage
     chrome.storage.local.set({ tabsTree })
   }
