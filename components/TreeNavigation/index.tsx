@@ -11,7 +11,7 @@ import { sendToBackground } from "@plasmohq/messaging"
 import FullscreenFilterContainer from "~components/FullscreenFilterContainer"
 import { settingConfigStore } from "~store"
 import { EStorageKey } from "~types"
-import { openTab } from "~utils/browser"
+import { closeTab, openTab } from "~utils/browser"
 import { maybeBackupString } from "~utils/format"
 
 export default function () {
@@ -68,7 +68,7 @@ export default function () {
         init()
       }
     })
-    timer.current = setInterval(init, 3000)
+    timer.current = setInterval(init, 1000)
     return () => {
       clearInterval(timer.current)
     }
@@ -164,7 +164,9 @@ const NavItem: React.FC<{ tab: chrome.tabs.Tab; children?: any }> = ({
           onClick={() => openTab(tab)}>
           {tab.title}
         </span>
-        <span className="opacity-0 group-hover:opacity-100 transition-all ml-auto mr-1">
+        <span
+          className="opacity-0 group-hover:opacity-100 transition-all ml-auto mr-1"
+          onClick={() => closeTab(tab)}>
           <Cross2Icon />
         </span>
       </div>

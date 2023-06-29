@@ -45,3 +45,13 @@ export const openTab = (tab: chrome.tabs.Tab) => {
     }
   })
 }
+
+// close target tab by tabId
+export const closeTab = (tab: chrome.tabs.Tab) => {
+  sendToBackground({
+    name: 'closeTab',
+    body: {
+      tab
+    }
+  })
+}
