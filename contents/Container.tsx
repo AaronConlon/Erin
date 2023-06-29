@@ -1,4 +1,5 @@
 import styleText from "data-text:../style.css"
+import hotkeys from "hotkeys-js"
 import type { PlasmoGetStyle } from "plasmo"
 import { useEffect, useState } from "react"
 import { VscListTree } from "react-icons/vsc"
@@ -14,7 +15,14 @@ export const getStyle: PlasmoGetStyle = () => {
 
 const CustomButton = () => {
   const [showNavbar, setShowNavbar] = useState(false)
-  useEffect(() => {}, [])
+  useEffect(() => {
+    hotkeys("ctrl+shift+N", () => {
+      setShowNavbar(true)
+    })
+    return () => {
+      hotkeys.unbind("ctrl+shift+N")
+    }
+  }, [])
   if (showNavbar) {
     return (
       <div

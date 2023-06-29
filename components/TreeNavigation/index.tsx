@@ -41,7 +41,6 @@ export default function ({
 
   useEffect(() => {
     const init = async () => {
-      console.log("init tabs")
       try {
         const { tabs, relationships } = (await sendToBackground({
           name: "tabs"
@@ -49,11 +48,6 @@ export default function ({
           tabs: chrome.tabs.Tab[]
           relationships: Record<number, number[]>
         }
-        console.log("\n")
-        console.log("tabs: ", tabs)
-        console.log("relationships: ", relationships)
-        console.log("\n")
-
         setTabs(tabs)
         setTabRelationships(relationships)
         // console.log("relationships: ", relationships)
@@ -81,8 +75,8 @@ export default function ({
           init()
         }
       })
+      timer.current = setInterval(init, 1000)
     }
-    // timer.current = setInterval(init, 1000)
     return () => {
       clearInterval(timer.current)
     }
@@ -94,8 +88,12 @@ export default function ({
       classnames="justify-center items-center flex bg-[#33333360] text-[14px]">
       <div
         className={clsx(
-          "max-h-[90vh] overflow-y-auto py-4 rounded-md min-h-[30vh] min-w-[500px] max-w-[800px] justify-start ml-4 backdrop-blur-md text-white text-left transition-all transform border-gray-50 border-opacity-20 hover:border-opacity-80 border",
-          { "-translate-x-[100vw]": offset !== 0 }
+          "max-h-[90vh] overflow-y-auto py-4 rounded-md min-h-[30vh] min-w-[500px] max-w-[800px] justify-start ml-4 text-left transition-all transform border-gray-50 border-opacity-20 hover:border-opacity-80 border",
+          {
+            "-translate-x-[100vw]": offset !== 0,
+            "backdrop-blur-md text-white": mode === ENavTreeMode.newtab,
+            "bg-white text-gray-700": mode === ENavTreeMode.content
+          }
         )}>
         <div className="flex items-center gap-2 mb-2 ml-4">
           <span
@@ -119,7 +117,13 @@ export default function ({
           return (
             <div key={id} className="p-2">
               <Collapsible.Root
-                className="border border-gray-50 border-opacity-10 hover:border-opacity-50 rounded-sm p-2 transition-all"
+                className={clsx(
+                  "border border-opacity-10 hover:border-opacity-40 rounded-md p-2 transition-all",
+                  {
+                    "border-gray-50": mode === ENavTreeMode.newtab,
+                    "border-gray-500": mode === ENavTreeMode.content
+                  }
+                )}
                 open={open[id] !== false}
                 onOpenChange={() => {
                   setOpen((prev) => ({
@@ -145,20 +149,14 @@ export default function ({
                     </button>
                   </Collapsible.Trigger>
                 </div>
-                <div className="h-[1px] w-full bg-gray-50 bg-opacity-10 my-2"></div>
+                <div
+                  className={clsx("h-[1px] w-full my-2", {
+                    "bg-gray-50 bg-opacity-10 ": mode === ENavTreeMode.newtab,
+                    "bg-gray-200 bg-opacity-40 ": mode === ENavTreeMode.content
+                  })}></div>
                 <Collapsible.Content>
-                  {/* {tabs
-                    .filter((i) => i.windowId === id && !i.openerTabId)
-                    .map((tab) => (
-                      <NavItem key={tab.id} tab={tab}>
-                        {tabs
-                          .filter((i) => i.openerTabId === tab.id)
-                          .map((i) => (
-                            <NavItem key={i.id} tab={i} />
-                          ))}
-                      </NavItem>
-                    ))} */}
                   <NavGroup
+                    mode={mode}
                     tabs={tabs.filter((i) => i.windowId === id)}
                     relationship={tabRelationships}
                   />
@@ -174,9 +172,11 @@ export default function ({
 
 function NavGroup({
   tabs,
-  relationship
+  relationship,
+  mode
 }: {
   tabs: chrome.tabs.Tab[]
+  mode: ENavTreeMode
   relationship: Record<string, number[]>
 }) {
   const { rootItems, childrenRelationship } = useMemo(() => {
@@ -210,6 +210,7 @@ function NavGroup({
             tabs={tabs}
             key={tab.index}
             relationship={relationship}
+            mode={mode}
           />
         )
       })}
@@ -220,8 +221,9 @@ function NavGroup({
 const NavItem: React.FC<{
   tab: chrome.tabs.Tab
   tabs: chrome.tabs.Tab[]
+  mode: ENavTreeMode
   relationship: Record<string, number[]>
-}> = ({ tab, relationship, tabs }) => {
+}> = ({ tab, relationship, tabs, mode }) => {
   const { subTab } = useMemo(() => {
     const subKeys = relationship[tab.id.toString()] ?? []
     const subTab = tabs.filter((i) => subKeys.includes(i.id))
@@ -234,7 +236,14 @@ const NavItem: React.FC<{
     <div>
       <div
         key={tab.id}
-        className="flex flex-nowrap items-center gap-2 group cursor-pointer mb-2 hover:bg-[#eeeeee20]">
+        className={clsx(
+          "flex flex-nowrap items-center gap-2 group cursor-pointer py-1",
+          {
+            "border-gray-50 hover:bg-[#eeeeee20]": mode === ENavTreeMode.newtab,
+            "border-gray-500 hover:bg-[#eeeeee60]":
+              mode === ENavTreeMode.content
+          }
+        )}>
         <Icon
           src={tab.favIconUrl}
           classnames="w-[28px] h-[28px] rounded-sm p-1"
@@ -254,6 +263,7 @@ const NavItem: React.FC<{
         <div className="pl-6">
           {subTab.map((tab) => (
             <NavItem
+              mode={mode}
               key={tab.id}
               tabs={tabs}
               tab={tab}
