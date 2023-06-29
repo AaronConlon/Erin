@@ -8,6 +8,7 @@ Define your browser newtab page by ❤️.
 
 ![image-20230628004333170](./docs/image-20230628004333170-min.png)
 
+![image](https://github.com/Developer27149/Erin/assets/23721611/fa298373-684e-48cb-85f4-63709d1d138e)
 
 
 ## Feature
