@@ -6,7 +6,7 @@ import { onGetCurrentWallpaper } from "~utils/wallpaper";
 export default function useImageList() {
   const imgList = useRef([] as IWeekImage[])
   const [type, setType] = useState("all")
-  const RANGE = 6
+  const RANGE = 8
   const limit = useRef(RANGE)
   const [wallpaperList, setWallpaperList] = useState([] as IWeekImage[])
   const [hadMoreWallpaper, setHadMoreWallpaper] = useState(true)
