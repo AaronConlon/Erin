@@ -1,5 +1,6 @@
 import { EStorageKey } from "~types"
 import type { PlasmoMessaging } from "@plasmohq/messaging"
+import { uniq } from "lodash-es"
 
 const handler: PlasmoMessaging.MessageHandler<Record<string, any>> = async (req, res) => {
   try {
@@ -27,7 +28,7 @@ const handler: PlasmoMessaging.MessageHandler<Record<string, any>> = async (req,
       }
       const { openerTabId } = tab
       if (openerTabId !== undefined) {
-        relationships[openerTabId] = [...relationships[openerTabId], tab.id]
+        relationships[openerTabId] = uniq([...relationships[openerTabId], tab.id])
       }
     })
     // save data
