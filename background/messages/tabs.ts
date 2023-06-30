@@ -20,9 +20,14 @@ const handler: PlasmoMessaging.MessageHandler<Record<string, any>> = async (req,
         })
       }
     }
+    // init all relation key
     tabs.forEach(tab => {
       if (relationships[tab.id] === undefined) {
         relationships[tab.id] = []
+      }
+      const { openerTabId } = tab
+      if (openerTabId !== undefined) {
+        relationships[openerTabId] = [...relationships[openerTabId], tab.id]
       }
     })
     // save data

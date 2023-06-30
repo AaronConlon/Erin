@@ -15,9 +15,9 @@ const SearchEngineSwitch = () => {
       onValueChange={(v) =>
         setSetting((prev) => ({ ...prev, searchEngine: v as ESearchEngine }))
       }>
-      <Select.Trigger className="flex justify-between items-center capitalize p-1 px-2 outline-none min-w-[60px] border-l-4 border-l-[var(--primary)] text-primary">
+      <Select.Trigger className="flex justify-between items-center capitalize p-1 px-2 outline-none min-w-[60px] border-l-4 border-l-[var(--primary)] text-primary text-[16px]">
         <Select.Value />
-        <Select.Icon className="SelectIcon">
+        <Select.Icon>
           <ChevronDownIcon />
         </Select.Icon>
       </Select.Trigger>
@@ -52,7 +52,7 @@ const SelectItem = React.forwardRef(
       <Select.Item
         onClick={onClick}
         className={classnames(
-          "capitalize m-1 p-1 pr-6 hover:bg-[var(--primary)] hover:text-white outline-none",
+          "capitalize m-1 p-1 pr-6 text-[16px] hover:bg-[var(--primary)] hover:text-white outline-none",
           className
         )}
         {...props}

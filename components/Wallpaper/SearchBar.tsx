@@ -13,7 +13,7 @@ export default function () {
   const [setting] = useAtom(settingConfigStore)
   const { query, suggestions } = useBingSearchSuggestion()
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const _value = e.target.value.trim()
+    const _value = e.target.value
     query(_value)
     setValue(_value)
   }
@@ -22,7 +22,7 @@ export default function () {
     // open search page
     if (value.length === 0) return
     const searchEngine = setting.searchEngine
-    onOpenQueryAtNewTab(value, searchEngine)
+    onOpenQueryAtNewTab(value.trim(), searchEngine)
   }
 
   return (
@@ -31,7 +31,7 @@ export default function () {
       <input
         type="text"
         autoFocus
-        className="flex-grow p-1.5 focus-visible:outline-none bg-white leading-6"
+        className="flex-grow p-1.5 focus-visible:outline-none bg-white leading-[20px] text-[16px]"
         value={value}
         onKeyDown={(e) => {
           if (e.keyCode === 13) {
@@ -41,7 +41,7 @@ export default function () {
         onChange={onChange}
       />
       <AiOutlineSearch
-        className="absolute top-2.5 right-2 text-[32px] p-1 cursor-pointer text-primary"
+        className="absolute top-2 right-2 text-[32px] p-1 cursor-pointer text-primary"
         onClick={(e) => {
           e.stopPropagation()
           onSearch()
