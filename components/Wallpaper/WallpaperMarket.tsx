@@ -119,15 +119,15 @@ export default function () {
           </span>
           <span
             className={clsx(
-              "absolute left-[4px] bottom-[3px] w-[50%] bg-gray-600 h-[22px] transition-all",
+              "absolute left-[4px] bottom-[3px] w-[45%] bg-gray-600 h-[22px] transition-all",
               {
                 "transform translate-x-0": type === "all",
-                "transform translate-x-[50%]": type === "like"
+                "transform translate-x-[100%]": type === "like"
               }
             )}></span>
         </div>
         {wallpaperList.length === 0 ? (
-          <div className="bg-gray-50 text-gray-400 h-[400px] flex justify-center items-center">
+          <div className="bg-gray-50 text-gray-400 h-[400px] flex justify-center items-center text-[16px]">
             这儿什么都没有...
           </div>
         ) : (

@@ -97,7 +97,7 @@ export default function ({
         )}>
         <div className="flex items-center gap-2 mb-2 ml-4">
           <span
-            className="bg-red-400 rounded-full w-3 h-3 flex justify-center items-center text-[12px] cursor-pointer group"
+            className="bg-red-400 rounded-full w-[12px] h-[12px] flex justify-center items-center text-[12px] cursor-pointer group"
             onClick={() => {
               setOffset(1)
               setTimeout(() => {
@@ -106,12 +106,12 @@ export default function ({
                 onClose?.()
               }, 400)
             }}>
-            <span className="transform scale-75 group-hover:opacity-100 opacity-0">
+            <span className="transform scale-75 group-hover:opacity-100 text-[14px] opacity-0">
               x
             </span>
           </span>
-          <span className="bg-yellow-400 rounded-full w-3 h-3"></span>
-          <span className="bg-green-400 rounded-full w-3 h-3"></span>
+          <span className="bg-yellow-400 rounded-full w-[12px] h-[12px]"></span>
+          <span className="bg-green-400 rounded-full w-[12px] h-[12px]"></span>
         </div>
         {windows.map((id, idx) => {
           return (
