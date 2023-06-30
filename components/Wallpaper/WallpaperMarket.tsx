@@ -106,19 +106,23 @@ export default function () {
         ref={containerRef}
         onClick={(e) => e.stopPropagation()}>
         {/* tabs */}
-        <div className="mb-4 p-1 px-2 grid grid-cols-2 gap-2 bg-gray-300 text-gray-50 rounded-sm max-w-max items-center relative text-center text-[13px]">
-          <span className="z-10 pt-[1px]" onClick={() => onSwitchType("all")}>
+        <div className="mb-4 p-1 px-2 grid grid-cols-2 bg-gray-300 text-gray-50 rounded-sm max-w-max items-center justify-center relative text-center text-[13px]">
+          <span
+            className="w-[40px] z-10 pt-[1px]"
+            onClick={() => onSwitchType("all")}>
             全部
           </span>
-          <span className="z-10 pt-[1px]" onClick={() => onSwitchType("like")}>
+          <span
+            className="w-[40px]  z-10 pt-[1px]"
+            onClick={() => onSwitchType("like")}>
             喜欢
           </span>
           <span
             className={clsx(
-              "absolute left-[4px] bottom-[3px] w-[34px] bg-gray-600 h-[22px] transition-all",
+              "absolute left-[4px] bottom-[3px] w-[50%] bg-gray-600 h-[22px] transition-all",
               {
                 "transform translate-x-0": type === "all",
-                "transform translate-x-[34px]": type === "like"
+                "transform translate-x-[50%]": type === "like"
               }
             )}></span>
         </div>
