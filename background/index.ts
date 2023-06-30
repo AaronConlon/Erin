@@ -49,7 +49,6 @@ chrome.tabs.onCreated.addListener(
 )
 
 chrome.tabs.onRemoved.addListener(async (tabId) => {
-  console.log('remove tab', tabId)
   const result = await chrome.storage.local.get(EStorageKey.tabsTree)
   const { tabsTree = {} } = result
   const parentTabId = Object.keys(tabsTree).find(key => tabsTree[key].includes(tabId))

@@ -67,7 +67,7 @@ export default function ({
     init()
     if (mode === "newtab") {
       chrome.storage.onChanged.addListener((changes, namespace) => {
-        console.log(changes, namespace)
+        // console.log(changes, namespace)
         if (
           namespace === "local" &&
           (changes[EStorageKey.tabsTree] || changes[EStorageKey.activatedTabs])
@@ -101,7 +101,7 @@ export default function ({
             onClick={() => {
               setOffset(1)
               setTimeout(() => {
-                console.log("update show browser tree nav")
+                // console.log("update show browser tree nav")
                 setSetting((v) => ({ ...v, showBrowserTreeNav: false }))
                 onClose?.()
               }, 400)

@@ -18,11 +18,11 @@ export default function useImageList() {
     })
     if (limit.current < targetList.length) {
       limit.current += RANGE
-      console.log(limit.current + RANGE < targetList.length)
+      // console.log(limit.current + RANGE < targetList.length)
       setHadMoreWallpaper(limit.current + RANGE < targetList.length)
       setWallpaperList(targetList.slice(0, limit.current))
     } else {
-      console.log('no more')
+      // console.log('no more')
       setHadMoreWallpaper(false)
     }
   }, [])
@@ -31,7 +31,6 @@ export default function useImageList() {
     likeList.current = list
   }
   const updateLikeList = () => {
-    console.log(likeList)
     chrome.storage.sync.set({
       [EStorageKey.likeList]: likeList.current
     })

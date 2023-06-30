@@ -85,7 +85,7 @@ export default function () {
       if (!hadMoreWallpaper) return
       const { scrollHeight, scrollTop, clientHeight } = containerRef.current!
       if (scrollTop + clientHeight >= scrollHeight) {
-        console.log("load more")
+        // console.log("load more")
         loadMore()
       }
     }

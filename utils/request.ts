@@ -28,7 +28,7 @@ export const getBingWeeklyImages = async (): Promise<IThisWeekData> => {
 export const fetchJsonResponse = async <T>(url: string, options?: RequestInit) => {
   const cacheData = await getResponseCache<T>(url)
   if (cacheData) {
-    console.log('get data from cache:', cacheData)
+    // console.log('get data from cache:', cacheData)
     return cacheData
   }
   const res = await fetch(url, options)
@@ -48,7 +48,6 @@ function extractJsonData(str): null | {
   if (match) {
     const jsonStr = match[1];
     const jsonData = JSON.parse(jsonStr);
-    console.log(jsonData)
     if (jsonData.AS && jsonData.AS.Results && jsonData.AS.Results.length > 0) {
       return jsonData.AS.Results;
     } else {
@@ -65,7 +64,7 @@ export const getSearchSuggestions = async (query: string) => {
     const searchSuggestApiUrl = `http://api.bing.com/qsonhs.aspx?type=cb&q=${query}&cb=window.bing.sug`
     const cache = await getResponseCache(searchSuggestApiUrl)
     if (cache) {
-      console.log('had cache of:', cache)
+      // console.log('had cache of:', cache)
       return cache
     }
     const response = await fetch(searchSuggestApiUrl, {

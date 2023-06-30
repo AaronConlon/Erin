@@ -28,7 +28,6 @@ export default function ({
             host
           }
         })
-        console.log("result: ", result)
         if (result.base64) {
           setBase64Url(result.base64 as string)
         } else {

@@ -8,7 +8,6 @@ const handler: PlasmoMessaging.MessageHandler<Record<string, any>> = async (req,
     // const tabs = await chrome.tabs.query({ status: "complete" })
     const tabIdList = tabs.map(i => i.id)
     const relationships = (result[EStorageKey.tabsTree] ?? {}) as Record<string, number[]>
-    console.log('raw relation ship:', relationships)
     const keys = Object.keys(relationships)
     for (const k of keys) {
       if (!tabIdList.includes(+k)) {
