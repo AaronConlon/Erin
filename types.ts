@@ -50,5 +50,6 @@ export enum ESearchEngine {
 
 export enum ENavTreeMode {
   newtab = 'newtab',
-  content = 'content'
+  content = 'content',
+  popup = 'popup'
 }

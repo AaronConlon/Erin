@@ -85,34 +85,41 @@ export default function ({
   return (
     <FullscreenFilterContainer
       onClickOutside={onHiddenNav}
-      classnames="justify-center items-center flex bg-[#33333360] text-[14px]">
+      classnames={clsx("text-[14px]", {
+        "bg-[#33333360] justify-center items-center flex":
+          mode !== ENavTreeMode.popup
+      })}>
       <div
         className={clsx(
-          "max-h-[90vh] overflow-y-auto py-4 rounded-md min-h-[30vh] min-w-[500px] max-w-[800px] justify-start ml-4 text-left transition-all transform border-gray-50 border-opacity-20 hover:border-opacity-80 border",
+          "overflow-y-auto py-4 rounded-md min-h-[30vh] min-w-[500px] max-w-[800px] justify-start text-left transition-all transform border-gray-50 border-opacity-20 hover:border-opacity-80 border",
           {
             "-translate-x-[100vw]": offset !== 0,
             "backdrop-blur-md text-white": mode === ENavTreeMode.newtab,
-            "bg-white text-gray-700": mode === ENavTreeMode.content
+            "bg-white text-gray-700": mode === ENavTreeMode.content,
+            "max-h-[90vh] ml-4": mode !== ENavTreeMode.popup,
+            "ml-2.5 max-h-[580px] pr-0 mr-0": mode === ENavTreeMode.popup
           }
         )}>
-        <div className="flex items-center gap-2 mb-2 ml-4">
-          <span
-            className="bg-red-400 rounded-full w-[12px] h-[12px] flex justify-center items-center text-[12px] cursor-pointer group"
-            onClick={() => {
-              setOffset(1)
-              setTimeout(() => {
-                // console.log("update show browser tree nav")
-                setSetting((v) => ({ ...v, showBrowserTreeNav: false }))
-                onClose?.()
-              }, 400)
-            }}>
-            <span className="transform scale-75 group-hover:opacity-100 text-[14px] opacity-0">
-              x
+        {mode !== ENavTreeMode.popup && (
+          <div className="flex items-center gap-2 mb-2 ml-4">
+            <span
+              className="bg-red-400 rounded-full w-[12px] h-[12px] flex justify-center items-center text-[12px] cursor-pointer group"
+              onClick={() => {
+                setOffset(1)
+                setTimeout(() => {
+                  // console.log("update show browser tree nav")
+                  setSetting((v) => ({ ...v, showBrowserTreeNav: false }))
+                  onClose?.()
+                }, 400)
+              }}>
+              <span className="transform scale-75 group-hover:opacity-100 text-[14px] opacity-0">
+                x
+              </span>
             </span>
-          </span>
-          <span className="bg-yellow-400 rounded-full w-[12px] h-[12px]"></span>
-          <span className="bg-green-400 rounded-full w-[12px] h-[12px]"></span>
-        </div>
+            <span className="bg-yellow-400 rounded-full w-[12px] h-[12px]"></span>
+            <span className="bg-green-400 rounded-full w-[12px] h-[12px]"></span>
+          </div>
+        )}
         {windows.map((id, idx) => {
           return (
             <div key={id} className="p-2">
@@ -241,7 +248,8 @@ const NavItem: React.FC<{
           {
             "border-gray-50 hover:bg-[#eeeeee20]": mode === ENavTreeMode.newtab,
             "border-gray-500 hover:bg-[#eeeeee60]":
-              mode === ENavTreeMode.content
+              mode === ENavTreeMode.content,
+            "hover:bg-gray-100": mode === ENavTreeMode.popup
           }
         )}>
         <Icon
