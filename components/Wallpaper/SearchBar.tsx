@@ -52,14 +52,14 @@ export default function () {
           {suggestions.slice(0, 9).map((s, idx) => (
             <div
               key={s}
-              className="flex gap-2 flex-wrap text-gray-500 hover:bg-gray-50 hover:text-primary">
+              className="flex items-center gap-2 pl-2 flex-wrap text-gray-500 hover:bg-gray-50 hover:text-primary">
               <span
                 style={{ color: `rgba(124,58,237,0.${9 - idx})` }}
                 className="w-4 text-left text-[12px]">
                 {idx + 1}
               </span>
               <span
-                className="transition-all truncate hover:scale-[1.02] transform origin-center text-[14px] flex-grow"
+                className="transition-all truncate hover:scale-[1.02] transform origin-center text-[14px] hover:leading-[32px] hover:text-[16px] flex-grow"
                 onClick={() => onOpenQueryAtNewTab(s, setting.searchEngine)}>
                 {s}
               </span>
