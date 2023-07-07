@@ -2,6 +2,8 @@
 
 Define your browser newtab page by ❤️.
 
+用极简地风格重新定义你的浏览器新标签页
+
 
 
 ## Preview
@@ -13,12 +15,13 @@ Define your browser newtab page by ❤️.
 
 ## Feature
 
-- [x] Wallpaper feature
-- [ ] Custom bookmark
-- [ ] Quick search target page
-- [ ] New search input feature
-- [ ] Task and notes mode
-- [ ] Markdown editor like typora
+- [x] 壁纸功能
+- [ ] 极简的名言模式
+- [ ] 壁纸下支持书签
+- [x] tab 树管理，支持 newtab、content、popup 三个页面显示
+- [x] 搜索引擎切换、搜索建议、搜索框
+- [ ] 待办事项
+- [ ] 类 typora 的编辑器
 - [ ] Maybe some funny tools 😂
 
 
