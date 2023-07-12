@@ -3,8 +3,6 @@ import hotkeys from "hotkeys-js"
 import type { PlasmoGetStyle } from "plasmo"
 import { useEffect, useState } from "react"
 
-// import { VscListTree } from "react-icons/vsc"
-
 import TreeNavigation from "~components/TreeNavigation"
 import { ENavTreeMode } from "~types"
 
@@ -17,11 +15,12 @@ export const getStyle: PlasmoGetStyle = () => {
 const CustomButton = () => {
   const [showNavbar, setShowNavbar] = useState(false)
   useEffect(() => {
-    hotkeys("ctrl+shift+N", () => {
+    hotkeys("f1", () => {
       setShowNavbar(true)
     })
+
     return () => {
-      hotkeys.unbind("ctrl+shift+N")
+      hotkeys.unbind("f1")
     }
   }, [])
   if (showNavbar) {
@@ -38,16 +37,7 @@ const CustomButton = () => {
       </div>
     )
   }
-  return (
-    // <div
-    //   className="fixed bottom-[48px] -left-3 w-[32px] h-[32px] rounded-r-full bg-white border transition-all border-gray-300 flex justify-center items-center opacity-20 hover:opacity-100 cursor-pointer hover:left-0 z-[9999999]"
-    //   onClick={() => {
-    //     setShowNavbar(true)
-    //   }}>
-    //   <VscListTree />
-    // </div>
-    <div></div>
-  )
+  return <div></div>
 }
 
 export default CustomButton
