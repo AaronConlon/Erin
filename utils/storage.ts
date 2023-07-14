@@ -1,6 +1,7 @@
-import { EStorageKey, type IBase64ListItem, type IWeekImage } from "~types"
-
+import { EStorageKey, IBase64ListItem, INote, IWeekImage } from "~types"
 import { uniqBy } from 'lodash-es'
+
+import { generateId } from "./browser"
 
 export const updateData = async <T>(key: string, value: T) => {
   try {
@@ -89,4 +90,47 @@ export const saveTabsTree = async (tab: chrome.tabs.Tab) => {
 export const triggerNavTreeUpdate = () => {
   const random = Math.random()
   chrome.storage.local.set({ [EStorageKey.activatedTabs]: random })
+}
+
+// get note list from storage
+export const getNoteListFromStorage = async () => {
+  const result = await chrome.storage.local.get(EStorageKey.noteList)
+  const { noteList = [] } = result
+  return noteList as INote[]
+}
+
+export const addNote = () => {
+  const note = {
+    id: generateId(),
+    title: "bala bala...",
+    content: "...",
+    color: "#333",
+    bgColor: "#f6f6f6"
+  }
+  saveNote(note)
+}
+
+// save note list into storage
+export const saveNote = async (note: INote) => {
+  const noteList = await getNoteListFromStorage()
+  let oldIdx = noteList.length;
+  const isExist = noteList.some((_note, idx) => {
+    if (note.id === _note.id) {
+      oldIdx = idx
+      return true
+    }
+    return false
+  })
+  noteList[oldIdx] = note
+  chrome.storage.local.set({
+    [EStorageKey.noteList]: noteList
+  })
+}
+
+export const removeNoteById = async (id: string) => {
+  let noteList = await getNoteListFromStorage()
+  noteList = noteList.filter((i) => i.id !== id)
+  chrome.storage.local.set({
+    [EStorageKey.noteList]: noteList
+  })
 }

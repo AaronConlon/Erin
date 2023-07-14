@@ -1,7 +1,7 @@
 
 
 export interface ISettingConfig {
-  mode: string,
+  mode: ENewtabMode,
   showWallpaperMarket: boolean,
   showBookmark: boolean
   showSearchBar: boolean
@@ -40,6 +40,7 @@ export enum EStorageKey {
   tabsTree = 'tabsTree',
   activatedTabs = 'activatedTabs',
   iconCache = 'iconCache',
+  noteList = 'noteList'
 }
 
 export enum ESearchEngine {
@@ -52,4 +53,17 @@ export enum ENavTreeMode {
   newtab = 'newtab',
   content = 'content',
   popup = 'popup'
+}
+
+export enum ENewtabMode {
+  wallpaper = "wallpaper",
+  note = "note"
+}
+
+export interface INote {
+  title: string,
+  content: string,
+  id: string,
+  color: string,
+  bgColor: string
 }

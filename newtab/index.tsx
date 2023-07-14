@@ -4,10 +4,11 @@ import "../radix.css"
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
 
+import Note from "~components/Note"
 import Setting from "~components/Setting"
 import Wallpaper from "~components/Wallpaper"
 import { currentWallpaperStore, settingConfigStore } from "~store"
-import { EStorageKey } from "~types"
+import { ENewtabMode, EStorageKey } from "~types"
 import { onGetCurrentWallpaper } from "~utils/wallpaper"
 
 function Newtab() {
@@ -39,7 +40,8 @@ function Newtab() {
   if (hadInit === false) return null
   return (
     <Setting>
-      <Wallpaper />
+      {setting.mode === ENewtabMode.wallpaper && <Wallpaper />}
+      {setting.mode === ENewtabMode.note && <Note />}
     </Setting>
   )
 }

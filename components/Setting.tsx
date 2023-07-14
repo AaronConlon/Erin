@@ -6,14 +6,15 @@ import {
 } from "@radix-ui/react-icons"
 import hotkeys from "hotkeys-js"
 import { useAtom } from "jotai"
-import React, { type ReactNode, useEffect } from "react"
+import React, { ReactNode, useEffect } from "react"
 
 import {
   currentWallpaperStore,
   isLoadingWallpaperStore,
   settingConfigStore
 } from "~store"
-import { DEFAULT_BING_WALLPAPER_DOMAIN } from "~types"
+import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode } from "~types"
+import { addNote } from "~utils/storage"
 import {
   getWallpaperBase64FromUrl,
   onDownloadCurrentWallpaper,
@@ -158,6 +159,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
           <ContextMenu.CheckboxItem
             className="ContextMenuCheckboxItem"
             checked={settingConfig.showBrowserTreeNav}
+            disabled={settingConfig.mode !== ENewtabMode.wallpaper}
             onCheckedChange={(v) => {
               setSettingConfig({ ...settingConfig, showBrowserTreeNav: v })
             }}>
@@ -175,11 +177,11 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
           <ContextMenu.RadioGroup
             value={settingConfig.mode}
             onValueChange={(value) =>
-              setSettingConfig({ ...settingConfig, mode: value })
+              setSettingConfig({ ...settingConfig, mode: value as ENewtabMode })
             }>
             <ContextMenu.RadioItem
               className="ContextMenuRadioItem"
-              value="wallpaper">
+              value={ENewtabMode.wallpaper}>
               <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
                 <DotFilledIcon />
               </ContextMenu.ItemIndicator>
@@ -188,7 +190,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             {/* TODO:便签开发 */}
             <ContextMenu.RadioItem
               className="ContextMenuRadioItem"
-              value="notes">
+              value={ENewtabMode.note}>
               <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
                 <DotFilledIcon />
               </ContextMenu.ItemIndicator>
@@ -262,59 +264,12 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             </ContextMenu.Portal>
           </ContextMenu.Sub>
 
-          <ContextMenu.Sub>
-            <ContextMenu.SubTrigger
-              className="ContextMenuSubTrigger"
-              disabled={settingConfig.mode !== "notes"}>
-              便签页 - 设置
-              <div className="RightSlot">
-                <ChevronRightIcon />
-              </div>
-            </ContextMenu.SubTrigger>
-            <ContextMenu.Portal>
-              <ContextMenu.SubContent
-                className="ContextMenuSubContent"
-                sideOffset={2}
-                alignOffset={-5}>
-                <ContextMenu.Item
-                  className="ContextMenuItem"
-                  onClick={onDownloadCurrentWallpaper}>
-                  下载当前壁纸… <div className="RightSlot">↓</div>
-                </ContextMenu.Item>
-                {/* <ContextMenu.Item className="ContextMenuItem">
-                  随机切换
-                </ContextMenu.Item> */}
-                <ContextMenu.Item
-                  className="ContextMenuItem"
-                  onClick={onOpenWallpaperMarket as any}>
-                  选择壁纸 <div className="RightSlot">⌘+.</div>
-                </ContextMenu.Item>
-
-                <ContextMenu.CheckboxItem
-                  className="ContextMenuCheckboxItem"
-                  checked={settingConfig.showBookmark}
-                  onCheckedChange={(v) => {
-                    setSettingConfig({ ...settingConfig, showBookmark: v })
-                  }}>
-                  <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
-                    <CheckIcon />
-                  </ContextMenu.ItemIndicator>
-                  我的书签 <div className="RightSlot">⌘+B</div>
-                </ContextMenu.CheckboxItem>
-                <ContextMenu.CheckboxItem
-                  className="ContextMenuCheckboxItem"
-                  checked={settingConfig.showSearchBar}
-                  onCheckedChange={(value) => {
-                    setSettingConfig((v) => ({ ...v, showSearchBar: value }))
-                  }}>
-                  <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
-                    <CheckIcon />
-                  </ContextMenu.ItemIndicator>
-                  快速搜索
-                </ContextMenu.CheckboxItem>
-              </ContextMenu.SubContent>
-            </ContextMenu.Portal>
-          </ContextMenu.Sub>
+          <ContextMenu.Item
+            disabled={settingConfig.mode !== ENewtabMode.note}
+            className="ContextMenuItem"
+            onClick={addNote}>
+            添加便签
+          </ContextMenu.Item>
         </ContextMenu.Content>
       </ContextMenu.Portal>
     </ContextMenu.Root>

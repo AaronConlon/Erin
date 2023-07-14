@@ -1,8 +1,8 @@
-import { ESearchEngine, type ISettingConfig } from "~types"
+import { ENewtabMode, ESearchEngine, type ISettingConfig } from "~types"
 import { atom } from "jotai"
 
 export const DEFAULT_SETTING = {
-  mode: 'wallpaper',
+  mode: ENewtabMode.wallpaper,
   showBookmark: false,
   showWallpaperMarket: false,
   showSearchBar: false,

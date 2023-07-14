@@ -76,3 +76,13 @@ export const onGetUrlBase64InBrowser = async (url: string, backup?: string) => {
   const base64 = await blobToBase64(blob)
   return base64
 }
+
+// generate a random id
+export const generateId = () => {
+  let result = ''
+  for (let index = 0; index < 8; index++) {
+    const randomValue = Math.random() * 9
+    result += `${~~randomValue}`
+  }
+  return result
+}
