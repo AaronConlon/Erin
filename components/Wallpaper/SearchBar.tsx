@@ -26,12 +26,12 @@ export default function () {
   }
 
   return (
-    <div className="rounded-md bg-gray-50 fixed top-[20vh] left-[50%] w-[500px] -translate-x-[50%] transform flex items-center p-2 py-2 gap-2">
+    <div className="rounded-md bg-gray-50 bg-opacity-50 fixed top-[20vh] left-[50%] w-[500px] -translate-x-[50%] transform flex items-center p-2 py-2 gap-2">
       <SearchEngineSwitch />
       <input
         type="text"
         autoFocus
-        className="flex-grow p-1.5 focus-visible:outline-none bg-white leading-[20px] text-[16px]"
+        className="flex-grow p-[8px] focus-visible:outline-none bg-gray-50 bg-opacity-20 leading-[24px] text-[16px] rounded-lg"
         value={value}
         onKeyDown={(e) => {
           if (e.keyCode === 13) {
@@ -41,18 +41,18 @@ export default function () {
         onChange={onChange}
       />
       <AiOutlineSearch
-        className="absolute top-2 right-2 text-[32px] p-1 cursor-pointer text-primary"
+        className="absolute top-[50%] translate-y-[-50%] right-2 text-[32px] p-1 cursor-pointer text-primary"
         onClick={(e) => {
           e.stopPropagation()
           onSearch()
         }}
       />
       {suggestions.length > 0 && (
-        <div className="absolute right-0 top-[105%] bg-white p-4 left-0 text-left min-h-[37px] rounded-md leading-6 cursor-pointer">
+        <div className="absolute right-0 top-[105%] bg-white bg-opacity-60 p-4 left-0 text-left min-h-[37px] rounded-md leading-6 cursor-pointer flex flex-col gap-2">
           {suggestions.slice(0, 9).map((s, idx) => (
             <div
               key={s}
-              className="flex items-center gap-2 pl-2 flex-wrap text-gray-500 hover:bg-gray-50 hover:text-primary">
+              className="flex items-center gap-2 pl-2 rounded-md flex-wrap text-gray-500 hover:bg-gray-50 hover:bg-opacity-50 hover:text-primary">
               <span
                 style={{ color: `rgba(124,58,237,0.${9 - idx})` }}
                 className="w-4 text-left text-[12px]">

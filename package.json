@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
-    "package": "plasmo package"
+    "package": "plasmo package",
+    "package:self": "plasmo build && zip -r build/chrome-mv3-prod.zip build/chrome-mv3-prod/ && open build"
   },
   "dependencies": {
     "@plasmohq/messaging": "^0.3.3",
