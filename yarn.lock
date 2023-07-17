@@ -2003,6 +2003,11 @@
   resolved "https://registry.npmmirror.com/@types/lodash/-/lodash-4.14.195.tgz#bafc975b252eb6cea78882ce8a7b6bf22a6de632"
   integrity sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==
 
+"@types/marked@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.npmmirror.com/@types/marked/-/marked-5.0.1.tgz#15acd796d722b91bf00738c8c8539aaf5034f0c6"
+  integrity sha512-Y3pAUzHKh605fN6fvASsz5FDSWbZcs/65Q6xYRmnIP9ZIYz27T4IOmXfH9gWJV1dpi7f1e7z7nBGUTx/a0ptpA==
+
 "@types/node@20.2.4":
   version "20.2.4"
   resolved "https://registry.npmjs.org/@types/node/-/node-20.2.4.tgz#e6c3345f7ed9c6df41fdc288a94e2633167bc15d"
@@ -3736,6 +3741,11 @@ make-dir@^2.1.0:
   dependencies:
     pify "^4.0.1"
     semver "^5.6.0"
+
+marked@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.npmmirror.com/marked/-/marked-5.1.1.tgz#40b3963bb9da225314f746d5012ba7e34942f636"
+  integrity sha512-bTmmGdEINWmOMDjnPWDxGPQ4qkDLeYorpYbEtFOXzOruTwUE671q4Guiuchn4N8h/v6NGd7916kXsm3Iz4iUSg==
 
 mdn-data@2.0.14:
   version "2.0.14"

@@ -1,7 +1,7 @@
 {
   "name": "Erin",
   "displayName": "Erin",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "Define your browser newtab page",
   "author": "Developer27149",
   "scripts": {
@@ -23,6 +23,7 @@
     "hotkeys-js": "^3.10.3",
     "jotai": "^2.2.1",
     "lodash-es": "^4.17.21",
+    "marked": "^5.1.1",
     "plasmo": "0.74.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -32,6 +33,7 @@
     "@plasmohq/prettier-plugin-sort-imports": "3.6.4",
     "@types/chrome": "0.0.237",
     "@types/lodash-es": "^4.17.7",
+    "@types/marked": "^5.0.1",
     "@types/node": "20.2.4",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",

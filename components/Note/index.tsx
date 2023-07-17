@@ -28,7 +28,7 @@ export default function () {
             title: "bala bala...",
             content: "...",
             color: "#333",
-            bgColor: "#f6f6f6"
+            bgColor: "#fff"
           }
         ]
         setNoteList(_noteList)
@@ -61,10 +61,12 @@ export default function () {
   }
 
   return (
-    <div className="fixed inset-0 h-screen w-screen text-left overflow-y-auto">
-      {noteList.map((i) => (
-        <NoteItem data={i} key={i.id} onRemove={onRemoveNoteById} />
-      ))}
+    <div className="note-list-container">
+      <div className="note-items">
+        {noteList.map((i) => (
+          <NoteItem data={i} key={i.id} onRemove={onRemoveNoteById} />
+        ))}
+      </div>
     </div>
   )
 }

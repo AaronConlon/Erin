@@ -8,7 +8,7 @@ import Note from "~components/Note"
 import Setting from "~components/Setting"
 import Wallpaper from "~components/Wallpaper"
 import { currentWallpaperStore, settingConfigStore } from "~store"
-import { ENewtabMode, EStorageKey } from "~types"
+import { ENewtabMode, EStorageKey, ISettingConfig } from "~types"
 import { onGetCurrentWallpaper } from "~utils/wallpaper"
 
 function Newtab() {
@@ -25,7 +25,12 @@ function Newtab() {
       })
       // init setting store
       chrome.storage.sync.get(EStorageKey.settingConfig, (result) => {
-        const settingConfig = result[EStorageKey.settingConfig]
+        const settingConfig = result[
+          EStorageKey.settingConfig
+        ] as ISettingConfig
+        if (!settingConfig["mode"]) {
+          settingConfig.mode = ENewtabMode.wallpaper
+        }
         setSetting({
           ...settingConfig,
           showWallpaperMarket: false

@@ -52,3 +52,54 @@
 html {
   font-size: 14px !important;
 }
+
+.note-list-container {
+  @apply fixed inset-0 min-h-screen w-screen text-left overflow-y-auto py-24;
+}
+.custom-ul {
+  white-space: pre-line;
+}
+.custom-ul ul {
+  list-style: circle;
+  padding-left: 1rem;
+}
+.custom-ul blockquote {
+  display: block;
+  color: gray;
+  padding: 4px;
+  padding-left: 6px;
+  margin: 4px 0;
+  border-radius: 4px;
+  border-left: 4px solid purple;
+}
+
+.note-items {
+  max-width: 90%;
+  gap: 20px;
+  column-rule: 5px transparent;
+  padding: 0;
+  column-count: 5;
+  margin: 20px auto;
+}
+.note-item {
+  width: 100%;
+  break-inside: avoid;
+}
+
+@media screen and (max-width: 1600px) {
+  .note-items {
+    column-count: 4;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .note-items {
+    column-count: 3;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .note-items {
+    column-count: 2;
+  }
+}

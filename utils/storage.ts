@@ -1,7 +1,7 @@
 import { EStorageKey, IBase64ListItem, INote, IWeekImage } from "~types"
-import { uniqBy } from 'lodash-es'
 
 import { generateId } from "./browser"
+import { uniqBy } from 'lodash-es'
 
 export const updateData = async <T>(key: string, value: T) => {
   try {
@@ -105,7 +105,7 @@ export const addNote = () => {
     title: "bala bala...",
     content: "...",
     color: "#333",
-    bgColor: "#f6f6f6"
+    bgColor: "#fff"
   }
   saveNote(note)
 }

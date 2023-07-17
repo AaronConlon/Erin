@@ -65,5 +65,8 @@ export interface INote {
   content: string,
   id: string,
   color: string,
-  bgColor: string
+  bgColor: string,
+  // set position
+  left?: string;
+  top?: string;
 }
