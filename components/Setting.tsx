@@ -14,12 +14,14 @@ import {
   settingConfigStore
 } from "~store"
 import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode } from "~types"
+import { generateId } from "~utils/browser"
 import { addNote } from "~utils/storage"
 import {
   getWallpaperBase64FromUrl,
   onDownloadCurrentWallpaper,
   onGetCurrentWallpaper,
-  onGetPrevOrNextWallpaper
+  onGetPrevOrNextWallpaper,
+  onSetCustomWallpaperToStorage
 } from "~utils/wallpaper"
 
 const SettingContainer = ({ children }: { children: ReactNode }) => {
@@ -33,11 +35,17 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     if (isLoading) return
     try {
       setIsLoading(true)
-      const { url } = await onGetCurrentWallpaper()
+      const { url, base64: _base64 } = await onGetCurrentWallpaper()
       const { urlbase } = await onGetPrevOrNextWallpaper(url, isPrev)
-      const base64 = await getWallpaperBase64FromUrl(
-        `${DEFAULT_BING_WALLPAPER_DOMAIN}${urlbase}_UHD.jpg`
-      )
+      let base64 = ""
+      if (url.length === generateId().length) {
+        base64 = _base64
+      } else {
+        base64 = await getWallpaperBase64FromUrl(
+          `${DEFAULT_BING_WALLPAPER_DOMAIN}${urlbase}_UHD.jpg`
+        )
+      }
+
       setCurrentWallpaperBase64(base64)
     } catch (error) {
       console.log("get prev or next wallpaper failed. isPrev:", isPrev)
@@ -98,6 +106,40 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     } else if (document.exitFullscreen) {
       document.exitFullscreen()
       setIsFullScreen(false)
+    }
+  }
+
+  function onCustomizeWallpaper() {
+    const getBase64FromFile = (file: File) => {
+      return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+          const base64 = reader.result as string
+          resolve(base64)
+        }
+        reader.onerror = (error) => {
+          reject(error)
+        }
+      })
+    }
+    // create a file input, upload image, save it's base64 to chrome storage
+    const input = document.createElement("input")
+    input.type = "file"
+    input.accept = "image/*"
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files[0]
+      const base64 = await getBase64FromFile(file)
+      setCurrentWallpaperBase64(base64)
+      // just use a random id as url
+      onSetCustomWallpaperToStorage(base64)
+      input.remove()
+    }
+    input.click()
+    // handle error
+    input.onerror = (error) => {
+      console.log("input error:", error)
+      input.remove()
     }
   }
 
@@ -223,6 +265,12 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   className="ContextMenuItem"
                   onClick={onDownloadCurrentWallpaper}>
                   下载当前壁纸… <div className="RightSlot">↓</div>
+                </ContextMenu.Item>
+
+                <ContextMenu.Item
+                  className="ContextMenuItem"
+                  onClick={onCustomizeWallpaper}>
+                  自定义壁纸 🚀
                 </ContextMenu.Item>
 
                 <ContextMenu.Item

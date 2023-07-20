@@ -16,7 +16,7 @@ export default function ({ url, size = 28 }: { url: string; size?: number }) {
       <img
         onLoad={() => setIsLoaded(true)}
         src={faviconURL(url)}
-        className={clsx("w-full h-full", {
+        className={clsx("w-[24px] h-[24px]", {
           "opacity-0": !isLoaded
         })}
         alt="ico"

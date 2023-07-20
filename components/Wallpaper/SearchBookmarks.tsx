@@ -1,17 +1,16 @@
-import { useAtom } from "jotai"
-import { FC, useState } from "react"
 import { AiOutlineEnter, AiOutlinePlus } from "react-icons/ai"
-import { CiMap } from "react-icons/ci"
-
-import { syncBookmarksStore } from "~store"
+import { FC, useState } from "react"
 import {
   generateId,
   onStopPaClickPropagation,
   openNewTab
 } from "~utils/browser"
-import { addSyncBookmarks } from "~utils/storage"
 
 import BookmarkFavicon from "./BookmarkFavicon"
+import { CiMap } from "react-icons/ci"
+import { addSyncBookmarks } from "~utils/storage"
+import { syncBookmarksStore } from "~store"
+import { useAtom } from "jotai"
 
 interface ISearchItemsProps {
   data: chrome.bookmarks.BookmarkTreeNode[]

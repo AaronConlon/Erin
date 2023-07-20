@@ -13,19 +13,24 @@ export const updateData = async <T>(key: string, value: T) => {
 
 export const saveBase64ImgToStorage = async (base64: string, url: string) => {
   try {
+    // create new record
     const result = {
       base64,
       url,
       timestamp: Date.now()
     }
+    // get old data
     const { base64List = [] } = await chrome.storage.local.get('base64List')
+
     // remove all expired data
     const newBase64List = base64List.filter((item: IBase64ListItem) => {
       return item.timestamp + 6 * 24 * 60 * 60 * 1000 > Date.now()
     })
+
     // add new data
     newBase64List.push(result)
     await chrome.storage.local.set({ base64List: newBase64List })
+    console.log(result)
   } catch (error) {
     console.log("保存图片失败：", error)
   }
@@ -144,6 +149,7 @@ export const getSyncBookmarks = async () => {
 
 // remove sync bookmarks
 export const removeSyncBookmarks = async (id: string) => {
+  console.log('remove id:', id)
   const bookmarks = await getSyncBookmarks()
   const newBookmarks = bookmarks.filter((i) => i.id !== id)
   chrome.storage.sync.set({

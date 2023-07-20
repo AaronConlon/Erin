@@ -133,3 +133,7 @@ html {
 .hover-bookmark-aside {
   transform: scale(1) !important;
 }
+
+.remove-bookmark {
+  scale: 0;
+}

@@ -99,7 +99,7 @@ export const onGetCurrentWallpaperUrlIndex = async (url: string) => {
   const result = await chrome.storage.local.get(EStorageKey.imageList)
   const imageListData = result[EStorageKey.imageList] as IThisWeekData
   const index = imageListData.images.findIndex(item => item.urlbase === url)
-  return index
+  return index === -1 ? imageListData.images.length - 1 : index
 }
 
 // handle return prev index image, default is prev img
@@ -151,3 +151,11 @@ export const onSetUrlbaseToCurrentWallpaper = async (urlbase: string, renderCurr
   renderCurrentWallpaper(base64)
 }
 
+export const onSetCustomWallpaperToStorage = async (base64: string) => {
+  chrome.storage.local.set({
+    [EStorageKey.currentWallpaper]: {
+      url: '',
+      base64
+    }
+  })
+}
