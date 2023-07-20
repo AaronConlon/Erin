@@ -26,7 +26,7 @@ export default function () {
   }
 
   return (
-    <div className="rounded-md bg-gray-50 bg-opacity-50 fixed top-[20vh] left-[50%] w-[500px] -translate-x-[50%] transform flex items-center p-2 py-2 gap-2">
+    <div className="rounded-md bg-gray-50  fixed top-[20vh] left-[50%] w-[500px] -translate-x-[50%] transform flex items-center p-2 py-2 gap-2">
       <SearchEngineSwitch />
       <input
         type="text"

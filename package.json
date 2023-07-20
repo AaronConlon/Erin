@@ -1,7 +1,7 @@
 {
   "name": "Erin",
   "displayName": "Erin",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "description": "Define your browser newtab page",
   "author": "Developer27149",
   "scripts": {
@@ -50,7 +50,9 @@
       "downloads",
       "unlimitedStorage",
       "tabs",
-      "windows"
+      "windows",
+      "bookmarks",
+      "favicon"
     ],
     "host_permissions": [
       "https://cn.bing.com/*",

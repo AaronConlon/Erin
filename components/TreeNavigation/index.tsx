@@ -23,8 +23,6 @@ export default function ({
   const onHiddenNav = () => {
     setSetting((prev) => ({
       ...prev,
-      showBookmarkBar: false,
-      showSearchBar: false,
       showBrowserTreeNav: false
     }))
   }

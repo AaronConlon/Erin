@@ -40,7 +40,8 @@ export enum EStorageKey {
   tabsTree = 'tabsTree',
   activatedTabs = 'activatedTabs',
   iconCache = 'iconCache',
-  noteList = 'noteList'
+  noteList = 'noteList',
+  bookmarks = 'bookmarks',
 }
 
 export enum ESearchEngine {

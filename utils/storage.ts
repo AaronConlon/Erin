@@ -134,3 +134,28 @@ export const removeNoteById = async (id: string) => {
     [EStorageKey.noteList]: noteList
   })
 }
+
+// get sync bookmarks
+export const getSyncBookmarks = async () => {
+  const result = await chrome.storage.sync.get(EStorageKey.bookmarks)
+  const { bookmarks = [] } = result
+  return bookmarks as chrome.bookmarks.BookmarkTreeNode[]
+}
+
+// remove sync bookmarks
+export const removeSyncBookmarks = async (id: string) => {
+  const bookmarks = await getSyncBookmarks()
+  const newBookmarks = bookmarks.filter((i) => i.id !== id)
+  chrome.storage.sync.set({
+    [EStorageKey.bookmarks]: newBookmarks
+  })
+}
+
+// add sync bookmarks
+export const addSyncBookmarks = async (bookmark: { url: string, id: string, title: string }) => {
+  const bookmarks = await getSyncBookmarks()
+  bookmarks.push(bookmark as any)
+  chrome.storage.sync.set({
+    [EStorageKey.bookmarks]: bookmarks
+  })
+}

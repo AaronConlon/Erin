@@ -2,7 +2,7 @@ import { marked } from "marked"
 import { useEffect, useRef, useState } from "react"
 
 import { INote } from "~types"
-import { onRightClick } from "~utils/browser"
+import { onStopPaClickPropagation } from "~utils/browser"
 import { saveNote } from "~utils/storage"
 
 interface IProps {
@@ -32,7 +32,7 @@ export default function ({ data, onRemove }: IProps) {
           background: note.bgColor,
           boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
         }}
-        onContextMenu={onRightClick}>
+        onContextMenu={onStopPaClickPropagation}>
         <div className="flex gap-2 items-center p-2 pb-0 text-white text-[12px]">
           <span
             className="w-3 h-3 bg-red-400 rounded-full text-center cursor-pointer group"

@@ -59,7 +59,6 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     setSettingConfig((_config) => ({
       ..._config,
       showBrowserTreeNav: false,
-      showSearchBar: false,
       showWallpaperMarket: !_config.showWallpaperMarket
     }))
     event.preventDefault()
@@ -69,8 +68,6 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     event?.preventDefault?.()
     setSettingConfig((_config) => ({
       ..._config,
-      showBrowserTreeNav: false,
-      showSearchBar: false,
       showBookmark: !_config.showBookmark
     }))
   }
@@ -89,7 +86,6 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     event?.preventDefault?.()
     setSettingConfig((_config) => ({
       ..._config,
-      showSearchBar: false,
       showBookmarkBar: false,
       showBrowserTreeNav: !_config.showBrowserTreeNav
     }))

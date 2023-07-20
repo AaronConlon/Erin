@@ -55,7 +55,6 @@ export default function () {
 
   const onRemoveNoteById = (id: string) => {
     const _newNoteList = noteList.filter((i) => i.id !== id)
-    console.log(_newNoteList)
     setNoteList(_newNoteList)
     removeNoteById(id)
   }

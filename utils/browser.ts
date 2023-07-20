@@ -1,7 +1,9 @@
+import { blobToBase64, getWallpaperBase64FromUrl } from "./wallpaper"
+
 import { ESearchEngine } from "~types"
-import { blobToBase64 } from "./wallpaper"
 import { sendToBackground } from "@plasmohq/messaging"
-export const onRightClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+
+export const onStopPaClickPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
   e.stopPropagation()
   e.preventDefault()
 }
@@ -85,4 +87,9 @@ export const generateId = () => {
     result += `${~~randomValue}`
   }
   return result
+}
+
+// open new tab by url
+export const openNewTab = (url: string) => {
+  window.open(url, '_blank')
 }

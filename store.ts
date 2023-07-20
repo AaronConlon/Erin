@@ -15,3 +15,5 @@ export const settingConfigStore = atom(DEFAULT_SETTING)
 
 export const currentWallpaperStore = atom('')
 export const isLoadingWallpaperStore = atom(false)
+
+export const syncBookmarksStore = atom([] as chrome.bookmarks.BookmarkTreeNode[])

@@ -1,4 +1,5 @@
 import "../style.css"
+import "../animation.css"
 import "../radix.css"
 
 import { useAtom } from "jotai"

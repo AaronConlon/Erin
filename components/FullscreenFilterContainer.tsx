@@ -1,6 +1,6 @@
 import clsx from "clsx"
 
-import { onRightClick } from "~utils/browser"
+import { onStopPaClickPropagation } from "~utils/browser"
 
 export default function ({
   children,
@@ -13,12 +13,12 @@ export default function ({
 }) {
   return (
     <div
-      className={clsx("fixed inset-0 w-screen h-screen", classnames)}
+      className={clsx("fixed inset-0 w-screen h-screen z-50", classnames)}
       onClick={() => {
         onClickOutside?.()
       }}
-      onContextMenu={onRightClick}>
-      <div onClick={onRightClick} className="inline-block">
+      onContextMenu={onStopPaClickPropagation}>
+      <div onClick={onStopPaClickPropagation} className="inline-block">
         {children}
       </div>
     </div>

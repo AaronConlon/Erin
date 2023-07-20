@@ -7,6 +7,7 @@ import {
   settingConfigStore
 } from "~store"
 
+import Bookmarks from "./Bookmarks"
 import Loading from "./Loading"
 import SearchBar from "./SearchBar"
 import WallpaperMarket from "./WallpaperMarket"
@@ -26,6 +27,7 @@ export default function () {
       {isLoading && <Loading />}
       {settings.showSearchBar && <SearchBar />}
       {settings.showBrowserTreeNav && <TreeNavigation />}
+      {settings.showBookmark && <Bookmarks />}
     </div>
   )
 }
