@@ -35,6 +35,8 @@ Define your browser newtab page by ❤️.
 
 ## Optimize
 
+- [x] 删除书签
+- [x]  自定义壁纸
 - [ ] note 面板 markdown 样式
 - [ ] popup 按功能区分 UI，支持更多功能
 - [ ] 窗口标签树 favicon 图标优化来源，目前不稳定
