@@ -1,6 +1,7 @@
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
 
+import Bookmarks from "~components/Wallpaper/Bookmarks"
 import { settingConfigStore } from "~store"
 import { ENewtabMode, EStorageKey, INote } from "~types"
 import { generateId } from "~utils/browser"
@@ -66,6 +67,7 @@ export default function () {
           <NoteItem data={i} key={i.id} onRemove={onRemoveNoteById} />
         ))}
       </div>
+      {setting.showBookmark && <Bookmarks />}
     </div>
   )
 }
