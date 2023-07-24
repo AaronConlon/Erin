@@ -60,22 +60,6 @@ html {
 .note-list-container {
   @apply fixed inset-0 min-h-screen w-screen text-left overflow-y-auto py-24;
 }
-.custom-ul {
-  white-space: pre-line;
-}
-.custom-ul ul {
-  list-style: circle;
-  padding-left: 1rem;
-}
-.custom-ul blockquote {
-  display: block;
-  color: gray;
-  padding: 4px;
-  padding-left: 6px;
-  margin: 4px 0;
-  border-radius: 4px;
-  border-left: 4px solid purple;
-}
 
 .note-items {
   max-width: 90%;

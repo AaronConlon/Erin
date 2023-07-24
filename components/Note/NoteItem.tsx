@@ -64,7 +64,7 @@ export default function ({ data, onRemove }: IProps) {
         <div className="p-2 pt-0 text-[13px]">
           {isPreviewContent ? (
             <div
-              className="custom-ul min-h-[150px] p-2"
+              className="min-h-[150px] p-2 markdown-body"
               dangerouslySetInnerHTML={{
                 __html: marked.parse(note.content, {
                   headerIds: false,

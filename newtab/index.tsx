@@ -1,7 +1,3 @@
-import "../style.css"
-import "../animation.css"
-import "../radix.css"
-
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
 
@@ -11,6 +7,11 @@ import Wallpaper from "~components/Wallpaper"
 import { currentWallpaperStore, settingConfigStore } from "~store"
 import { ENewtabMode, EStorageKey, ISettingConfig } from "~types"
 import { onGetCurrentWallpaper } from "~utils/wallpaper"
+
+import "../animation.css"
+import "../markdown.css"
+import "../radix.css"
+import "../style.css"
 
 function Newtab() {
   const [setting, setSetting] = useAtom(settingConfigStore)

@@ -1,6 +1,6 @@
 import { Cross2Icon } from "@radix-ui/react-icons"
 import clsx from "clsx"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 
 import Icon from "~components/Icon"
 import { ENavTreeMode } from "~types"
@@ -44,6 +44,7 @@ const NavItem: React.FC<{
   mode: ENavTreeMode
   relationship: Record<string, number[]>
 }> = ({ tab, relationship, tabs, mode }) => {
+  const [hadDeleted, setHadDeleted] = useState(false)
   const { subTab } = useMemo(() => {
     const subKeys = relationship[tab.id.toString()] ?? []
     const subTab = tabs.filter((i) => subKeys.includes(i.id))
@@ -51,7 +52,7 @@ const NavItem: React.FC<{
       subTab
     }
   }, [tab, relationship])
-
+  if (hadDeleted) return null
   return (
     <div>
       <div
@@ -76,7 +77,10 @@ const NavItem: React.FC<{
         </span>
         <span
           className="opacity-0 group-hover:opacity-100 transition-all ml-auto mr-1 text-[12px]"
-          onClick={() => closeTab(tab)}>
+          onClick={() => {
+            closeTab(tab)
+            setHadDeleted(true)
+          }}>
           <Cross2Icon />
         </span>
       </div>

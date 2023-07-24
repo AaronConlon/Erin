@@ -282,17 +282,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                 <ContextMenu.Label className="ContextMenuLabel">
                   页面组件
                 </ContextMenu.Label>
-                <ContextMenu.CheckboxItem
-                  className="ContextMenuCheckboxItem"
-                  checked={settingConfig.showBookmark}
-                  onCheckedChange={(v) => {
-                    setSettingConfig({ ...settingConfig, showBookmark: v })
-                  }}>
-                  <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
-                    <CheckIcon />
-                  </ContextMenu.ItemIndicator>
-                  书签 <div className="RightSlot">⌘+B</div>
-                </ContextMenu.CheckboxItem>
+
                 <ContextMenu.CheckboxItem
                   className="ContextMenuCheckboxItem"
                   checked={settingConfig.showSearchBar}
@@ -314,6 +304,17 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             onClick={addNote}>
             添加便签
           </ContextMenu.Item>
+          <ContextMenu.CheckboxItem
+            className="ContextMenuCheckboxItem"
+            checked={settingConfig.showBookmark}
+            onCheckedChange={(v) => {
+              setSettingConfig({ ...settingConfig, showBookmark: v })
+            }}>
+            <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
+              <CheckIcon />
+            </ContextMenu.ItemIndicator>
+            书签 <div className="RightSlot">⌘+B</div>
+          </ContextMenu.CheckboxItem>
         </ContextMenu.Content>
       </ContextMenu.Portal>
     </ContextMenu.Root>
