@@ -9,14 +9,15 @@ export const onStopPaClickPropagation = (e: React.MouseEvent<HTMLDivElement, Mou
 }
 
 export const onOpenQueryAtNewTab = (value: string, searchEngine: ESearchEngine) => {
-  if (searchEngine === "google") {
-    window.open(`https://www.google.com/search?q=${value}`)
-  } else if (searchEngine === "baidu") {
-    window.open(`https://www.baidu.com/s?wd=${value}`)
-  } else {
-    // is bing search
-    window.open(`https://cn.bing.com/search?q=${value}`)
+  const searchMap = {
+    [ESearchEngine.google]: `https://www.google.com/search?q=${value}`,
+    [ESearchEngine.baidu]: `https://www.baidu.com/s?wd=${value}`,
+    [ESearchEngine.bing]: `https://cn.bing.com/search?q=${value}`,
+    [ESearchEngine.youtube]: `https://www.youtube.com/results?search_query=${value}`,
+    [ESearchEngine.github]: `https://github.com/search?q=${value}&type=repositories`
+    
   }
+  window.open(searchMap[searchEngine], '_blank')
 }
 
 // tabs array include all tabs in all windows, so we need to resolve a tree structure from it, and return a tree structure.

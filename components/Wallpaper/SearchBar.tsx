@@ -1,12 +1,11 @@
-import { useAtom } from "jotai"
 import { ChangeEvent, useState } from "react"
+
 import { AiOutlineSearch } from "react-icons/ai"
-
-import useBingSearchSuggestion from "~hooks/useBingSearchSuggestion"
-import { settingConfigStore } from "~store"
-import { onOpenQueryAtNewTab } from "~utils/browser"
-
 import SearchEngineSwitch from "./SearchEngineSwitch"
+import { onOpenQueryAtNewTab } from "~utils/browser"
+import { settingConfigStore } from "~store"
+import { useAtom } from "jotai"
+import useBingSearchSuggestion from "~hooks/useBingSearchSuggestion"
 
 export default function () {
   const [value, setValue] = useState("")
@@ -26,12 +25,12 @@ export default function () {
   }
 
   return (
-    <div className="rounded-md bg-gray-50  fixed top-[20vh] left-[50%] w-[500px] -translate-x-[50%] transform flex items-center p-2 py-2 gap-2">
+    <div className="rounded-md bg-gray-50 fixed top-[20vh] left-[50%] w-[500px] -translate-x-[50%] transform flex items-center p-2 py-2 gap-2">
       <SearchEngineSwitch />
       <input
         type="text"
         autoFocus
-        className="flex-grow p-[8px] focus-visible:outline-none bg-gray-50 bg-opacity-20 leading-[24px] text-[16px] rounded-lg"
+        className="flex-grow p-[8px] pl-0 focus-visible:outline-none bg-gray-50 bg-opacity-20 leading-[24px] text-[16px] rounded-lg"
         value={value}
         onKeyDown={(e) => {
           if (e.keyCode === 13) {

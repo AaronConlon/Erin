@@ -1,21 +1,17 @@
 import * as ContextMenu from "@radix-ui/react-context-menu"
+
 import {
   CheckIcon,
   ChevronRightIcon,
   DotFilledIcon
 } from "@radix-ui/react-icons"
-import hotkeys from "hotkeys-js"
-import { useAtom } from "jotai"
+import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode } from "~types"
 import React, { ReactNode, useEffect } from "react"
-
 import {
   currentWallpaperStore,
   isLoadingWallpaperStore,
   settingConfigStore
 } from "~store"
-import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode } from "~types"
-import { generateId } from "~utils/browser"
-import { addNote } from "~utils/storage"
 import {
   getWallpaperBase64FromUrl,
   onDownloadCurrentWallpaper,
@@ -23,6 +19,11 @@ import {
   onGetPrevOrNextWallpaper,
   onSetCustomWallpaperToStorage
 } from "~utils/wallpaper"
+
+import { addNote } from "~utils/storage"
+import { generateId } from "~utils/browser"
+import hotkeys from "hotkeys-js"
+import { useAtom } from "jotai"
 
 const SettingContainer = ({ children }: { children: ReactNode }) => {
   const [settingConfig, setSettingConfig] = useAtom(settingConfigStore)
@@ -147,7 +148,9 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     // get system shortcut
     // get system os
     const os = navigator.platform
-    if (os.includes("Mac")) {
+    const isMacOs = os.includes("Mac")
+    const mainKey = isMacOs ? "⌘" : "win"
+    if (isMacOs) {
       setSystemShortcut({
         fullscreen: "Ctrl+⌘+F"
       })
@@ -156,21 +159,39 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
         fullscreen: "F11"
       })
     }
-
-    hotkeys("command+[", onPrevWallpaper)
-    hotkeys("command+]", onNextWallpaper)
-    hotkeys("command+.", onOpenWallpaperMarket)
-    hotkeys("command+B", onSwitchIsShowBookmark)
-    hotkeys("command+K", onSwitchIsShowSearchBar)
-    hotkeys("Ctrl+command+N", onSwitchIsShowTreeNav)
+    // bind hotkeys
+    if (isMacOs) {
+      hotkeys("command+[", onPrevWallpaper)
+      hotkeys("command+]", onNextWallpaper)
+      hotkeys("command+.", onOpenWallpaperMarket)
+      hotkeys("command+B", onSwitchIsShowBookmark)
+      hotkeys("command+K", onSwitchIsShowSearchBar)
+      hotkeys("Ctrl+command+N", onSwitchIsShowTreeNav)
+    } else {
+      hotkeys("cmd+[", onPrevWallpaper)
+      hotkeys("cmd+]", onNextWallpaper)
+      hotkeys("cmd+.", onOpenWallpaperMarket)
+      hotkeys("cmd+B", onSwitchIsShowBookmark)
+      hotkeys("cmd+K", onSwitchIsShowSearchBar)
+      hotkeys("cmd+Shift+N", onSwitchIsShowTreeNav)
+    }
 
     return () => {
-      hotkeys.unbind("command+[")
-      hotkeys.unbind("command+]")
-      hotkeys.unbind("command+.")
-      hotkeys.unbind("command+B")
-      hotkeys.unbind("command+K")
-      hotkeys.unbind("Ctrl+command+N")
+      if (isMacOs) {
+        hotkeys.unbind("command+[")
+        hotkeys.unbind("command+]")
+        hotkeys.unbind("command+.")
+        hotkeys.unbind("command+B")
+        hotkeys.unbind("command+K")
+        hotkeys.unbind("Ctrl+command+N")
+      } else {
+        hotkeys.unbind("cmd+[")
+        hotkeys.unbind("cmd+]")
+        hotkeys.unbind("cmd+.")
+        hotkeys.unbind("cmd+B")
+        hotkeys.unbind("cmd+K")
+        hotkeys.unbind("cmd+Shift+N")
+      }
     }
   }, [])
 
@@ -225,7 +246,6 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
               </ContextMenu.ItemIndicator>
               壁纸Fans
             </ContextMenu.RadioItem>
-            {/* TODO:便签开发 */}
             <ContextMenu.RadioItem
               className="ContextMenuRadioItem"
               value={ENewtabMode.note}>

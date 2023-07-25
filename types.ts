@@ -47,7 +47,9 @@ export enum EStorageKey {
 export enum ESearchEngine {
   'google' = 'google',
   'bing' = 'bing',
-  'baidu' = 'baidu'
+  'baidu' = 'baidu',
+  'youtube' = 'youtube',
+  'github' = 'github',
 }
 
 export enum ENavTreeMode {
