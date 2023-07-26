@@ -1,13 +1,11 @@
-import clsx from "clsx"
-import { useAtom } from "jotai"
-import React from "react"
-import { useState } from "react"
-
-import FullscreenFilterContainer from "~components/FullscreenFilterContainer"
-import { settingConfigStore } from "~store"
 import { ENavTreeMode } from "~types"
-
+import FullscreenFilterContainer from "~components/FullscreenFilterContainer"
+import React from "react"
 import TreeWindow from "./TreeWindow"
+import clsx from "clsx"
+import { settingConfigStore } from "~store"
+import { useAtom } from "jotai"
+import { useState } from "react"
 
 export default function ({
   mode = ENavTreeMode.newtab,
@@ -36,7 +34,7 @@ export default function ({
       })}>
       <div
         className={clsx(
-          "overflow-y-auto py-4 rounded-md min-h-[30vh] min-w-[500px] max-w-[800px] justify-start text-left transition-all transform border-gray-50 border-opacity-20 hover:border-opacity-80 border",
+          "overflow-y-auto py-4 rounded-md min-h-[30vh] max-h-[75vh]  min-w-[500px] max-w-[800px] justify-start text-left transition-all transform border-gray-50 border-opacity-20 hover:border-opacity-80 border",
           {
             "-translate-x-[100vw]": offset !== 0,
             "backdrop-blur-md text-white": mode === ENavTreeMode.newtab,
