@@ -16,7 +16,7 @@ Define your browser newtab page by ❤️.
 
 - [x] 壁纸功能
 
-- [ ] 稍后阅读列表
+- [x] 稍后阅读列表
 
 - [ ] 极简的名言模式
 
