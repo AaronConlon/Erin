@@ -1,7 +1,15 @@
 import clsx from "clsx"
 import { useState } from "react"
 
-export default function ({ url, size = 28 }: { url: string; size?: number }) {
+export default function ({
+  url,
+  size = 28,
+  bgColor = "#fff"
+}: {
+  url: string
+  size?: number
+  bgColor?: string
+}) {
   const [isLoaded, setIsLoaded] = useState(false)
 
   function faviconURL(u: string) {
@@ -12,11 +20,13 @@ export default function ({ url, size = 28 }: { url: string; size?: number }) {
   }
 
   return (
-    <div className="inline-block rounded-md bg-white">
+    <div
+      className="inline-block rounded-md"
+      style={{ backgroundColor: bgColor }}>
       <img
         onLoad={() => setIsLoaded(true)}
         src={faviconURL(url)}
-        className={clsx("w-[24px] h-[24px]", {
+        className={clsx({
           "opacity-0": !isLoaded
         })}
         alt="ico"

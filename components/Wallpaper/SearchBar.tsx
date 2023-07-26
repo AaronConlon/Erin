@@ -1,11 +1,13 @@
-import { ChangeEvent, useState } from "react"
-
-import { AiOutlineSearch } from "react-icons/ai"
-import SearchEngineSwitch from "./SearchEngineSwitch"
-import { onOpenQueryAtNewTab } from "~utils/browser"
-import { settingConfigStore } from "~store"
 import { useAtom } from "jotai"
+import { ChangeEvent, useState } from "react"
+import { AiOutlineSearch } from "react-icons/ai"
+
 import useBingSearchSuggestion from "~hooks/useBingSearchSuggestion"
+import { settingConfigStore } from "~store"
+import { EZIndexRecord } from "~types"
+import { onOpenQueryAtNewTab, onStopPaClickPropagation } from "~utils/browser"
+
+import SearchEngineSwitch from "./SearchEngineSwitch"
 
 export default function () {
   const [value, setValue] = useState("")
@@ -25,12 +27,15 @@ export default function () {
   }
 
   return (
-    <div className="rounded-md bg-gray-50 fixed top-[20vh] left-[50%] w-[500px] -translate-x-[50%] transform flex items-center p-2 py-2 gap-2">
+    <div
+      style={{ zIndex: EZIndexRecord.searchBar }}
+      onClick={onStopPaClickPropagation}
+      className="rounded-md bg-gray-50 fixed top-[20vh] left-[50%] w-[500px] -translate-x-[50%] transform flex items-center p-2 py-2 gap-2">
       <SearchEngineSwitch />
       <input
         type="text"
         autoFocus
-        className="flex-grow p-[8px] pl-0 focus-visible:outline-none bg-gray-50 bg-opacity-20 leading-[24px] text-[16px] rounded-lg"
+        className="flex-grow p-[8px] pl-0 pr-[32px] focus-visible:outline-none bg-gray-50 bg-opacity-20 leading-[24px] text-[16px] rounded-lg"
         value={value}
         onKeyDown={(e) => {
           if (e.keyCode === 13) {
@@ -47,7 +52,7 @@ export default function () {
         }}
       />
       {suggestions.length > 0 && (
-        <div className="absolute right-0 top-[105%] bg-white bg-opacity-60 p-4 left-0 text-left min-h-[37px] rounded-md leading-6 cursor-pointer flex flex-col gap-2">
+        <div className="absolute right-0 top-[105%] bg-white bg-opacity-100 p-4 left-0 text-left min-h-[37px] rounded-md leading-6 cursor-pointer flex flex-col gap-2">
           {suggestions.slice(0, 9).map((s, idx) => (
             <div
               key={s}

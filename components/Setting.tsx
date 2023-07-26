@@ -31,6 +31,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
   const [systemShortcut, setSystemShortcut] = React.useState({ fullscreen: "" })
   const [isFullScreen, setIsFullScreen] = React.useState(false)
   const [isLoading, setIsLoading] = useAtom(isLoadingWallpaperStore)
+  const [mainKey, setMainKey] = React.useState("win")
 
   const commandLogic = async (isPrev = true) => {
     if (isLoading) return
@@ -149,7 +150,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     // get system os
     const os = navigator.platform
     const isMacOs = os.includes("Mac")
-    const mainKey = isMacOs ? "⌘" : "win"
+    setMainKey(isMacOs ? "⌘" : "win")
     if (isMacOs) {
       setSystemShortcut({
         fullscreen: "Ctrl+⌘+F"
@@ -225,7 +226,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
               <CheckIcon />
             </ContextMenu.ItemIndicator>
-            树形导航 <div className="RightSlot">Ctrl+⌘+N</div>
+            树形导航 <div className="RightSlot">Ctrl+{mainKey}+N</div>
           </ContextMenu.CheckboxItem>
 
           <ContextMenu.Separator className="ContextMenuSeparator" />
@@ -274,12 +275,12 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={onPrevWallpaper as any}>
-                  上一张 <div className="RightSlot">⌘+[</div>
+                  上一张 <div className="RightSlot">{mainKey}+[</div>
                 </ContextMenu.Item>
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={onPrevWallpaper as any}>
-                  下一张 <div className="RightSlot">⌘+]</div>
+                  下一张 <div className="RightSlot">{mainKey}+]</div>
                 </ContextMenu.Item>
                 <ContextMenu.Item
                   className="ContextMenuItem"
@@ -296,7 +297,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={onOpenWallpaperMarket as any}>
-                  所有壁纸 <div className="RightSlot">⌘+.</div>
+                  所有壁纸 <div className="RightSlot">{mainKey}+.</div>
                 </ContextMenu.Item>
                 <ContextMenu.Separator className="ContextMenuSeparator" />
                 <ContextMenu.Label className="ContextMenuLabel">
@@ -312,7 +313,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
                     <CheckIcon />
                   </ContextMenu.ItemIndicator>
-                  搜索框 <div className="RightSlot">⌘+K</div>
+                  搜索框 <div className="RightSlot">{mainKey}+K</div>
                 </ContextMenu.CheckboxItem>
               </ContextMenu.SubContent>
             </ContextMenu.Portal>
@@ -333,7 +334,18 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
               <CheckIcon />
             </ContextMenu.ItemIndicator>
-            书签 <div className="RightSlot">⌘+B</div>
+            书签 <div className="RightSlot">{mainKey}+B</div>
+          </ContextMenu.CheckboxItem>
+          <ContextMenu.CheckboxItem
+            className="ContextMenuCheckboxItem"
+            checked={settingConfig.showReadItLater}
+            onCheckedChange={(v) => {
+              setSettingConfig({ ...settingConfig, showReadItLater: v })
+            }}>
+            <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
+              <CheckIcon />
+            </ContextMenu.ItemIndicator>
+            稍后阅读
           </ContextMenu.CheckboxItem>
         </ContextMenu.Content>
       </ContextMenu.Portal>

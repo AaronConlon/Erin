@@ -1,4 +1,4 @@
-import { EStorageKey, IBase64ListItem, INote, IWeekImage } from "~types"
+import { EStorageKey, IBase64ListItem, INote, IReadItLaterItem, IWeekImage } from "~types"
 
 import { generateId } from "./browser"
 import { uniqBy } from 'lodash-es'
@@ -163,5 +163,44 @@ export const addSyncBookmarks = async (bookmark: { url: string, id: string, titl
   bookmarks.push(bookmark as any)
   chrome.storage.sync.set({
     [EStorageKey.bookmarks]: bookmarks
+  })
+}
+
+// get read it later list
+export const getReadItLaterList = async () => {
+  const result = await chrome.storage.local.get(EStorageKey.readItLaterList)
+  const { readItLaterList = [] } = result
+  return readItLaterList as IReadItLaterItem[]
+}
+
+// remove read it later list
+export const removeReadItLaterList = async (id: string) => {
+  const readItLaterList = await getReadItLaterList()
+  const newReadItLaterList = readItLaterList.filter((i) => i.id.toString() !== id.toString())
+  chrome.storage.local.set({
+    [EStorageKey.readItLaterList]: newReadItLaterList
+  })
+}
+
+// add read it later list
+export const addReadItLaterList = async (bookmark: IReadItLaterItem) => {
+  const readItLaterList = await getReadItLaterList()
+  // check is exist
+  const isExist = readItLaterList.some((i) => i.id.toString() === bookmark.id.toString())
+  if (isExist) {
+    // update
+    const newReadItLaterList = readItLaterList.map((i) => {
+      if (i.id.toString() === bookmark.id.toString()) {
+        return bookmark
+      }
+      return i
+    })
+    return chrome.storage.local.set({
+      [EStorageKey.readItLaterList]: newReadItLaterList
+    })
+  }
+  readItLaterList.push(bookmark)
+  chrome.storage.local.set({
+    [EStorageKey.readItLaterList]: readItLaterList
   })
 }

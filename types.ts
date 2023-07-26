@@ -7,6 +7,7 @@ export interface ISettingConfig {
   showSearchBar: boolean
   searchEngine: ESearchEngine
   showBrowserTreeNav: boolean
+  showReadItLater: boolean
 }
 
 export interface IBase64ListItem {
@@ -42,6 +43,7 @@ export enum EStorageKey {
   iconCache = 'iconCache',
   noteList = 'noteList',
   bookmarks = 'bookmarks',
+  readItLaterList = 'readItLaterList',
 }
 
 export enum ESearchEngine {
@@ -72,4 +74,26 @@ export interface INote {
   // set position
   left?: string;
   top?: string;
+}
+
+export interface IReadItLaterItem {
+  id: string,
+  title: string,
+  url: string,
+  favIconUrl?: string
+}
+
+export enum EBgMessageName {
+  copyMdTitleText = 'copyMdTitleText',
+}
+
+export enum EMenuItemId {
+  'copyAsMdLink' = 'copyAsMdLink',
+  'addCurrentPageToReadItLater' = 'addCurrentPageToReadItLater',
+}
+
+export enum EZIndexRecord {
+  readItLater = 99,
+  searchBar = 100,
+  loadingIcon,
 }

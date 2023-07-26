@@ -121,3 +121,9 @@ html {
 .remove-bookmark {
   scale: 0;
 }
+
+.read-it-later-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
