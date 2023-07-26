@@ -16,7 +16,8 @@ Define your browser newtab page by ❤️.
 
 ![](https://i.imgur.com/MF3jWNF.jpeg)
 
-![](https://i.imgur.com/imVHImL.png)
+<img width="1398" alt="image" src="https://github.com/Developer27149/Erin/assets/23721611/9862549c-6d65-4dc7-8900-1c9e6d10522f">
+
 
 
 
