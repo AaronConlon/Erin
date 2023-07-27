@@ -26,6 +26,7 @@ export default function ({
       <img
         onLoad={() => setIsLoaded(true)}
         src={faviconURL(url)}
+        style={{width: `${size}px`, height: `${size}px`}}
         className={clsx({
           "opacity-0": !isLoaded
         })}

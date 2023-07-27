@@ -1,25 +1,26 @@
-import clsx from "clsx"
-import { useAtom } from "jotai"
-import { useEffect, useRef, useState } from "react"
-import { CiMaximize2 } from "react-icons/ci"
 import { FcLike, FcLikePlaceholder } from "react-icons/fc"
-import { FiDownload } from "react-icons/fi"
-import { MdUnfoldMore } from "react-icons/md"
-
-import FullscreenFilterContainer from "~components/FullscreenFilterContainer"
-import useImageList from "~hooks/useImageList"
 import {
   currentWallpaperStore,
   isLoadingWallpaperStore,
   settingConfigStore
 } from "~store"
-import { getBingWeeklyImages } from "~utils/request"
 import {
   generatePreviewWallpaperUrl,
   onDownloadBingWallpaperByUrlbase,
   onReverseLikeWallpaperByUrlbase,
   onSetUrlbaseToCurrentWallpaper
 } from "~utils/wallpaper"
+import { useEffect, useRef, useState } from "react"
+
+import { CiMaximize2 } from "react-icons/ci"
+import { EZIndexRecord } from "~types"
+import { FiDownload } from "react-icons/fi"
+import FullscreenFilterContainer from "~components/FullscreenFilterContainer"
+import { MdUnfoldMore } from "react-icons/md"
+import clsx from "clsx"
+import { getBingWeeklyImages } from "~utils/request"
+import { useAtom } from "jotai"
+import useImageList from "~hooks/useImageList"
 
 export default function () {
   const {

@@ -1,4 +1,4 @@
-import { DEFAULT_WALLPAPER_URL, EBgMessageName, EMenuItemId, EStorageKey } from "~types";
+import { DEFAULT_WALLPAPER_URL, EBgMessageName, EMenuItemId, EReadItLaterLevel, EStorageKey } from "~types";
 import { generateWallpaperUrl, getWallpaperBase64FromUrl } from "~utils/wallpaper";
 
 import { DEFAULT_SETTING } from "~store";
@@ -81,6 +81,14 @@ chrome.tabs.onRemoved.addListener(async (tabId) => {
     title: "📖 复制当前页为markdown链接",
     parentId: "tools",
     id: EMenuItemId.copyAsMdLink 
+  });
+  const levels = [EReadItLaterLevel.important, EReadItLaterLevel.urgent, EReadItLaterLevel.later];
+  levels.forEach((item) => {
+    chrome.contextMenus.create({
+      title: item,
+      parentId: EMenuItemId.addCurrentPageToReadItLater,
+      id: item
+    })
   })
 
   chrome.contextMenus.onClicked.addListener(async (info, tab) => {
@@ -88,17 +96,13 @@ chrome.tabs.onRemoved.addListener(async (tabId) => {
       console.error(chrome.runtime.lastError.message);
     }
     try {
-      console.log(info)
       const currentTab = await chrome.tabs.get(tab.id)
-      
-      
       const {menuItemId} = info
-      if(menuItemId === EMenuItemId.addCurrentPageToReadItLater) {
+      if(levels.includes(menuItemId as EReadItLaterLevel)) {
         // get current tab
       const {id, title, url, favIconUrl} = currentTab
-       
         // add current page to read it later
-        addReadItLaterList({id: `${id}`, title, url, favIconUrl})
+        addReadItLaterList({id: `${id}`, title, url, favIconUrl, level: menuItemId as EReadItLaterLevel})
       } else if(menuItemId === EMenuItemId.copyAsMdLink) {
         const mdUrl = `[${tab.title}](${tab.url})`
         // navigator.clipboard.writeText(mdUrl)

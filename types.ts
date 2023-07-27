@@ -81,6 +81,7 @@ export interface IReadItLaterItem {
   title: string,
   url: string,
   favIconUrl?: string
+  level?: string
 }
 
 export enum EBgMessageName {
@@ -93,7 +94,15 @@ export enum EMenuItemId {
 }
 
 export enum EZIndexRecord {
-  readItLater = 99,
-  searchBar = 100,
+  readItLater = 100,
+  bookmarks,
+  wallpaperMarket,
+  fullscreenLayout,
   loadingIcon,
+}
+
+export enum EReadItLaterLevel {
+  important = '🎯 重要',
+  urgent = '🚗 紧急',
+  later = '🍵 稍后',
 }

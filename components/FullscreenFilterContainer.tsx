@@ -1,5 +1,5 @@
+import { EZIndexRecord } from "~types"
 import clsx from "clsx"
-
 import { onStopPaClickPropagation } from "~utils/browser"
 
 export default function ({
@@ -14,6 +14,7 @@ export default function ({
   return (
     <div
       className={clsx("fixed inset-0 w-screen h-screen z-50", classnames)}
+      style={{zIndex: EZIndexRecord.fullscreenLayout}}
       onClick={() => {
         onClickOutside?.()
       }}

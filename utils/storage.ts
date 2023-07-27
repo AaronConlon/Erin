@@ -186,7 +186,7 @@ export const removeReadItLaterList = async (id: string) => {
 export const addReadItLaterList = async (bookmark: IReadItLaterItem) => {
   const readItLaterList = await getReadItLaterList()
   // check is exist
-  const isExist = readItLaterList.some((i) => i.id.toString() === bookmark.id.toString())
+  const isExist = readItLaterList.some((i) => i.id.toString() === bookmark.id.toString() || i.url === bookmark.url)
   if (isExist) {
     // update
     const newReadItLaterList = readItLaterList.map((i) => {

@@ -8,6 +8,7 @@ import {
 
 import BookmarkFavicon from "./BookmarkFavicon"
 import { CiMap } from "react-icons/ci"
+import { EZIndexRecord } from "~types"
 import { addSyncBookmarks } from "~utils/storage"
 import { syncBookmarksStore } from "~store"
 import { useAtom } from "jotai"
@@ -32,9 +33,11 @@ const SearchItemsContainer: FC<ISearchItemsProps> = ({ data }) => {
   return (
     <div
       data-white
+      style={{zIndex: EZIndexRecord.bookmarks}}
       className="flex flex-col-reverse gap-2 p-1 max-h-[40vh] overflow-y-auto">
+
       {data.length === 0 ? (
-        <div className="opacity-30 min-h-[100px] text-lg flex items-center justify-center gap-4">
+        <div className="min-h-[100px] text-lg flex items-center justify-center gap-4">
           <CiMap />
           <span>这是一片荒原</span>
         </div>
@@ -155,7 +158,8 @@ export default function ({ onCloseBox }: { onCloseBox: () => void }) {
 
   return (
     <div
-      className="slideFromTop fixed bottom-[40vh] left-0 right-0 mx-auto w-[600px] bg-gray-50 bg-opacity-90 p-2 rounded-md flex flex-col-reverse gap-4 z-50 custom-shadow"
+      style={{zIndex: EZIndexRecord.bookmarks}}
+      className="slideFromTop fixed bottom-[40vh] left-0 right-0 mx-auto w-[600px] bg-gray-50 p-2 rounded-md flex flex-col-reverse gap-4 custom-shadow"
       onClick={onStopPaClickPropagation}
       onContextMenu={onStopPaClickPropagation}>
       <div className="flex items-center bg-white">
