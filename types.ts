@@ -85,12 +85,14 @@ export interface IReadItLaterItem {
 }
 
 export enum EBgMessageName {
-  copyMdTitleText = 'copyMdTitleText',
+  copyMdContentToClipboard = 'copyMdContentToClipboard',
+  downloadImgWithFormat = 'downloadImgWithFormat'
 }
 
 export enum EMenuItemId {
   'copyAsMdLink' = 'copyAsMdLink',
   'addCurrentPageToReadItLater' = 'addCurrentPageToReadItLater',
+  'img' = 'img'
 }
 
 export enum EZIndexRecord {
@@ -105,4 +107,14 @@ export enum EReadItLaterLevel {
   important = '🎯 重要',
   urgent = '🚗 紧急',
   later = '🍵 稍后',
+}
+
+export enum EContentMenuImgAction {
+  'copyImgAsMarkdown' = '🚀 复制为 markdown 图片',
+  'downloadCurrentImg' = '⏬ 立即下载',
+  'downloadFormat' = '🔃 格式转化下载',
+  'downloadAsJPEG' = 'JPEG',
+  'downloadAsJPG' = 'JPG',
+  'downloadAsPNG' = 'PNG',
+  'copyLinkAsMarkdown' = '复制为 markdown 链接'
 }

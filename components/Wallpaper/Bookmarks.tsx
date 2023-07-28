@@ -1,10 +1,9 @@
-import { useAtom } from "jotai"
-import { DragEvent, FC, useEffect, useState } from "react"
-import { FcFullTrash, FcPlus } from "react-icons/fc"
-
 import { syncBookmarksStore } from "~store"
 import { onStopPaClickPropagation, openNewTab } from "~utils/browser"
 import { getSyncBookmarks, removeSyncBookmarks } from "~utils/storage"
+import { useAtom } from "jotai"
+import { DragEvent, FC, useEffect, useState } from "react"
+import { FcFullTrash, FcPlus } from "react-icons/fc"
 
 import BookmarkFavicon from "./BookmarkFavicon"
 import SearchBookmarks from "./SearchBookmarks"
@@ -135,7 +134,7 @@ export default function () {
         style={{
           boxShadow: "0 30px 60px -12px #fdfdfdeb, 0 18px 36px -18px #0000004d"
         }}
-        className="flex items-center gap-3 max-w-max min-w-[600px] flex-wrap bg-black bg-opacity-20 min-h-48 p-3 px-4 fixed bottom-2 mx-auto left-0 right-0 rounded-md hover:scale-105 transition-all origin-bottom z-50">
+        className="flex items-center gap-3 max-w-max min-w-[200px] flex-wrap bg-black bg-opacity-20 min-h-48 p-3 px-4 fixed bottom-2 mx-auto left-0 right-0 rounded-md hover:scale-105 transition-all origin-bottom z-50">
         {syncBookmarks.map((i) => (
           <Bookmark setIsDrag={setIsDragging} data={i} key={i.id} />
         ))}

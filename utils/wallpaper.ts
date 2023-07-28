@@ -1,5 +1,8 @@
 import { DEFAULT_BING_WALLPAPER_DOMAIN, DEFAULT_WALLPAPER_URL, EStorageKey, IThisWeekData, IWeekImage } from "~types"
 
+import { fetchJsonResponse } from "./request"
+import { generateId } from "./browser"
+
 export const generateWallpaperUrl = (urlbase: string) => `${DEFAULT_BING_WALLPAPER_DOMAIN}${urlbase}_UHD.jpg`
 export const generatePreviewWallpaperUrl = (urlbase: string) => `${DEFAULT_BING_WALLPAPER_DOMAIN}${urlbase}_1920x1080.jpg`
 // cover blob to base64
@@ -16,6 +19,14 @@ const saveBase64ToStorage = (base64: string) => {
   chrome.storage.local.set({ [EStorageKey.currentWallpaper]: base64 })
 }
 
+export const onDownloadImgBase64 = async (url: string, isRaw = true) => {
+  // cache control
+  const res = await fetchJsonResponse<Response>(url, {isRaw})
+  const blob = await res.blob()
+  const base64 = await blobToBase64(blob)
+  return base64
+}
+
 // get wallpaper's base64 from url
 export const getWallpaperBase64FromUrl = async (url: string, force?: boolean) => {
   try {
@@ -27,9 +38,7 @@ export const getWallpaperBase64FromUrl = async (url: string, force?: boolean) =>
       }
     }
     // fetch from network
-    const res = await fetch(url)
-    const blob = await res.blob()
-    const base64 = await blobToBase64(blob)
+    const base64 = await onDownloadImgBase64(url)
     // save to cache
     chrome.storage.local.set({
       [EStorageKey.currentWallpaper]: {
@@ -39,16 +48,16 @@ export const getWallpaperBase64FromUrl = async (url: string, force?: boolean) =>
     })
     return base64
   } catch (error) {
-    console.log("下载失败：", error)
+    console.log("下载失败：", error, url)
   }
 }
 
 
 // handle download wallpaper by url
-export const onDownloadWallpaperByUrl = (url: string) => {
+export const onDownloadWallpaperByUrl = (url: string, format: string = 'jpeg') => {
   chrome.downloads.download({
     url,
-    filename: `Erin-${~~(Math.random() * 10000)}.jpeg`
+    filename: `Erin-${~~(Math.random() * 10000)}.${format}`
   })
 }
 
@@ -158,4 +167,15 @@ export const onSetCustomWallpaperToStorage = async (base64: string) => {
       base64
     }
   })
+}
+
+// download image by url and format in browser content
+export const onDownloadImgByUrlAndFormat = async (url: string, format: string) => {
+  const base64 = await onDownloadImgBase64(url)
+  // Download base64 image in browser
+  const a = document.createElement('a')
+  a.href = base64
+  a.download = `${generateId()}.${format}`
+  a.click()
+  a.remove()
 }
