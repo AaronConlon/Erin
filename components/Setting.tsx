@@ -347,6 +347,18 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             </ContextMenu.ItemIndicator>
             稍后阅读
           </ContextMenu.CheckboxItem>
+          {/* clock component */}
+          <ContextMenu.CheckboxItem
+            className="ContextMenuCheckboxItem"
+            checked={settingConfig.showClock}
+            onCheckedChange={(v) => {
+              setSettingConfig({ ...settingConfig, showClock: v })
+            }}>
+            <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
+              <CheckIcon />
+            </ContextMenu.ItemIndicator>
+            显示时间
+          </ContextMenu.CheckboxItem>
         </ContextMenu.Content>
       </ContextMenu.Portal>
     </ContextMenu.Root>

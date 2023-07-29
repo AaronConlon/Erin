@@ -7,7 +7,8 @@ export interface ISettingConfig {
   showSearchBar: boolean
   searchEngine: ESearchEngine
   showBrowserTreeNav: boolean
-  showReadItLater: boolean
+  showReadItLater: boolean,
+  showClock: boolean,
 }
 
 export interface IBase64ListItem {
