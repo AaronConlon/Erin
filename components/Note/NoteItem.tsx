@@ -1,7 +1,8 @@
-import { marked } from "marked"
 import { useEffect, useRef, useState } from "react"
 
+import {HiOutlinePencilSquare} from 'react-icons/hi2'
 import { INote } from "~types"
+import { marked } from "marked"
 import { onStopPaClickPropagation } from "~utils/browser"
 import { saveNote } from "~utils/storage"
 
@@ -27,7 +28,7 @@ export default function ({ data, onRemove }: IProps) {
   return (
     <div className="note-item m-4 mt-0">
       <div
-        className="rounded-lg border-gray-200  box-border border-dashed border relative"
+        className="rounded-lg border-gray-200  box-border border-dashed border relative group"
         style={{
           background: note.bgColor,
           boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
@@ -51,6 +52,7 @@ export default function ({ data, onRemove }: IProps) {
               ⚙
             </span>
           </span>
+          <HiOutlinePencilSquare className="text-gray-700 opacity-0 group-hover:opacity-100 ml-auto cursor-pointer hover:scale-110 transition-all" onClick={() => setIsPreviewContent(!isPreviewContent)}/>
         </div>
         <div className="p-1 pt-0">
           <input
@@ -61,8 +63,7 @@ export default function ({ data, onRemove }: IProps) {
             style={{ color: note.color, background: note.bgColor }}
           />
         </div>
-        <div className="p-2 pt-0 text-[13px]">
-          {isPreviewContent ? (
+        {isPreviewContent ? (
             <div
               className="min-h-[150px] p-2 markdown-body"
               dangerouslySetInnerHTML={{
@@ -81,12 +82,6 @@ export default function ({ data, onRemove }: IProps) {
               className="p-2 min-h-[150px] focus-visible:outline-none w-full"
             />
           )}
-        </div>
-        {isPreviewContent && (
-          <div
-            className="absolute top-[65px] left-0 right-0 bottom-0 bg-opacity-0"
-            onClick={() => setIsPreviewContent(false)}></div>
-        )}
         {showSetting && (
           <div className="flex flex-col p-1 absolute bottom-0 left-0 right-0 bg-white text-right py-4">
             <button
