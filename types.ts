@@ -86,13 +86,15 @@ export interface IReadItLaterItem {
 
 export enum EBgMessageName {
   copyMdContentToClipboard = 'copyMdContentToClipboard',
-  downloadImgWithFormat = 'downloadImgWithFormat'
+  downloadImgWithFormat = 'downloadImgWithFormat',
+  applyPicInPicMode = 'applyPicInPicMode'
 }
 
 export enum EMenuItemId {
   'copyAsMdLink' = 'copyAsMdLink',
   'addCurrentPageToReadItLater' = 'addCurrentPageToReadItLater',
-  'img' = 'img'
+  'img' = 'img',
+  'pictureInPicture' = 'pictureInPicture'
 }
 
 export enum EZIndexRecord {

@@ -31,16 +31,16 @@ export default function ReadItLater() {
   return (
     <div
       style={{ zIndex: EZIndexRecord.readItLater }}
-      className="w-[960px] max-w-[60vw] min-h-[20vh] max-h-[50vh] p-4 rounded-md flex flex-col items-start fixed top-[30vh] left-0 right-0 mx-auto">
+      className="w-[960px] max-w-[60vw] min-h-[20vh] p-4 rounded-md flex flex-col items-start fixed top-[30vh] left-0 right-0 mx-auto">
       <h3 className="heading-8 text-2xl font-bold capitalize text-gray-50 mb-4">
         稍后阅读
       </h3>
-      <div className="read-it-later-item">
+      <div className="read-it-later-item max-h-[50vh] overflow-auto pr-2 pb-24">
         {readList.map((i) => (
           <div
-            key={i.url}
+            key={i.id}
             onContextMenu={onStopPaClickPropagation}
-            className="custom-shadow group relative flex justify-between items-center rounded-md p-2 bg-gray-700 bg-opacity-50 mb-2">
+            className="group relative flex justify-between items-center rounded-md p-2 bg-gray-700 bg-opacity-50 mb-2">
             <div className="flex flex-col justify-between text-left pr-4 text-gray-50 relative gap-2 min-w-[150px]">
               <div className="h-[36px]">
                 <a href={i.url} target="_blank" className="text-[13px] leading-[18px] line-clamp-2">{i.title}</a>
@@ -51,7 +51,7 @@ export default function ReadItLater() {
                   onClick={() => window.open(i.url, '_blank')}>
                   <LuExternalLink />
                 </button> */}
-                <span className={clsx("text-opacity-80 p-0.5 px-1 rounded-sm", {
+                <span className={clsx("text-opacity-60 bg-opacity-50 p-0.5 px-1 rounded-sm group-hover:bg-opacity-100 transition-all", {
                   "bg-green-500": i.level === EReadItLaterLevel.later,
                   "bg-yellow-500": i.level === EReadItLaterLevel.urgent,
                   "bg-red-500": i.level === EReadItLaterLevel.important
@@ -65,7 +65,7 @@ export default function ReadItLater() {
             </div>
             <img
               src={i.favIconUrl}
-              className="min-w-[36px] max-w-[36px] h-[36px] rounded-md p-1 ml-auto bg-white bg-opacity-20"
+              className="min-w-[36px] max-w-[36px] h-[36px] rounded-md p-1 ml-auto bg-white bg-opacity-50 transition-all group-hover:rotate-6"
             />
           </div>
         ))}
