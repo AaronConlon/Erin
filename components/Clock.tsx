@@ -25,7 +25,7 @@ export default function Clock() {
       clearInterval(timer.current)
     }
   }, [setting.showClock])
-  if(setting.showClock === false) return null;
+  if(!setting.showClock) return null;
   return <div className={clsx("fixed top-2 left-2 p-1 px-2 rounded-sm bg-opacity-10 text-[14px] font-bold", {
     "bg-white text-green-200": setting.mode === ENewtabMode.wallpaper,
     "bg-gray-500 text-gray-800": setting.mode === ENewtabMode.note,
