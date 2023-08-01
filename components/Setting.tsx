@@ -150,7 +150,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
     // get system os
     const os = navigator.platform
     const isMacOs = os.includes("Mac")
-    setMainKey(isMacOs ? "⌘" : "win")
+    setMainKey(isMacOs ? "⌘" : "Alt")
     if (isMacOs) {
       setSystemShortcut({
         fullscreen: "Ctrl+⌘+F"

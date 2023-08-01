@@ -40,7 +40,7 @@ export default function ReadItLater() {
           <div
             key={i.id}
             onContextMenu={onStopPaClickPropagation}
-            className="group relative flex justify-between items-center rounded-md p-2 bg-gray-700 bg-opacity-50 mb-2">
+            className="group relative flex justify-between items-center rounded-md p-2 bg-gray-700 bg-opacity-50 hover:bg-opacity-90 mb-2">
             <div className="flex flex-col justify-between text-left pr-4 text-gray-50 relative gap-2 min-w-[150px]">
               <div className="h-[36px]">
                 <a href={i.url} target="_blank" className="text-[13px] leading-[18px] line-clamp-2">{i.title}</a>
@@ -65,7 +65,7 @@ export default function ReadItLater() {
             </div>
             <img
               src={i.favIconUrl}
-              className="min-w-[36px] max-w-[36px] h-[36px] rounded-md p-1 ml-auto bg-white bg-opacity-50 transition-all group-hover:rotate-6"
+              className="min-w-[36px] max-w-[36px] h-[36px] rounded-md p-1 ml-auto bg-white bg-opacity-50 transition-all group-hover:rotate-6 group-hover:bg-opacity-100"
             />
           </div>
         ))}

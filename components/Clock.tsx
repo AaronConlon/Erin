@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-
+import { settingConfigStore } from "~store";
 import { ENewtabMode } from "~types";
 import clsx from "clsx";
-import { settingConfigStore } from "~store";
 import { useAtom } from "jotai";
+import { useEffect, useRef, useState } from "react";
 
 export default function Clock() {
   const [setting] = useAtom(settingConfigStore)
@@ -26,8 +25,8 @@ export default function Clock() {
     }
   }, [setting.showClock])
   if(!setting.showClock) return null;
-  return <div className={clsx("fixed top-2 left-2 p-1 px-2 rounded-sm bg-opacity-10 text-[14px] font-bold", {
-    "bg-white text-green-200": setting.mode === ENewtabMode.wallpaper,
+  return <div className={clsx("fixed top-2 left-2 p-1 px-2 rounded-sm bg-opacity-50 text-[15px] font-bold", {
+    "bg-gray-700 text-green-200": setting.mode === ENewtabMode.wallpaper,
     "bg-gray-500 text-gray-800": setting.mode === ENewtabMode.note,
   })}>
     {
