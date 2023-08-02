@@ -48,3 +48,14 @@ Define your browser newtab page by ❤️.
 ## 开发
 
 本项目基于`plasmo`框架和`React`开发。
+
+
+
+## 赞助
+
+Thanks♪(･ω･)ﾉ 
+
+| name                                                         | 💰    |
+| ------------------------------------------------------------ | ---- |
+| [duoluodexiaoxiaoyuan](https://github.com/duoluodexiaoxiaoyuan) | 6.6  |
+
