@@ -63,7 +63,6 @@ export default function useImageList() {
       setWallpaperList(imageListData.slice(0, limit.current))
       const syncResult = await chrome.storage.sync.get(EStorageKey.likeList)
       const _likeList = (syncResult[EStorageKey.likeList] ?? []) as string[]
-      console.log("img list:", imageListData)
       setLikeList(_likeList)
       setHadMoreWallpaper(limit.current < imageListData.length)
     }

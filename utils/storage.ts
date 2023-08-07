@@ -1,7 +1,15 @@
-import { EStorageKey, IBase64ListItem, INote, IReadItLaterItem, IWeekImage } from "~types"
+import { uniqBy } from "lodash-es"
+
+import {
+  EStorageKey,
+  IAsideSettingConfig,
+  IBase64ListItem,
+  INote,
+  IReadItLaterItem,
+  IWeekImage
+} from "~types"
 
 import { generateId } from "./browser"
-import { uniqBy } from 'lodash-es'
 
 export const updateData = async <T>(key: string, value: T) => {
   try {
@@ -20,7 +28,7 @@ export const saveBase64ImgToStorage = async (base64: string, url: string) => {
       timestamp: Date.now()
     }
     // get old data
-    const { base64List = [] } = await chrome.storage.local.get('base64List')
+    const { base64List = [] } = await chrome.storage.local.get("base64List")
 
     // remove all expired data
     const newBase64List = base64List.filter((item: IBase64ListItem) => {
@@ -36,9 +44,11 @@ export const saveBase64ImgToStorage = async (base64: string, url: string) => {
   }
 }
 
-export const saveCurrentWeeklyImagesToStorage = async (images: IWeekImage[]) => {
+export const saveCurrentWeeklyImagesToStorage = async (
+  images: IWeekImage[]
+) => {
   try {
-    const { bingImages = [] } = await chrome.storage.local.get('bingImages')
+    const { bingImages = [] } = await chrome.storage.local.get("bingImages")
     // add new data
     bingImages.push(...images)
     const newRecord = uniqBy(bingImages, (i: IWeekImage) => i.urlbase)
@@ -48,8 +58,12 @@ export const saveCurrentWeeklyImagesToStorage = async (images: IWeekImage[]) => 
   }
 }
 
-export const setResponseCache = async (id: string, data: any, exprTimestamp: number = Date.now()) => {
-  const result = await chrome.storage.local.get('requestCache')
+export const setResponseCache = async (
+  id: string,
+  data: any,
+  exprTimestamp: number = Date.now()
+) => {
+  const result = await chrome.storage.local.get("requestCache")
   if (Object.keys(result?.requestCache || {}).length > 100) {
     // clear cache
     await chrome.storage.local.set({ requestCache: {} })
@@ -70,7 +84,7 @@ export const setResponseCache = async (id: string, data: any, exprTimestamp: num
 }
 
 export const getResponseCache = async <T = null>(id: string): Promise<T> => {
-  const result = await chrome.storage.local.get('requestCache')
+  const result = await chrome.storage.local.get("requestCache")
   const { requestCache = {} } = result
   const cache = requestCache[id]
   const now = Date.now()
@@ -83,7 +97,7 @@ export const saveTabsTree = async (tab: chrome.tabs.Tab) => {
   const result = await chrome.storage.local.get(EStorageKey.tabsTree)
   const { tabsTree = {} } = result
   tabsTree[openerTabId] = {
-    children: tabsTree[openerTabId]?.children || [],
+    children: tabsTree[openerTabId]?.children || []
   }
   if (!tabsTree[openerTabId].children.includes(id)) {
     tabsTree[openerTabId].children.push(id)
@@ -118,7 +132,7 @@ export const addNote = () => {
 // save note list into storage
 export const saveNote = async (note: INote) => {
   const noteList = await getNoteListFromStorage()
-  let oldIdx = noteList.length;
+  let oldIdx = noteList.length
   const isExist = noteList.some((_note, idx) => {
     if (note.id === _note.id) {
       oldIdx = idx
@@ -149,7 +163,7 @@ export const getSyncBookmarks = async () => {
 
 // remove sync bookmarks
 export const removeSyncBookmarks = async (id: string) => {
-  console.log('remove id:', id)
+  console.log("remove id:", id)
   const bookmarks = await getSyncBookmarks()
   const newBookmarks = bookmarks.filter((i) => i.id !== id)
   chrome.storage.sync.set({
@@ -158,7 +172,11 @@ export const removeSyncBookmarks = async (id: string) => {
 }
 
 // add sync bookmarks
-export const addSyncBookmarks = async (bookmark: { url: string, id: string, title: string }) => {
+export const addSyncBookmarks = async (bookmark: {
+  url: string
+  id: string
+  title: string
+}) => {
   const bookmarks = await getSyncBookmarks()
   bookmarks.push(bookmark as any)
   chrome.storage.sync.set({
@@ -176,7 +194,9 @@ export const getReadItLaterList = async () => {
 // remove read it later list
 export const removeReadItLaterList = async (id: string) => {
   const readItLaterList = await getReadItLaterList()
-  const newReadItLaterList = readItLaterList.filter((i) => i.id.toString() !== id.toString())
+  const newReadItLaterList = readItLaterList.filter(
+    (i) => i.id.toString() !== id.toString()
+  )
   chrome.storage.local.set({
     [EStorageKey.readItLaterList]: newReadItLaterList
   })
@@ -186,7 +206,9 @@ export const removeReadItLaterList = async (id: string) => {
 export const addReadItLaterList = async (bookmark: IReadItLaterItem) => {
   const readItLaterList = await getReadItLaterList()
   // check is exist
-  const isExist = readItLaterList.some((i) => i.id.toString() === bookmark.id.toString() || i.url === bookmark.url)
+  const isExist = readItLaterList.some(
+    (i) => i.id.toString() === bookmark.id.toString() || i.url === bookmark.url
+  )
   if (isExist) {
     // update
     const newReadItLaterList = readItLaterList.map((i) => {
@@ -203,4 +225,38 @@ export const addReadItLaterList = async (bookmark: IReadItLaterItem) => {
   chrome.storage.local.set({
     [EStorageKey.readItLaterList]: readItLaterList
   })
+}
+
+// config local aside setting
+export const setConfigLocalAsideSetting = async (
+  key: string,
+  value: IAsideSettingConfig
+) => {
+  chrome.storage.local.set({
+    [EStorageKey.asideSettingConfig]: {
+      ...value
+    }
+  })
+}
+
+// get local aside setting
+export const getConfigLocalAsideSetting = async () => {
+  const result = await chrome.storage.local.get(EStorageKey.asideSettingConfig)
+  const {
+    asideSettingConfig = {
+      bookmark: {
+        iconSize: 24
+      },
+      shortcut: {
+        showWallpaperMarket: "Alt+.",
+        showBookmark: "Alt+,",
+        selectPrevWallpaper: "Alt+[",
+        selectNextWallpaper: "Alt+]",
+        showSearchComponent: "Alt+/",
+        showTabTree: "Ctrl+Alt+N",
+        fullScreen: "Alt+Enter"
+      }
+    }
+  } = result
+  return asideSettingConfig as IAsideSettingConfig
 }

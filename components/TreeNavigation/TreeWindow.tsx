@@ -47,11 +47,13 @@ export default function TreeWindow({
           }
         })
         setWindows(_windows)
+        console.log("windows:", _windows)
       } catch (error) {
         console.log("init tabs fail: ", error)
       }
     }
     init()
+
     if (mode === "newtab") {
       chrome.storage.onChanged.addListener((changes, namespace) => {
         // console.log(changes, namespace)
@@ -62,7 +64,7 @@ export default function TreeWindow({
           init()
         }
       })
-      timer.current = setInterval(init, 1000)
+      // timer.current = setInterval(init, 1000)
     }
     return () => {
       clearInterval(timer.current)

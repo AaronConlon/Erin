@@ -1,4 +1,4 @@
-import * as ContextMenu from "@radix-ui/react-context-menu";
+import * as ContextMenu from "@radix-ui/react-context-menu"
 import {
   CheckIcon,
   ChevronRightIcon,
@@ -8,10 +8,18 @@ import hotkeys from "hotkeys-js"
 import { useAtom } from "jotai"
 import React, { ReactNode, useEffect } from "react"
 
-import { currentWallpaperStore, settingConfigStore } from "~store"
-import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode } from "~types"
+import {
+  currentWallpaperStore,
+  settingConfigStore,
+  showAsideSettingStore
+} from "~store"
+import {
+  DEFAULT_BING_WALLPAPER_DOMAIN,
+  ENewtabMode,
+  IAsideSettingConfig
+} from "~types"
 import { generateId, showErrorToast, showSuccessToast } from "~utils/browser"
-import { addNote } from "~utils/storage"
+import { addNote, getConfigLocalAsideSetting } from "~utils/storage"
 import {
   getWallpaperBase64FromUrl,
   onDownloadCurrentWallpaper,
@@ -23,9 +31,10 @@ import {
 const SettingContainer = ({ children }: { children: ReactNode }) => {
   const [settingConfig, setSettingConfig] = useAtom(settingConfigStore)
   const [, setCurrentWallpaperBase64] = useAtom(currentWallpaperStore)
-  const [systemShortcut, setSystemShortcut] = React.useState({ fullscreen: "" })
   const [isFullScreen, setIsFullScreen] = React.useState(false)
-  const [mainKey, setMainKey] = React.useState("win")
+  const [, setShowAsideSetting] = useAtom(showAsideSettingStore)
+  const [asideShortcut, setAsideShortcut] =
+    React.useState<IAsideSettingConfig["shortcut"]>()
 
   const commandLogic = async (isPrev = true) => {
     try {
@@ -137,53 +146,46 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
   }
 
   useEffect(() => {
-    // get system shortcut
-    // get system os
-    const os = navigator.platform
-    const isMacOs = os.includes("Mac")
-    setMainKey(isMacOs ? "⌘" : "Alt")
-    if (isMacOs) {
-      setSystemShortcut({
-        fullscreen: "Ctrl+⌘+F"
-      })
-    } else {
-      setSystemShortcut({
-        fullscreen: "F11"
-      })
-    }
-    // bind hotkeys
-    if (isMacOs) {
-      hotkeys("command+[", onPrevWallpaper)
-      hotkeys("command+]", onNextWallpaper)
-      hotkeys("command+.", onOpenWallpaperMarket)
-      hotkeys("command+B", onSwitchIsShowBookmark)
-      hotkeys("command+K", onSwitchIsShowSearchBar)
-      hotkeys("Ctrl+command+N", onSwitchIsShowTreeNav)
-    } else {
-      hotkeys("cmd+[", onPrevWallpaper)
-      hotkeys("cmd+]", onNextWallpaper)
-      hotkeys("cmd+.", onOpenWallpaperMarket)
-      hotkeys("cmd+B", onSwitchIsShowBookmark)
-      hotkeys("cmd+K", onSwitchIsShowSearchBar)
-      hotkeys("cmd+Shift+N", onSwitchIsShowTreeNav)
+    let shortcutRecord: IAsideSettingConfig["shortcut"]
+
+    const getShortcutAndInitialLogic = async () => {
+      const config = await getConfigLocalAsideSetting()
+      const { shortcut } = config
+      const {
+        selectNextWallpaper,
+        selectPrevWallpaper,
+        showSearchComponent,
+        showTabTree,
+        fullScreen
+      } = shortcut
+      shortcutRecord = shortcut
+      setAsideShortcut(shortcut)
+      // bind hotkeys
+      hotkeys(selectPrevWallpaper, onPrevWallpaper)
+      hotkeys(selectNextWallpaper, onNextWallpaper)
+      hotkeys(shortcut.showWallpaperMarket, onOpenWallpaperMarket)
+      hotkeys(shortcut.showBookmark, onSwitchIsShowBookmark)
+      hotkeys(showSearchComponent, onSwitchIsShowSearchBar)
+      hotkeys(showTabTree, onSwitchIsShowTreeNav)
     }
 
+    getShortcutAndInitialLogic()
+
     return () => {
-      if (isMacOs) {
-        hotkeys.unbind("command+[")
-        hotkeys.unbind("command+]")
-        hotkeys.unbind("command+.")
-        hotkeys.unbind("command+B")
-        hotkeys.unbind("command+K")
-        hotkeys.unbind("Ctrl+command+N")
-      } else {
-        hotkeys.unbind("cmd+[")
-        hotkeys.unbind("cmd+]")
-        hotkeys.unbind("cmd+.")
-        hotkeys.unbind("cmd+B")
-        hotkeys.unbind("cmd+K")
-        hotkeys.unbind("cmd+Shift+N")
-      }
+      const {
+        showBookmark,
+        showWallpaperMarket,
+        selectNextWallpaper,
+        selectPrevWallpaper,
+        showSearchComponent,
+        showTabTree
+      } = shortcutRecord
+      hotkeys.unbind(selectNextWallpaper)
+      hotkeys.unbind(selectPrevWallpaper)
+      hotkeys.unbind(showWallpaperMarket)
+      hotkeys.unbind(showBookmark)
+      hotkeys.unbind(showSearchComponent)
+      hotkeys.unbind(showTabTree)
     }
   }, [])
 
@@ -198,7 +200,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             className="ContextMenuItem"
             onClick={toggleFullScreen}>
             {isFullScreen ? "取消" : ""}全屏{" "}
-            <div className="RightSlot">{systemShortcut.fullscreen}</div>
+            <div className="RightSlot">{asideShortcut?.fullScreen}</div>
           </ContextMenu.Item>
 
           <ContextMenu.Separator className="ContextMenuSeparator" />
@@ -217,7 +219,8 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
               <CheckIcon />
             </ContextMenu.ItemIndicator>
-            树形导航 <div className="RightSlot">Ctrl+{mainKey}+N</div>
+            树形导航{" "}
+            <div className="RightSlot">{asideShortcut?.showTabTree}</div>
           </ContextMenu.CheckboxItem>
 
           <ContextMenu.Separator className="ContextMenuSeparator" />
@@ -266,12 +269,18 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={onPrevWallpaper as any}>
-                  上一张 <div className="RightSlot">{mainKey}+[</div>
+                  上一张{" "}
+                  <div className="RightSlot">
+                    {asideShortcut?.selectPrevWallpaper}
+                  </div>
                 </ContextMenu.Item>
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={onPrevWallpaper as any}>
-                  下一张 <div className="RightSlot">{mainKey}+]</div>
+                  下一张{" "}
+                  <div className="RightSlot">
+                    {asideShortcut?.selectNextWallpaper}
+                  </div>
                 </ContextMenu.Item>
                 <ContextMenu.Item
                   className="ContextMenuItem"
@@ -288,7 +297,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={onOpenWallpaperMarket as any}>
-                  所有壁纸 <div className="RightSlot">{mainKey}+.</div>
+                  所有壁纸 <div className="RightSlot">Alt+.</div>
                 </ContextMenu.Item>
                 <ContextMenu.Separator className="ContextMenuSeparator" />
                 <ContextMenu.Label className="ContextMenuLabel">
@@ -304,7 +313,10 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
                     <CheckIcon />
                   </ContextMenu.ItemIndicator>
-                  搜索框 <div className="RightSlot">{mainKey}+K</div>
+                  搜索框{" "}
+                  <div className="RightSlot">
+                    {asideShortcut?.showSearchComponent}
+                  </div>
                 </ContextMenu.CheckboxItem>
               </ContextMenu.SubContent>
             </ContextMenu.Portal>
@@ -325,7 +337,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
               <CheckIcon />
             </ContextMenu.ItemIndicator>
-            书签 <div className="RightSlot">{mainKey}+B</div>
+            书签 <div className="RightSlot">{asideShortcut?.showBookmark}</div>
           </ContextMenu.CheckboxItem>
           <ContextMenu.CheckboxItem
             className="ContextMenuCheckboxItem"
@@ -350,6 +362,14 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             </ContextMenu.ItemIndicator>
             显示时间
           </ContextMenu.CheckboxItem>
+          <ContextMenu.Separator className="ContextMenuSeparator" />
+
+          <ContextMenu.Item
+            className="ContextMenuItem"
+            onClick={() => setShowAsideSetting(true)}>
+            设置
+            <div className="RightSlot">⚙</div>
+          </ContextMenu.Item>
         </ContextMenu.Content>
       </ContextMenu.Portal>
     </ContextMenu.Root>

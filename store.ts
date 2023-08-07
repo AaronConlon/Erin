@@ -27,3 +27,5 @@ export const ReadItLaterStore = atom([] as IReadItLaterItem[])
 export const syncBookmarksStore = atom(
   [] as chrome.bookmarks.BookmarkTreeNode[]
 )
+
+export const showAsideSettingStore = atom(false)

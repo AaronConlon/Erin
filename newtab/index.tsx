@@ -2,6 +2,7 @@ import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
 import { Toaster } from "react-hot-toast"
 
+import AsideSetting from "~components/AsideSetting"
 import Clock from "~components/Clock"
 import Note from "~components/Note"
 import Setting from "~components/Setting"
@@ -52,6 +53,7 @@ function Newtab() {
       <Toaster />
       {setting.mode === ENewtabMode.wallpaper && <Wallpaper />}
       {setting.mode === ENewtabMode.note && <Note />}
+      <AsideSetting />
       <Clock />
     </Setting>
   )
