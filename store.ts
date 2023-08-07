@@ -1,5 +1,11 @@
-import { ENewtabMode, ESearchEngine, IReadItLaterItem, type ISettingConfig } from "~types"
 import { atom } from "jotai"
+
+import {
+  ENewtabMode,
+  ESearchEngine,
+  IReadItLaterItem,
+  ISettingConfig
+} from "~types"
 
 export const DEFAULT_SETTING = {
   mode: ENewtabMode.wallpaper,
@@ -15,8 +21,9 @@ export const DEFAULT_SETTING = {
 
 export const settingConfigStore = atom(DEFAULT_SETTING)
 
-export const currentWallpaperStore = atom('')
-export const isLoadingWallpaperStore = atom(false)
+export const currentWallpaperStore = atom("")
 export const ReadItLaterStore = atom([] as IReadItLaterItem[])
 
-export const syncBookmarksStore = atom([] as chrome.bookmarks.BookmarkTreeNode[])
+export const syncBookmarksStore = atom(
+  [] as chrome.bookmarks.BookmarkTreeNode[]
+)

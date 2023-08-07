@@ -1,26 +1,22 @@
+import clsx from "clsx"
+import { useAtom } from "jotai"
+import { useEffect, useRef, useState } from "react"
+import { CiMaximize2 } from "react-icons/ci"
 import { FcLike, FcLikePlaceholder } from "react-icons/fc"
-import {
-  currentWallpaperStore,
-  isLoadingWallpaperStore,
-  settingConfigStore
-} from "~store"
+import { FiDownload } from "react-icons/fi"
+import { MdUnfoldMore } from "react-icons/md"
+
+import FullscreenFilterContainer from "~components/FullscreenFilterContainer"
+import useImageList from "~hooks/useImageList"
+import { currentWallpaperStore, settingConfigStore } from "~store"
+import { showPromiseToast, showSuccessToast } from "~utils/browser"
+import { getBingWeeklyImages } from "~utils/request"
 import {
   generatePreviewWallpaperUrl,
   onDownloadBingWallpaperByUrlbase,
   onReverseLikeWallpaperByUrlbase,
   onSetUrlbaseToCurrentWallpaper
 } from "~utils/wallpaper"
-import { useEffect, useRef, useState } from "react"
-
-import { CiMaximize2 } from "react-icons/ci"
-import { EZIndexRecord } from "~types"
-import { FiDownload } from "react-icons/fi"
-import FullscreenFilterContainer from "~components/FullscreenFilterContainer"
-import { MdUnfoldMore } from "react-icons/md"
-import clsx from "clsx"
-import { getBingWeeklyImages } from "~utils/request"
-import { useAtom } from "jotai"
-import useImageList from "~hooks/useImageList"
 
 export default function () {
   const {
@@ -35,7 +31,6 @@ export default function () {
     onSwitchType
   } = useImageList()
   const [, setSetting] = useAtom(settingConfigStore)
-  const [isLoading, setLoading] = useAtom(isLoadingWallpaperStore)
   const [, setCurrentWallpaperBase64] = useAtom(currentWallpaperStore)
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -66,15 +61,14 @@ export default function () {
   }
 
   const onSetTargetWallpaper = async (urlbase: string) => {
-    if (isLoading) return
-    try {
-      setLoading((v) => !v)
-      await onSetUrlbaseToCurrentWallpaper(urlbase, setCurrentWallpaperBase64)
-    } catch (error) {
-      console.log("set target wallpaper failed. urlbase:", urlbase)
-    } finally {
-      setLoading((v) => !v)
-    }
+    showPromiseToast({
+      promiseValue: onSetUrlbaseToCurrentWallpaper(
+        urlbase,
+        setCurrentWallpaperBase64
+      ),
+      success: "设置壁纸成功",
+      error: "设置壁纸失败"
+    })
   }
 
   useEffect(() => {

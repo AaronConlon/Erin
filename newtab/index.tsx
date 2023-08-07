@@ -1,18 +1,19 @@
-import "../animation.css"
-import "../markdown.css"
-import "../radix.css"
-import "../style.css"
-
-import { ENewtabMode, EStorageKey, ISettingConfig } from "~types"
-import { currentWallpaperStore, settingConfigStore } from "~store"
+import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
+import { Toaster } from "react-hot-toast"
 
 import Clock from "~components/Clock"
 import Note from "~components/Note"
 import Setting from "~components/Setting"
 import Wallpaper from "~components/Wallpaper"
+import { currentWallpaperStore, settingConfigStore } from "~store"
+import { ENewtabMode, EStorageKey, ISettingConfig } from "~types"
 import { onGetCurrentWallpaper } from "~utils/wallpaper"
-import { useAtom } from "jotai"
+
+import "../animation.css"
+import "../markdown.css"
+import "../radix.css"
+import "../style.css"
 
 function Newtab() {
   const [setting, setSetting] = useAtom(settingConfigStore)
@@ -48,6 +49,7 @@ function Newtab() {
   if (hadInit === false) return null
   return (
     <Setting>
+      <Toaster />
       {setting.mode === ENewtabMode.wallpaper && <Wallpaper />}
       {setting.mode === ENewtabMode.note && <Note />}
       <Clock />

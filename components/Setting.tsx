@@ -1,17 +1,17 @@
-import * as ContextMenu from "@radix-ui/react-context-menu"
-
+import * as ContextMenu from "@radix-ui/react-context-menu";
 import {
   CheckIcon,
   ChevronRightIcon,
   DotFilledIcon
 } from "@radix-ui/react-icons"
-import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode } from "~types"
+import hotkeys from "hotkeys-js"
+import { useAtom } from "jotai"
 import React, { ReactNode, useEffect } from "react"
-import {
-  currentWallpaperStore,
-  isLoadingWallpaperStore,
-  settingConfigStore
-} from "~store"
+
+import { currentWallpaperStore, settingConfigStore } from "~store"
+import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode } from "~types"
+import { generateId, showErrorToast, showSuccessToast } from "~utils/browser"
+import { addNote } from "~utils/storage"
 import {
   getWallpaperBase64FromUrl,
   onDownloadCurrentWallpaper,
@@ -20,23 +20,15 @@ import {
   onSetCustomWallpaperToStorage
 } from "~utils/wallpaper"
 
-import { addNote } from "~utils/storage"
-import { generateId } from "~utils/browser"
-import hotkeys from "hotkeys-js"
-import { useAtom } from "jotai"
-
 const SettingContainer = ({ children }: { children: ReactNode }) => {
   const [settingConfig, setSettingConfig] = useAtom(settingConfigStore)
   const [, setCurrentWallpaperBase64] = useAtom(currentWallpaperStore)
   const [systemShortcut, setSystemShortcut] = React.useState({ fullscreen: "" })
   const [isFullScreen, setIsFullScreen] = React.useState(false)
-  const [isLoading, setIsLoading] = useAtom(isLoadingWallpaperStore)
   const [mainKey, setMainKey] = React.useState("win")
 
   const commandLogic = async (isPrev = true) => {
-    if (isLoading) return
     try {
-      setIsLoading(true)
       const { url, base64: _base64 } = await onGetCurrentWallpaper()
       const { urlbase } = await onGetPrevOrNextWallpaper(url, isPrev)
       let base64 = ""
@@ -47,12 +39,11 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
           `${DEFAULT_BING_WALLPAPER_DOMAIN}${urlbase}_UHD.jpg`
         )
       }
-
       setCurrentWallpaperBase64(base64)
+      showSuccessToast("切换壁纸成功")
     } catch (error) {
+      showErrorToast("切换壁纸失败")
       console.log("get prev or next wallpaper failed. isPrev:", isPrev)
-    } finally {
-      setIsLoading(false)
     }
   }
 

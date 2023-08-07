@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react"
 
-import { EStorageKey, type IWeekImage } from "~types";
-import { onGetCurrentWallpaper } from "~utils/wallpaper";
+import { EStorageKey, IWeekImage } from "~types"
+import { onGetCurrentWallpaper } from "~utils/wallpaper"
 
 export default function useImageList() {
   const imgList = useRef([] as IWeekImage[])
@@ -12,15 +12,19 @@ export default function useImageList() {
   const [hadMoreWallpaper, setHadMoreWallpaper] = useState(true)
   const likeList = useRef([] as string[])
   const loadMore = useCallback(() => {
-    const targetList = imgList.current.filter(item => {
-      if (type === 'all') return true
+    const targetList = imgList.current.filter((item) => {
+      if (type === "all") return true
       return likeList.current.includes(item.urlbase)
     })
     if (limit.current < targetList.length) {
       limit.current += RANGE
       // console.log(limit.current + RANGE < targetList.length)
       setHadMoreWallpaper(limit.current + RANGE < targetList.length)
-      setWallpaperList(targetList.slice(0, limit.current))
+      setWallpaperList(
+        targetList
+          .sort((a, b) => +b.startdate - +a.startdate)
+          .slice(0, limit.current)
+      )
     } else {
       // console.log('no more')
       setHadMoreWallpaper(false)
@@ -36,11 +40,10 @@ export default function useImageList() {
     })
   }
 
-
-  const onSwitchType = (newType: 'all' | 'like') => {
+  const onSwitchType = (newType: "all" | "like") => {
     setType(newType)
-    const filterList = imgList.current.filter(item => {
-      if (newType === 'all') return true
+    const filterList = imgList.current.filter((item) => {
+      if (newType === "all") return true
       return likeList.current.includes(item.urlbase)
     })
     limit.current = RANGE
@@ -53,21 +56,29 @@ export default function useImageList() {
     const init = async () => {
       const result = await chrome.storage.local.get(EStorageKey.imageList)
       const { url } = await onGetCurrentWallpaper()
-      const imageListData = (result[EStorageKey.imageList] as IWeekImage[]).filter(item => !url.includes(item.urlbase))
-      imgList.current = imageListData
+      const imageListData = (
+        result[EStorageKey.imageList] as IWeekImage[]
+      ).filter((item) => !url.includes(item.urlbase))
+      imgList.current = imageListData.sort((a, b) => +b.enddate - +a.enddate)
       setWallpaperList(imageListData.slice(0, limit.current))
       const syncResult = await chrome.storage.sync.get(EStorageKey.likeList)
       const _likeList = (syncResult[EStorageKey.likeList] ?? []) as string[]
+      console.log("img list:", imageListData)
       setLikeList(_likeList)
       setHadMoreWallpaper(limit.current < imageListData.length)
     }
     init()
   }, [])
 
-
   return {
-    loadMore, wallpaperList, hadMoreWallpaper, setWallpaperList, likeList, setLikeList,
+    loadMore,
+    wallpaperList,
+    hadMoreWallpaper,
+    setWallpaperList,
+    likeList,
+    setLikeList,
     updateLikeList,
-    type, onSwitchType
+    type,
+    onSwitchType
   }
 }

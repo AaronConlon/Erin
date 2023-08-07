@@ -1,11 +1,13 @@
-import { ENavTreeMode } from "~types"
-import FullscreenFilterContainer from "~components/FullscreenFilterContainer"
-import React from "react"
-import TreeWindow from "./TreeWindow"
 import clsx from "clsx"
-import { settingConfigStore } from "~store"
 import { useAtom } from "jotai"
+import React from "react"
 import { useState } from "react"
+
+import FullscreenFilterContainer from "~components/FullscreenFilterContainer"
+import { settingConfigStore } from "~store"
+import { ENavTreeMode } from "~types"
+
+import TreeWindow from "./TreeWindow"
 
 export default function ({
   mode = ENavTreeMode.newtab,
@@ -50,7 +52,6 @@ export default function ({
               onClick={() => {
                 setOffset(1)
                 setTimeout(() => {
-                  // console.log("update show browser tree nav")
                   setSetting((v) => ({ ...v, showBrowserTreeNav: false }))
                   onClose?.()
                 }, 400)

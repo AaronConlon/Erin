@@ -1,33 +1,43 @@
-import { blobToBase64, getWallpaperBase64FromUrl } from "./wallpaper"
+import { ReactNode } from "react"
+import toast from "react-hot-toast"
 
-import { ESearchEngine } from "~types"
 import { sendToBackground } from "@plasmohq/messaging"
 
-export const onStopPaClickPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+import { ESearchEngine } from "~types"
+
+import { blobToBase64 } from "./wallpaper"
+
+export const onStopPaClickPropagation = (
+  e: React.MouseEvent<HTMLDivElement, MouseEvent>
+) => {
   e.stopPropagation()
   e.preventDefault()
 }
 
-export const onOpenQueryAtNewTab = (value: string, searchEngine: ESearchEngine) => {
+export const onOpenQueryAtNewTab = (
+  value: string,
+  searchEngine: ESearchEngine
+) => {
   const searchMap = {
     [ESearchEngine.google]: `https://www.google.com/search?q=${value}`,
     [ESearchEngine.baidu]: `https://www.baidu.com/s?wd=${value}`,
     [ESearchEngine.bing]: `https://cn.bing.com/search?q=${value}`,
     [ESearchEngine.youtube]: `https://www.youtube.com/results?search_query=${value}`,
     [ESearchEngine.github]: `https://github.com/search?q=${value}&type=repositories`
-    
   }
-  window.open(searchMap[searchEngine], '_blank')
+  window.open(searchMap[searchEngine], "_blank")
 }
 
 // tabs array include all tabs in all windows, so we need to resolve a tree structure from it, and return a tree structure.
 // Each children tab will has a openerTabId attribute, which is the parent tab id.
 // be careful, children tab may be a root tab, so we need to filter them out.
 export const resolveTabsTree = (tabs: chrome.tabs.Tab[]) => {
-  const rootTabs = tabs.filter(tab => !tab.openerTabId)
-  const childrenTabs = tabs.filter(tab => tab.openerTabId)
+  const rootTabs = tabs.filter((tab) => !tab.openerTabId)
+  const childrenTabs = tabs.filter((tab) => tab.openerTabId)
   const resolve = (tab: chrome.tabs.Tab) => {
-    const children = childrenTabs.filter(child => child.openerTabId === tab.id)
+    const children = childrenTabs.filter(
+      (child) => child.openerTabId === tab.id
+    )
     return {
       ...tab,
       children: children.map(resolve)
@@ -40,7 +50,7 @@ export const resolveTabsTree = (tabs: chrome.tabs.Tab[]) => {
 export const openTab = (tab: chrome.tabs.Tab) => {
   const { id, windowId, index } = tab
   sendToBackground({
-    name: 'highlight',
+    name: "highlight",
     body: {
       windowId,
       id,
@@ -52,7 +62,7 @@ export const openTab = (tab: chrome.tabs.Tab) => {
 // close target tab by tabId
 export const closeTab = (tab: chrome.tabs.Tab) => {
   sendToBackground({
-    name: 'closeTab',
+    name: "closeTab",
     body: {
       tab
     }
@@ -63,15 +73,14 @@ export const closeTab = (tab: chrome.tabs.Tab) => {
 export const getImageHost = (url: string, backup: string) => {
   try {
     return new URL(url).host
-
   } catch (error) {
     return backup
   }
 }
 
-// get url base64 in browser 
+// get url base64 in browser
 export const onGetUrlBase64InBrowser = async (url: string, backup?: string) => {
-  if (!url || !url?.startsWith('http')) {
+  if (!url || !url?.startsWith("http")) {
     throw Error()
   }
   const res = await fetch(url)
@@ -82,7 +91,7 @@ export const onGetUrlBase64InBrowser = async (url: string, backup?: string) => {
 
 // generate a random id
 export const generateId = () => {
-  let result = ''
+  let result = ""
   for (let index = 0; index < 8; index++) {
     const randomValue = Math.random() * 9
     result += `${~~randomValue}`
@@ -92,5 +101,33 @@ export const generateId = () => {
 
 // open new tab by url
 export const openNewTab = (url: string) => {
-  window.open(url, '_blank')
+  window.open(url, "_blank")
+}
+
+// show success toast
+export const showSuccessToast = (message: string) => {
+  toast.success(message, {
+    duration: 2000
+  })
+}
+
+// show error toast
+export const showErrorToast = (message: string) => {
+  toast.error(message, {
+    duration: 2000
+  })
+}
+
+// show loading toast
+export const showPromiseToast = (options: {
+  promiseValue: Promise<unknown>
+  success?: string
+  error?: string
+}) => {
+  const { promiseValue, success, error } = options
+  toast.promise(promiseValue, {
+    loading: "Loading...",
+    success: success || "Success!",
+    error: error || "Error!"
+  })
 }
