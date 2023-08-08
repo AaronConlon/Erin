@@ -1,17 +1,18 @@
-import { AiOutlineEnter, AiOutlinePlus } from "react-icons/ai"
-import { FC, useState } from "react"
-import {
-  generateId,
-  onStopPaClickPropagation,
-  openNewTab
-} from "~utils/browser"
+import { useAtom } from "jotai";
+import { FC, useState } from "react";
+import { AiOutlineEnter, AiOutlinePlus } from "react-icons/ai";
+import { CiMap } from "react-icons/ci";
+
+
+
+import { syncBookmarksStore } from "~store";
+import { EZIndexRecord } from "~types";
+import { generateId, onStopPaClickPropagation, openNewTab } from "~utils/browser";
+import { addSyncBookmarks } from "~utils/storage";
+
+
 
 import BookmarkFavicon from "./BookmarkFavicon"
-import { CiMap } from "react-icons/ci"
-import { EZIndexRecord } from "~types"
-import { addSyncBookmarks } from "~utils/storage"
-import { syncBookmarksStore } from "~store"
-import { useAtom } from "jotai"
 
 interface ISearchItemsProps {
   data: chrome.bookmarks.BookmarkTreeNode[]
@@ -33,9 +34,8 @@ const SearchItemsContainer: FC<ISearchItemsProps> = ({ data }) => {
   return (
     <div
       data-white
-      style={{zIndex: EZIndexRecord.bookmarks}}
+      style={{ zIndex: EZIndexRecord.bookmarks }}
       className="flex flex-col-reverse gap-2 p-1 max-h-[40vh] overflow-y-auto">
-
       {data.length === 0 ? (
         <div className="min-h-[100px] text-lg flex items-center justify-center gap-4">
           <CiMap />
@@ -158,8 +158,10 @@ export default function ({ onCloseBox }: { onCloseBox: () => void }) {
 
   return (
     <div
-      style={{zIndex: EZIndexRecord.bookmarks}}
-      className="slideFromTop fixed bottom-[40vh] left-0 right-0 mx-auto w-[600px] bg-gray-50 p-2 rounded-md flex flex-col-reverse gap-4 custom-shadow"
+      style={{
+        zIndex: EZIndexRecord.bookmarks
+      }}
+      className="slideFromTop fixed bottom-[40vh] left-0 right-0 mx-auto w-[600px] bg-gray-50 p-2 rounded-md flex flex-col-reverse gap-4 custom-shadow transform transition-all origin-center"
       onClick={onStopPaClickPropagation}
       onContextMenu={onStopPaClickPropagation}>
       <div className="flex items-center bg-white">

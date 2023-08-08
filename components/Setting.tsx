@@ -1,4 +1,4 @@
-import * as ContextMenu from "@radix-ui/react-context-menu"
+import * as ContextMenu from "@radix-ui/react-context-menu";
 import {
   CheckIcon,
   ChevronRightIcon,
@@ -31,7 +31,6 @@ import {
 const SettingContainer = ({ children }: { children: ReactNode }) => {
   const [settingConfig, setSettingConfig] = useAtom(settingConfigStore)
   const [, setCurrentWallpaperBase64] = useAtom(currentWallpaperStore)
-  const [isFullScreen, setIsFullScreen] = React.useState(false)
   const [, setShowAsideSetting] = useAtom(showAsideSettingStore)
   const [asideShortcut, setAsideShortcut] =
     React.useState<IAsideSettingConfig["shortcut"]>()
@@ -104,10 +103,8 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
   function toggleFullScreen() {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen()
-      setIsFullScreen(true)
     } else if (document.exitFullscreen) {
       document.exitFullscreen()
-      setIsFullScreen(false)
     }
   }
 
@@ -199,8 +196,8 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
           <ContextMenu.Item
             className="ContextMenuItem"
             onClick={toggleFullScreen}>
-            {isFullScreen ? "取消" : ""}全屏{" "}
-            <div className="RightSlot">{asideShortcut?.fullScreen}</div>
+            全屏
+            <div className="RightSlot">🖥</div>
           </ContextMenu.Item>
 
           <ContextMenu.Separator className="ContextMenuSeparator" />

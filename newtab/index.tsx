@@ -1,3 +1,8 @@
+import "../animation.css"
+import "../markdown.css"
+import "../radix.css"
+import "../style.css"
+
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
 import { Toaster } from "react-hot-toast"
@@ -7,22 +12,26 @@ import Clock from "~components/Clock"
 import Note from "~components/Note"
 import Setting from "~components/Setting"
 import Wallpaper from "~components/Wallpaper"
-import { currentWallpaperStore, settingConfigStore } from "~store"
+import {
+  asideSettingConfigStore,
+  currentWallpaperStore,
+  settingConfigStore
+} from "~store"
 import { ENewtabMode, EStorageKey, ISettingConfig } from "~types"
+import { getConfigLocalAsideSetting } from "~utils/storage"
 import { onGetCurrentWallpaper } from "~utils/wallpaper"
-
-import "../animation.css"
-import "../markdown.css"
-import "../radix.css"
-import "../style.css"
 
 function Newtab() {
   const [setting, setSetting] = useAtom(settingConfigStore)
   const [hadInit, setHadInit] = useState(false)
   const [, setCurrentWallpaperBase64] = useAtom(currentWallpaperStore)
+  const [, setAdeSettingConfig] = useAtom(asideSettingConfigStore)
+
   useEffect(() => {
     if (hadInit === false) {
-      setHadInit(true)
+      getConfigLocalAsideSetting().then((config) => {
+        setAdeSettingConfig(config)
+      })
       // init base64 store
       onGetCurrentWallpaper().then((data) => {
         const { base64 } = data
@@ -40,6 +49,9 @@ function Newtab() {
           ...settingConfig,
           showWallpaperMarket: false
         })
+      })
+      setTimeout(() => {
+        setHadInit(true)
       })
     } else {
       // save setting to chrome storage

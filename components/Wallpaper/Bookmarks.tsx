@@ -1,9 +1,10 @@
-import { syncBookmarksStore } from "~store"
-import { onStopPaClickPropagation, openNewTab } from "~utils/browser"
-import { getSyncBookmarks, removeSyncBookmarks } from "~utils/storage"
 import { useAtom } from "jotai"
 import { DragEvent, FC, useEffect, useState } from "react"
 import { FcFullTrash, FcPlus } from "react-icons/fc"
+
+import { asideSettingConfigStore, syncBookmarksStore } from "~store"
+import { onStopPaClickPropagation, openNewTab } from "~utils/browser"
+import { getSyncBookmarks, removeSyncBookmarks } from "~utils/storage"
 
 import BookmarkFavicon from "./BookmarkFavicon"
 import SearchBookmarks from "./SearchBookmarks"
@@ -91,7 +92,7 @@ const Trash: FC<{ onRemoveBookmark: (url: string) => void }> = ({
 export default function () {
   const [showSearch, setShowSearch] = useState(false)
   const [syncBookmarks, setSyncBookmarks] = useAtom(syncBookmarksStore)
-
+  const [asideSettingConfig] = useAtom(asideSettingConfigStore)
   const [isDragging, setIsDragging] = useState(false)
   const onRemoveBookmark = (url: string) => {
     console.log("remove bookmark...", url)
@@ -132,7 +133,8 @@ export default function () {
       <div
         onContextMenu={onStopPaClickPropagation}
         style={{
-          boxShadow: "0 30px 60px -12px #fdfdfdeb, 0 18px 36px -18px #0000004d"
+          boxShadow: "0 30px 60px -12px #fdfdfdeb, 0 18px 36px -18px #0000004d",
+          scale: `${asideSettingConfig.bookmark.iconSize / 24}`
         }}
         className="flex items-center gap-3 max-w-max min-w-[200px] flex-wrap bg-black bg-opacity-20 min-h-48 p-3 px-4 fixed bottom-2 mx-auto left-0 right-0 rounded-md hover:scale-105 transition-all origin-bottom z-50">
         {syncBookmarks.map((i) => (

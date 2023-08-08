@@ -101,6 +101,7 @@ export enum EMenuItemId {
 
 export enum EZIndexRecord {
   readItLater = 100,
+  searchBar,
   bookmarks,
   wallpaperMarket,
   fullscreenLayout,
@@ -128,6 +129,9 @@ export interface IAsideSettingConfig {
   // basicFontSize: number
   // userInfo: {},
   bookmark: {
+    iconSize: number
+  }
+  searchBar: {
     iconSize: number
   }
   // 快捷键

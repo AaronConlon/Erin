@@ -3,6 +3,7 @@ import { atom } from "jotai"
 import {
   ENewtabMode,
   ESearchEngine,
+  IAsideSettingConfig,
   IReadItLaterItem,
   ISettingConfig
 } from "~types"
@@ -29,3 +30,21 @@ export const syncBookmarksStore = atom(
 )
 
 export const showAsideSettingStore = atom(false)
+export const DEFAULT_ASIDE_SETTING = {
+  bookmark: {
+    iconSize: 24
+  },
+  searchBar: {
+    iconSize: 24
+  },
+  shortcut: {
+    showWallpaperMarket: "Alt+.",
+    showBookmark: "Alt+,",
+    selectPrevWallpaper: "Alt+[",
+    selectNextWallpaper: "Alt+]",
+    showSearchComponent: "Alt+/",
+    showTabTree: "Ctrl+Alt+N"
+  }
+} as IAsideSettingConfig
+
+export const asideSettingConfigStore = atom(DEFAULT_ASIDE_SETTING)

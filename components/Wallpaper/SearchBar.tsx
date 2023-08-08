@@ -1,17 +1,17 @@
-import { useAtom } from "jotai"
 import { ChangeEvent, useState } from "react"
-import { AiOutlineSearch } from "react-icons/ai"
-
-import useBingSearchSuggestion from "~hooks/useBingSearchSuggestion"
-import { settingConfigStore } from "~store"
-import { EZIndexRecord } from "~types"
+import { asideSettingConfigStore, settingConfigStore } from "~store"
 import { onOpenQueryAtNewTab, onStopPaClickPropagation } from "~utils/browser"
 
+import { AiOutlineSearch } from "react-icons/ai"
+import { EZIndexRecord } from "~types"
 import SearchEngineSwitch from "./SearchEngineSwitch"
+import { useAtom } from "jotai"
+import useBingSearchSuggestion from "~hooks/useBingSearchSuggestion"
 
 export default function () {
   const [value, setValue] = useState("")
   const [setting] = useAtom(settingConfigStore)
+  const [asideConfig] = useAtom(asideSettingConfigStore)
   const { query, suggestions } = useBingSearchSuggestion()
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const _value = e.target.value
@@ -25,12 +25,15 @@ export default function () {
     const searchEngine = setting.searchEngine
     onOpenQueryAtNewTab(value.trim(), searchEngine)
   }
-
+  
   return (
     <div
-      style={{ zIndex: EZIndexRecord.searchBar }}
+      style={{
+        zIndex: EZIndexRecord.searchBar,
+        scale: `${asideConfig.searchBar.iconSize / 24}`
+      }}
       onClick={onStopPaClickPropagation}
-      className="rounded-md bg-gray-50 fixed top-[20vh] left-[50%] w-[500px] -translate-x-[50%] transform flex items-center p-2 py-2 gap-2">
+      className="mx-auto left-0 right-0 rounded-md origin-center bg-gray-50 fixed top-[20vh]  w-[500px] transform flex items-center p-2 py-2 gap-2">
       <SearchEngineSwitch />
       <input
         type="text"

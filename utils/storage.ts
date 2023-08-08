@@ -1,5 +1,6 @@
 import { uniqBy } from "lodash-es"
 
+import { DEFAULT_ASIDE_SETTING } from "~store"
 import {
   EStorageKey,
   IAsideSettingConfig,
@@ -229,7 +230,6 @@ export const addReadItLaterList = async (bookmark: IReadItLaterItem) => {
 
 // config local aside setting
 export const setConfigLocalAsideSetting = async (
-  key: string,
   value: IAsideSettingConfig
 ) => {
   chrome.storage.local.set({
@@ -242,21 +242,6 @@ export const setConfigLocalAsideSetting = async (
 // get local aside setting
 export const getConfigLocalAsideSetting = async () => {
   const result = await chrome.storage.local.get(EStorageKey.asideSettingConfig)
-  const {
-    asideSettingConfig = {
-      bookmark: {
-        iconSize: 24
-      },
-      shortcut: {
-        showWallpaperMarket: "Alt+.",
-        showBookmark: "Alt+,",
-        selectPrevWallpaper: "Alt+[",
-        selectNextWallpaper: "Alt+]",
-        showSearchComponent: "Alt+/",
-        showTabTree: "Ctrl+Alt+N",
-        fullScreen: "Alt+Enter"
-      }
-    }
-  } = result
+  const { asideSettingConfig = DEFAULT_ASIDE_SETTING } = result
   return asideSettingConfig as IAsideSettingConfig
 }
