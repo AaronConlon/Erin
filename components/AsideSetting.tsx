@@ -65,60 +65,7 @@ export default function () {
     <FullscreenFilterContainer
       onClickOutside={() => setShowAsideSetting(false)}>
       <div className="absolute top-0 bottom-0 w-[400px] h-screen overflow-y-auto border-l border-gray-400 bg-white text-left flex flex-col gap-2 right-0">
-        <div className="text-[13px] m-4 items-start border border-gray-300 rounded-lg">
-          <div className="flex gap-4 border-b border-gray-200 p-4">
-            <span className="text-blue-500">
-              <FaRegKeyboard size={32} />
-            </span>
-            {/* 快捷键 */}
-            <div>
-              <h3 className="text-[18px] font-bold">快捷键</h3>
-              <p className="opacity-60">使用快捷键自定义操作</p>
-            </div>
-          </div>
-          <div className="p-4 flex gap-4 items-center">
-            <h4>显示搜索框：</h4>
-            <input
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[0]}
-              onKeyDown={(e) => {
-                if (Object.values(showSearchBar).includes(e.key)) {
-                  return
-                }
-                setShowSearchBar((prev) => ({ ...prev, 0: e.key }))
-                e.preventDefault()
-                e.stopPropagation()
-              }}
-            />
-            <input
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[1]}
-              onKeyDown={(e) => {
-                if (Object.values(showSearchBar).includes(e.key)) {
-                  return
-                }
-                setShowSearchBar((prev) => ({ ...prev, 1: e.key }))
-                e.preventDefault()
-                e.stopPropagation()
-              }}
-            />
-            <input
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[2]}
-              onKeyDown={(e) => {
-                if (Object.values(showSearchBar).includes(e.key)) {
-                  return
-                }
-                setShowSearchBar((prev) => ({ ...prev, 2: e.key }))
-                e.preventDefault()
-                e.stopPropagation()
-              }}
-            />
-          </div>
-        </div>
+        {/* size */}
         <div className="text-[13px] m-4 items-start border border-gray-300 rounded-lg">
           <div className="flex gap-4 border-b border-gray-200 p-4">
             <span className="text-blue-500">
@@ -131,7 +78,7 @@ export default function () {
             </div>
           </div>
           <div className="p-4 flex gap-4 items-center">
-            <h4>书签栏大小：</h4>
+            <h4 className="mr-auto">书签栏大小：</h4>
             <input
               className="p-2 py-1 border rounded-md"
               min={20}
@@ -150,7 +97,7 @@ export default function () {
             />
           </div>
           <div className="p-4 flex gap-4 items-center">
-            <h4>搜索框大小：</h4>
+            <h4 className="mr-auto">搜索框大小：</h4>
             <input
               className="p-2 py-1 border rounded-md"
               min={20}
@@ -165,6 +112,245 @@ export default function () {
                     iconSize: Number(e.target.value)
                   }
                 })
+              }}
+            />
+          </div>
+        </div>
+
+        {/* shortcut */}
+        <div className="text-[13px] m-4 items-start border border-gray-300 rounded-lg opacity-30">
+          <div className="flex gap-4 border-b border-gray-200 p-4">
+            <span className="text-blue-500">
+              <FaRegKeyboard size={32} />
+            </span>
+            {/* 快捷键 */}
+            <div>
+              <h3 className="text-[18px] font-bold">快捷键(💪🏻开发中...)</h3>
+              <p className="opacity-60">使用快捷键自定义操作</p>
+            </div>
+          </div>
+          <div className="p-4 flex gap-4 items-center">
+            <h4 className="mr-auto">显示搜索框：</h4>
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[0]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 0: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[1]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 1: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[2]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 2: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+          </div>
+          <div className="p-4 flex gap-4 items-center">
+            <h4 className="mr-auto">显示壁纸列表：</h4>
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[0]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 0: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[1]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 1: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[2]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 2: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+          </div>
+          <div className="p-4 flex gap-4 items-center">
+            <h4 className="mr-auto">显示书签栏：</h4>
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[0]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 0: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[1]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 1: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[2]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 2: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+          </div>
+          <div className="p-4 flex gap-4 items-center">
+            <h4 className="mr-auto">显示标签树状列表：</h4>
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[0]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 0: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[1]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 1: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[2]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 2: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+          </div>
+          <div className="p-4 flex gap-4 items-center">
+            <h4 className="mr-auto">显示稍后阅读：</h4>
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[0]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 0: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[1]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 1: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+            />
+            <input
+              disabled
+              className="p-2 py-1 border rounded-md w-16"
+              type="text"
+              value={showSearchBar[2]}
+              onKeyDown={(e) => {
+                if (Object.values(showSearchBar).includes(e.key)) {
+                  return
+                }
+                setShowSearchBar((prev) => ({ ...prev, 2: e.key }))
+                e.preventDefault()
+                e.stopPropagation()
               }}
             />
           </div>
