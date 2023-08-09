@@ -1,5 +1,6 @@
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
+import { CgSize } from "react-icons/cg"
 import { FaRegKeyboard } from "react-icons/fa"
 
 import { asideSettingConfigStore, showAsideSettingStore } from "~store"
@@ -10,6 +11,8 @@ import {
 } from "~utils/storage"
 
 import FullscreenFilterContainer from "./FullscreenFilterContainer"
+import Shortcut from "./Shortcut"
+import SearchBar from "./Wallpaper/SearchBar"
 
 export default function () {
   const [showAsideSetting, setShowAsideSetting] = useAtom(showAsideSettingStore)
@@ -25,6 +28,11 @@ export default function () {
     2: ""
   })
   const [showNavTreeInNewTab, setShowNavTreeInNewTab] = useState({
+    0: "",
+    1: "",
+    2: ""
+  })
+  const [showBookmark, setShowBookmark] = useState({
     0: "",
     1: "",
     2: ""
@@ -53,13 +61,33 @@ export default function () {
           showSearchComponent
         }
       } = _conf
-      showSearchBar[0] = showSearchComponent.split("+")[0]
-      showSearchBar[1] = showSearchComponent.split("+")[1]
-      showSearchBar[2] = showSearchComponent.split("+")[2]
+
+      setShowSearchBar({
+        0: showSearchComponent.split("+")[0],
+        1: showSearchComponent.split("+")[1],
+        2: showSearchComponent.split("+")[2]
+      })
+      setShowWallpaperMarket({
+        0: showWallpaperMarket.split("+")[0],
+        1: showWallpaperMarket.split("+")[1],
+        2: showWallpaperMarket.split("+")[2]
+      })
+      setShowNavTreeInNewTab({
+        0: showTabTree.split("+")[0],
+        1: showTabTree.split("+")[1],
+        2: showTabTree.split("+")[2]
+      })
+      setShowBookmark({
+        0: showBookmark.split("+")[0],
+        1: showBookmark.split("+")[1],
+        2: showBookmark.split("+")[2]
+      })
     })
   }, [])
 
-  if (!showAsideSetting) return null
+  const isUsedShortcut = (key: string) => {}
+
+  if (showAsideSetting) return null
 
   return (
     <FullscreenFilterContainer
@@ -69,7 +97,7 @@ export default function () {
         <div className="text-[13px] m-4 items-start border border-gray-300 rounded-lg">
           <div className="flex gap-4 border-b border-gray-200 p-4">
             <span className="text-blue-500">
-              <FaRegKeyboard size={32} />
+              <CgSize size={32} />
             </span>
             {/* 快捷键 */}
             <div>
@@ -118,7 +146,7 @@ export default function () {
         </div>
 
         {/* shortcut */}
-        <div className="text-[13px] m-4 items-start border border-gray-300 rounded-lg opacity-30">
+        <div className="text-[13px] m-4 items-start border border-gray-300 rounded-lg">
           <div className="flex gap-4 border-b border-gray-200 p-4">
             <span className="text-blue-500">
               <FaRegKeyboard size={32} />
@@ -131,11 +159,8 @@ export default function () {
           </div>
           <div className="p-4 flex gap-4 items-center">
             <h4 className="mr-auto">显示搜索框：</h4>
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[0]}
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
                 if (Object.values(showSearchBar).includes(e.key)) {
                   return
@@ -143,13 +168,11 @@ export default function () {
                 setShowSearchBar((prev) => ({ ...prev, 0: e.key }))
                 e.preventDefault()
                 e.stopPropagation()
-              }}
-            />
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[1]}
+              }}>
+              {showSearchBar[0]}
+            </span>
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
                 if (Object.values(showSearchBar).includes(e.key)) {
                   return
@@ -157,13 +180,11 @@ export default function () {
                 setShowSearchBar((prev) => ({ ...prev, 1: e.key }))
                 e.preventDefault()
                 e.stopPropagation()
-              }}
-            />
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[2]}
+              }}>
+              {showSearchBar[1]}
+            </span>
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
                 if (Object.values(showSearchBar).includes(e.key)) {
                   return
@@ -171,30 +192,26 @@ export default function () {
                 setShowSearchBar((prev) => ({ ...prev, 2: e.key }))
                 e.preventDefault()
                 e.stopPropagation()
-              }}
-            />
+              }}>
+              {showSearchBar[2]}
+            </span>
           </div>
           <div className="p-4 flex gap-4 items-center">
             <h4 className="mr-auto">显示壁纸列表：</h4>
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[0]}
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
-                if (Object.values(showSearchBar).includes(e.key)) {
+                if (Object.values(showWallpaperMarket).includes(e.key)) {
                   return
                 }
-                setShowSearchBar((prev) => ({ ...prev, 0: e.key }))
+                setShowWallpaperMarket((prev) => ({ ...prev, 0: e.key }))
                 e.preventDefault()
                 e.stopPropagation()
               }}
             />
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[1]}
+            {}
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
                 if (Object.values(showSearchBar).includes(e.key)) {
                   return
@@ -204,11 +221,9 @@ export default function () {
                 e.stopPropagation()
               }}
             />
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[2]}
+            {}
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
                 if (Object.values(showSearchBar).includes(e.key)) {
                   return
@@ -218,14 +233,12 @@ export default function () {
                 e.stopPropagation()
               }}
             />
+            {}
           </div>
           <div className="p-4 flex gap-4 items-center">
             <h4 className="mr-auto">显示书签栏：</h4>
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[0]}
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
                 if (Object.values(showSearchBar).includes(e.key)) {
                   return
@@ -235,11 +248,9 @@ export default function () {
                 e.stopPropagation()
               }}
             />
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[1]}
+            {}
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
                 if (Object.values(showSearchBar).includes(e.key)) {
                   return
@@ -249,11 +260,9 @@ export default function () {
                 e.stopPropagation()
               }}
             />
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[2]}
+            {}
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
                 if (Object.values(showSearchBar).includes(e.key)) {
                   return
@@ -263,14 +272,12 @@ export default function () {
                 e.stopPropagation()
               }}
             />
+            {}
           </div>
           <div className="p-4 flex gap-4 items-center">
             <h4 className="mr-auto">显示标签树状列表：</h4>
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[0]}
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
                 if (Object.values(showSearchBar).includes(e.key)) {
                   return
@@ -280,11 +287,9 @@ export default function () {
                 e.stopPropagation()
               }}
             />
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[1]}
+            {}
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
                 if (Object.values(showSearchBar).includes(e.key)) {
                   return
@@ -294,11 +299,9 @@ export default function () {
                 e.stopPropagation()
               }}
             />
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[2]}
+            {}
+            <span
+              className="p-2 py-1 border rounded-md w-16 text-center min-h-[28.5px]"
               onKeyDown={(e) => {
                 if (Object.values(showSearchBar).includes(e.key)) {
                   return
@@ -308,52 +311,16 @@ export default function () {
                 e.stopPropagation()
               }}
             />
+            {}
           </div>
-          <div className="p-4 flex gap-4 items-center">
-            <h4 className="mr-auto">显示稍后阅读：</h4>
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[0]}
-              onKeyDown={(e) => {
-                if (Object.values(showSearchBar).includes(e.key)) {
-                  return
-                }
-                setShowSearchBar((prev) => ({ ...prev, 0: e.key }))
-                e.preventDefault()
-                e.stopPropagation()
-              }}
-            />
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[1]}
-              onKeyDown={(e) => {
-                if (Object.values(showSearchBar).includes(e.key)) {
-                  return
-                }
-                setShowSearchBar((prev) => ({ ...prev, 1: e.key }))
-                e.preventDefault()
-                e.stopPropagation()
-              }}
-            />
-            <input
-              disabled
-              className="p-2 py-1 border rounded-md w-16"
-              type="text"
-              value={showSearchBar[2]}
-              onKeyDown={(e) => {
-                if (Object.values(showSearchBar).includes(e.key)) {
-                  return
-                }
-                setShowSearchBar((prev) => ({ ...prev, 2: e.key }))
-                e.preventDefault()
-                e.stopPropagation()
-              }}
-            />
-          </div>
+          <Shortcut
+            title="显示稍后阅读："
+            shortcut={""}
+            onChange={(e) => {}}
+            hadBeUsed={(e: string) => {
+              return true
+            }}
+          />
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 p-2 px-4 flex justify-end gap-4 text-[14px]">
