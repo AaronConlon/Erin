@@ -3,6 +3,7 @@ import clsx from "clsx"
 import { useMemo, useState } from "react"
 
 import Icon from "~components/Icon"
+import BookmarkFavicon from "~components/Wallpaper/BookmarkFavicon"
 import { ENavTreeMode } from "~types"
 import { closeTab, openTab } from "~utils/browser"
 import { maybeBackupString } from "~utils/format"
@@ -66,9 +67,17 @@ const NavItem: React.FC<{
             "hover:bg-gray-100": mode === ENavTreeMode.popup
           }
         )}>
-        <Icon
+        {/* <Icon
           src={tab.favIconUrl}
           classnames="w-[28px] h-[28px] rounded-sm p-1"
+        /> */}
+        <BookmarkFavicon
+          url={tab.url}
+          styles={{
+            borderRadius: "4px",
+            background: "#ffffff20",
+            padding: "1px"
+          }}
         />
         <span
           className="cursor-pointer truncate mr-auto text-[13px]"

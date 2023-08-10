@@ -137,3 +137,15 @@ export const showPromiseToast = (options: {
     error: error || "Error!"
   })
 }
+
+/**
+ * get favicon from chrome cache
+ * @param u string
+ * @returns
+ */
+export function faviconURL(u: string, size: number | string) {
+  const url = new URL(chrome.runtime.getURL("/_favicon/"))
+  url.searchParams.set("pageUrl", u)
+  url.searchParams.set("size", size.toString())
+  return url.toString()
+}
