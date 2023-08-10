@@ -570,6 +570,11 @@
   list-style-type: decimal;
 }
 
+.markdown-body ul li {
+  list-style: circle;
+  margin-left: 12px;
+}
+
 .markdown-body div > ol:not([type]) {
   list-style-type: decimal;
 }

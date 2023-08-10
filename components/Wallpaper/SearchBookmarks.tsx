@@ -1,16 +1,16 @@
-import { useAtom } from "jotai";
-import { FC, useState } from "react";
-import { AiOutlineEnter, AiOutlinePlus } from "react-icons/ai";
-import { CiMap } from "react-icons/ci";
+import { useAtom } from "jotai"
+import { FC, useState } from "react"
+import { AiOutlineEnter, AiOutlinePlus } from "react-icons/ai"
+import { CiMap } from "react-icons/ci"
 
-
-
-import { syncBookmarksStore } from "~store";
-import { EZIndexRecord } from "~types";
-import { generateId, onStopPaClickPropagation, openNewTab } from "~utils/browser";
-import { addSyncBookmarks } from "~utils/storage";
-
-
+import { syncBookmarksStore } from "~store"
+import { EZIndexRecord } from "~types"
+import {
+  generateId,
+  onStopPaClickPropagation,
+  openNewTab
+} from "~utils/browser"
+import { addSyncBookmarks } from "~utils/storage"
 
 import BookmarkFavicon from "./BookmarkFavicon"
 
@@ -81,6 +81,9 @@ const AddCustomBookmarkForm: FC<{ onClose: () => void }> = ({ onClose }) => {
   const onSubmit = () => {
     if (form.title.trim().length === 0 || form.url.trim().length === 0) return
     if (bookmarks.some((i) => i.url === form.url)) return
+    if (/^https?:\/\//.test(form.url) === false) {
+      form.url = `http://${form.url}`
+    }
     setBookmarks([...bookmarks, form])
     addSyncBookmarks(form)
     setForm({

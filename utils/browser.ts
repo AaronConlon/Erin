@@ -101,7 +101,13 @@ export const generateId = () => {
 
 // open new tab by url
 export const openNewTab = (url: string) => {
-  window.open(url, "_blank")
+  const urlReg = /^https?:\/\//
+
+  if (urlReg.test(url)) {
+    window.open(url, "_blank")
+  } else {
+    window.open(`http://${url}`, "_blank")
+  }
 }
 
 // show success toast

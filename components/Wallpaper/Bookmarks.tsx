@@ -39,7 +39,7 @@ const Bookmark: FC<IBookmarkProps> = ({ data, setIsDrag }) => {
       className="hover-bookmark flex justify-center items-center p-1 bg-gray-50 rounded-md relative group"
       onClick={() => openNewTab(data.url)}>
       <BookmarkFavicon url={data.url} size={24} />
-      <span className="absolute bg-black bg-opacity-25 p-1 opacity-0 group-hover:opacity-100 max-w-[96px] truncate text-[12px] rounded-sm -top-[32px] text-white z-[-1]">
+      <span className="absolute bg-black bg-opacity-25 p-1 opacity-0 group-hover:opacity-100 max-w-[128px] truncate text-[12px] rounded-sm -top-[32px] text-white z-[-1]">
         {data.title}
       </span>
     </div>

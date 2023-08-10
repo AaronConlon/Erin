@@ -87,7 +87,7 @@ export default function () {
 
   const isUsedShortcut = (key: string) => {}
 
-  if (showAsideSetting) return null
+  if (!showAsideSetting) return null
 
   return (
     <FullscreenFilterContainer
@@ -146,7 +146,7 @@ export default function () {
         </div>
 
         {/* shortcut */}
-        <div className="text-[13px] m-4 items-start border border-gray-300 rounded-lg">
+        <div className="text-[13px] m-4 items-start border border-gray-300 rounded-lg opacity-0">
           <div className="flex gap-4 border-b border-gray-200 p-4">
             <span className="text-blue-500">
               <FaRegKeyboard size={32} />

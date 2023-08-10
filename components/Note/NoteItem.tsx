@@ -1,10 +1,16 @@
+import { marked } from "marked";
 import { useEffect, useRef, useState } from "react"
+import { CiSettings } from "react-icons/ci"
+import { GrFormClose } from "react-icons/gr"
+import { HiOutlinePencilSquare } from "react-icons/hi2"
 
-import {HiOutlinePencilSquare} from 'react-icons/hi2'
 import { INote } from "~types"
-import { marked } from "marked"
-import { onStopPaClickPropagation } from "~utils/browser"
-import { saveNote } from "~utils/storage"
+import { onStopPaClickPropagation } from "~utils/browser";
+import { saveNote } from "~utils/storage";
+
+
+
+
 
 interface IProps {
   data: INote
@@ -36,23 +42,22 @@ export default function ({ data, onRemove }: IProps) {
         onContextMenu={onStopPaClickPropagation}>
         <div className="flex gap-2 items-center p-2 pb-0 text-white text-[12px]">
           <span
-            className="w-3 h-3 bg-red-400 rounded-full text-center cursor-pointer group"
+            className="w-4 h-4 bg-red-400 rounded-full flex justify-center items-center text-center cursor-pointer group"
             onClick={() => onRemove(note.id)}>
-            <span className="relative bottom-1 group-hover:opacity-100 opacity-0 group-hover:scale-105 origin-center transform transition-all">
-              ⚔
-            </span>
+            <GrFormClose className="group-hover:opacity-100 opacity-0" />
           </span>
-          <span className="w-3 h-3 bg-orange-400 rounded-full text-center group">
+          <span className="w-4 h-4 bg-orange-400 rounded-full text-center group">
             <span className="relative bottom-1 group-hover:opacity-100 opacity-0 group-hover:scale-105 origin-center transform transition-all"></span>
           </span>
           <span
-            className="w-3 h-3 bg-green-400 rounded-full text-center cursor-pointer group"
+            className="w-4 h-4 bg-green-400 rounded-full flex justify-center items-center text-center cursor-pointer group"
             onClick={() => setShowSetting(true)}>
-            <span className="relative bottom-1 group-hover:opacity-100 opacity-0 group-hover:scale-105 origin-center transform transition-all">
-              ⚙
-            </span>
+            <CiSettings className="group-hover:opacity-100 opacity-0" />
           </span>
-          <HiOutlinePencilSquare className="text-gray-700 opacity-0 group-hover:opacity-100 ml-auto cursor-pointer hover:scale-110 transition-all" onClick={() => setIsPreviewContent(!isPreviewContent)}/>
+          <HiOutlinePencilSquare
+            className="text-gray-700 opacity-0 group-hover:opacity-100 ml-auto cursor-pointer hover:scale-110 transition-all"
+            onClick={() => setIsPreviewContent(!isPreviewContent)}
+          />
         </div>
         <div className="p-1 pt-0">
           <input
@@ -64,24 +69,24 @@ export default function ({ data, onRemove }: IProps) {
           />
         </div>
         {isPreviewContent ? (
-            <div
-              className="min-h-[150px] p-2 markdown-body"
-              dangerouslySetInnerHTML={{
-                __html: marked.parse(note.content, {
-                  headerIds: false,
-                  mangle: false
-                })
-              }}></div>
-          ) : (
-            <textarea
-              onBlur={() => setIsPreviewContent(true)}
-              style={{ color: note.color, background: note.bgColor }}
-              onChange={(e) => setNote({ ...note, content: e.target.value })}
-              value={note.content}
-              placeholder="markdown..."
-              className="p-2 min-h-[150px] focus-visible:outline-none w-full"
-            />
-          )}
+          <div
+            className="min-h-[150px] p-2 markdown-body"
+            dangerouslySetInnerHTML={{
+              __html: marked.parse(note.content, {
+                headerIds: false,
+                mangle: false
+              })
+            }}></div>
+        ) : (
+          <textarea
+            onBlur={() => setIsPreviewContent(true)}
+            style={{ color: note.color, background: note.bgColor }}
+            onChange={(e) => setNote({ ...note, content: e.target.value })}
+            value={note.content}
+            placeholder="markdown..."
+            className="p-2 min-h-[150px] focus-visible:outline-none w-full text-[14px]"
+          />
+        )}
         {showSetting && (
           <div className="flex flex-col p-1 absolute bottom-0 left-0 right-0 bg-white text-right py-4">
             <button
