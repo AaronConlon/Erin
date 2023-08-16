@@ -1,25 +1,27 @@
+import { faviconURL } from "~utils/browser"
 import clsx from "clsx"
 import { CSSProperties, useState } from "react"
 import { BiConfused } from "react-icons/bi"
-
-import { faviconURL } from "~utils/browser"
 
 export default function ({
   url,
   size = 28,
   bgColor = "#fff",
-  styles = {}
+  styles = {},
+  onClick
 }: {
   url: string
   size?: number
   bgColor?: string
-  styles?: CSSProperties
+  styles?: CSSProperties,
+  onClick?: () => void
 }) {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isError, setIsError] = useState<boolean>(url === "" ? true : undefined)
   return (
     <div
       className="inline-block rounded-md relative"
+      onClick={onClick}
       style={{ backgroundColor: bgColor, ...styles }}>
       <BiConfused
         className={clsx(

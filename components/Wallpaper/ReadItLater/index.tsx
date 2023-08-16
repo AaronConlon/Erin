@@ -1,20 +1,13 @@
-import clsx from "clsx";
-import { useAtom } from "jotai";
-import { useEffect } from "react";
-import { CiTrash } from "react-icons/ci";
-
-
-
 import { ReadItLaterStore } from "~store"
 import { EReadItLaterLevel, EZIndexRecord } from "~types"
-import { onStopPaClickPropagation } from "~utils/browser"
+import { onStopPaClickPropagation, openNewTab } from "~utils/browser"
 import { getReadItLaterList, removeReadItLaterList } from "~utils/storage"
+import clsx from "clsx"
+import { useAtom } from "jotai"
+import { useEffect } from "react"
+import { CiTrash } from "react-icons/ci"
 
 import BookmarkFavicon from "../BookmarkFavicon"
-
-
-
-
 
 export default function ReadItLater() {
   const [readList, setReadList] = useAtom(ReadItLaterStore)
@@ -51,12 +44,11 @@ export default function ReadItLater() {
             className="group relative flex justify-between items-center rounded-md p-2 bg-gray-700 bg-opacity-50 hover:bg-opacity-90 mb-2">
             <div className="flex flex-col justify-between text-left pr-4 text-gray-50 relative gap-2 min-w-[150px]">
               <div className="h-[36px]">
-                <a
-                  href={i.url}
-                  target="_blank"
-                  className="text-[13px] leading-[18px] line-clamp-2">
+                <span
+                  onClick={() => openNewTab(i.url)}
+                  className="text-[13px] leading-[18px] line-clamp-2 text-left cursor-pointer">
                   {i.title}
-                </a>
+                </span>
               </div>
               <div className="relative flex items-center gap-1">
                 {/* <button
@@ -82,7 +74,16 @@ export default function ReadItLater() {
                 </button>
               </div>
             </div>
-            <BookmarkFavicon url={i.url} size={32} styles={{borderRadius: '4px',background: '#ffffff40'}}/>
+            <BookmarkFavicon
+              url={i.url}
+              size={32}
+              styles={{
+                borderRadius: "4px",
+                background: "#ffffff40",
+                cursor: "pointer"
+              }}
+              onClick={() => openNewTab(i.url)}
+            />
           </div>
         ))}
       </div>
