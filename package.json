@@ -50,7 +50,6 @@
       "downloads",
       "unlimitedStorage",
       "tabs",
-      "windows",
       "bookmarks",
       "favicon",
       "contextMenus"
@@ -59,6 +58,19 @@
       "https://cn.bing.com/*",
       "http://api.bing.com/*",
       "https://api.bing.com/*"
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "_favicon/*"
+        ],
+        "matches": [
+          "<all_urls>"
+        ],
+        "extension_ids": [
+          "*"
+        ]
+      }
     ]
   }
 }

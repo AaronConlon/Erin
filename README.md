@@ -12,6 +12,8 @@ Define your browser newtab page by ❤️.
 
 ![](https://i.imgur.com/MF3jWNF.jpeg)
 
+![](./docs/image-20230628004333170-min.png)
+
 ## Feature
 
 - [x] 壁纸功能
@@ -43,6 +45,8 @@ Define your browser newtab page by ❤️.
 - [x] 窗口标签树 favicon 图标优化来源，目前不稳定
 - [x] 支持更多搜索功能，例如网盘、github、youtube 等
 - [ ] popup 按功能区分 UI，支持更多功能
+
+
 
 
 ## 开发

@@ -1,32 +1,13 @@
 import * as ContextMenu from "@radix-ui/react-context-menu";
-import {
-  CheckIcon,
-  ChevronRightIcon,
-  DotFilledIcon
-} from "@radix-ui/react-icons"
+import { CheckIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons"
+import { currentWallpaperStore, settingConfigStore, showAsideSettingStore } from "~store"
+import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode, IAsideSettingConfig } from "~types"
+import { generateId, showErrorToast, showSuccessToast } from "~utils/browser"
+import { addNote, getConfigLocalAsideSetting } from "~utils/storage"
+import { getWallpaperBase64FromUrl, onDownloadCurrentWallpaper, onGetCurrentWallpaper, onGetPrevOrNextWallpaper, onSetCustomWallpaperToStorage } from "~utils/wallpaper"
 import hotkeys from "hotkeys-js"
 import { useAtom } from "jotai"
 import React, { ReactNode, useEffect } from "react"
-
-import {
-  currentWallpaperStore,
-  settingConfigStore,
-  showAsideSettingStore
-} from "~store"
-import {
-  DEFAULT_BING_WALLPAPER_DOMAIN,
-  ENewtabMode,
-  IAsideSettingConfig
-} from "~types"
-import { generateId, showErrorToast, showSuccessToast } from "~utils/browser"
-import { addNote, getConfigLocalAsideSetting } from "~utils/storage"
-import {
-  getWallpaperBase64FromUrl,
-  onDownloadCurrentWallpaper,
-  onGetCurrentWallpaper,
-  onGetPrevOrNextWallpaper,
-  onSetCustomWallpaperToStorage
-} from "~utils/wallpaper"
 
 const SettingContainer = ({ children }: { children: ReactNode }) => {
   const [settingConfig, setSettingConfig] = useAtom(settingConfigStore)
@@ -315,6 +296,30 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                     {asideShortcut?.showSearchComponent}
                   </div>
                 </ContextMenu.CheckboxItem>
+
+                <ContextMenu.CheckboxItem
+                  className="ContextMenuCheckboxItem"
+                  checked={settingConfig.showBookmark}
+                  onCheckedChange={(v) => {
+                    setSettingConfig({ ...settingConfig, showBookmark: v })
+                  }}>
+                  <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
+                    <CheckIcon />
+                  </ContextMenu.ItemIndicator>
+                  书签{" "}
+                  <div className="RightSlot">{asideShortcut?.showBookmark}</div>
+                </ContextMenu.CheckboxItem>
+                <ContextMenu.CheckboxItem
+                  className="ContextMenuCheckboxItem"
+                  checked={settingConfig.showReadItLater}
+                  onCheckedChange={(v) => {
+                    setSettingConfig({ ...settingConfig, showReadItLater: v })
+                  }}>
+                  <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
+                    <CheckIcon />
+                  </ContextMenu.ItemIndicator>
+                  稍后阅读
+                </ContextMenu.CheckboxItem>image-20230628004333170-min
               </ContextMenu.SubContent>
             </ContextMenu.Portal>
           </ContextMenu.Sub>
@@ -325,28 +330,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             onClick={addNote}>
             添加便签
           </ContextMenu.Item>
-          <ContextMenu.CheckboxItem
-            className="ContextMenuCheckboxItem"
-            checked={settingConfig.showBookmark}
-            onCheckedChange={(v) => {
-              setSettingConfig({ ...settingConfig, showBookmark: v })
-            }}>
-            <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
-              <CheckIcon />
-            </ContextMenu.ItemIndicator>
-            书签 <div className="RightSlot">{asideShortcut?.showBookmark}</div>
-          </ContextMenu.CheckboxItem>
-          <ContextMenu.CheckboxItem
-            className="ContextMenuCheckboxItem"
-            checked={settingConfig.showReadItLater}
-            onCheckedChange={(v) => {
-              setSettingConfig({ ...settingConfig, showReadItLater: v })
-            }}>
-            <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
-              <CheckIcon />
-            </ContextMenu.ItemIndicator>
-            稍后阅读
-          </ContextMenu.CheckboxItem>
+
           {/* clock component */}
           <ContextMenu.CheckboxItem
             className="ContextMenuCheckboxItem"

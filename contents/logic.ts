@@ -1,23 +1,25 @@
-import { EBgMessageName } from "~types"
-import { onDownloadImgByUrlAndFormat } from "~utils/wallpaper"
 import { sendToBackground } from "@plasmohq/messaging"
+
+import { EBgMessageName } from "~types"
 import { triggerNavTreeUpdate } from "~utils/storage"
-export { }
+import { onDownloadImgByUrlAndFormat } from "~utils/wallpaper"
+
+export {}
 
 // handle message from background
-chrome.runtime.onMessage.addListener(({name, body}) => {
-  console.log('message from background', body, name)
-  if(name === EBgMessageName.copyMdContentToClipboard) {
+chrome.runtime.onMessage.addListener(({ name, body }) => {
+  if (name === EBgMessageName.copyMdContentToClipboard) {
     const { text } = body
+    console.log("copyMdContentToClipboard", text)
     navigator.clipboard.writeText(text)
-  } else if(name === EBgMessageName.downloadImgWithFormat) {
+  } else if (name === EBgMessageName.downloadImgWithFormat) {
     // handle download img with difference format
-    const {url, format} = body;
+    const { url, format } = body
     onDownloadImgByUrlAndFormat(url, format)
-  } else if(name === EBgMessageName.applyPicInPicMode) {
-    const videos = document.querySelectorAll('video');
-    [...videos].some(v => {
-      if(v.paused === false) {
+  } else if (name === EBgMessageName.applyPicInPicMode) {
+    const videos = document.querySelectorAll("video")
+    ;[...videos].some((v) => {
+      if (v.paused === false) {
         // first playing video
         v.requestPictureInPicture()
       }
@@ -27,10 +29,8 @@ chrome.runtime.onMessage.addListener(({name, body}) => {
 
 triggerNavTreeUpdate()
 sendToBackground({
-  name: 'updateOpenerId',
+  name: "updateOpenerId",
   body: {
     referrer: document.referrer
   }
 })
-
-
