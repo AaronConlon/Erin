@@ -17,7 +17,8 @@ export const DEFAULT_SETTING = {
   searchEngine: ESearchEngine.google,
   showBrowserTreeNav: false,
   showReadItLater: false,
-  showClock: false
+  showClock: false,
+  dailyWallpaper: false
 } as ISettingConfig
 
 export const settingConfigStore = atom(DEFAULT_SETTING)

@@ -1,14 +1,15 @@
 
 
 export interface ISettingConfig {
-  mode: ENewtabMode,
-  showWallpaperMarket: boolean,
+  mode: ENewtabMode
+  showWallpaperMarket: boolean
   showBookmark: boolean
   showSearchBar: boolean
   searchEngine: ESearchEngine
   showBrowserTreeNav: boolean
-  showReadItLater: boolean,
-  showClock: boolean,
+  showReadItLater: boolean
+  showClock: boolean
+  dailyWallpaper: boolean
 }
 
 export interface IBase64ListItem {
@@ -45,7 +46,8 @@ export enum EStorageKey {
   noteList = "noteList",
   bookmarks = "bookmarks",
   readItLaterList = "readItLaterList",
-  asideSettingConfig = "asideSettingConfig"
+  asideSettingConfig = "asideSettingConfig",
+  dateRecord = "dateRecord"
 }
 
 export enum ESearchEngine {

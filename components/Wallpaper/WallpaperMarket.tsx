@@ -15,7 +15,7 @@ import {
   generatePreviewWallpaperUrl,
   onDownloadBingWallpaperByUrlbase,
   onReverseLikeWallpaperByUrlbase,
-  onSetUrlbaseToCurrentWallpaper
+  onSetUrlBaseToCurrentWallpaper
 } from "~utils/wallpaper"
 
 export default function () {
@@ -62,7 +62,7 @@ export default function () {
 
   const onSetTargetWallpaper = async (urlbase: string) => {
     showPromiseToast({
-      promiseValue: onSetUrlbaseToCurrentWallpaper(
+      promiseValue: onSetUrlBaseToCurrentWallpaper(
         urlbase,
         setCurrentWallpaperBase64
       ),

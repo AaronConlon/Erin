@@ -1,13 +1,27 @@
 import * as ContextMenu from "@radix-ui/react-context-menu";
-import { CheckIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons"
-import { currentWallpaperStore, settingConfigStore, showAsideSettingStore } from "~store"
-import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode, IAsideSettingConfig } from "~types"
-import { generateId, showErrorToast, showSuccessToast } from "~utils/browser"
-import { addNote, getConfigLocalAsideSetting } from "~utils/storage"
-import { getWallpaperBase64FromUrl, onDownloadCurrentWallpaper, onGetCurrentWallpaper, onGetPrevOrNextWallpaper, onSetCustomWallpaperToStorage } from "~utils/wallpaper"
-import hotkeys from "hotkeys-js"
-import { useAtom } from "jotai"
-import React, { ReactNode, useEffect } from "react"
+import { CheckIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons";
+import hotkeys from "hotkeys-js";
+import { useAtom } from "jotai";
+import React, { ReactNode, useEffect } from "react";
+import { GrGithub } from "react-icons/gr";
+
+
+
+import { currentWallpaperStore, settingConfigStore, showAsideSettingStore } from "~store";
+import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode, IAsideSettingConfig } from "~types";
+import { generateId, showErrorToast, showSuccessToast } from "~utils/browser";
+import { addNote, getConfigLocalAsideSetting } from "~utils/storage";
+import {
+  getWallpaperBase64FromUrl,
+  onDownloadCurrentWallpaper,
+  onGetCurrentWallpaper,
+  onGetPrevOrNextWallpaper,
+  onSetCustomWallpaperToStorage
+} from "~utils/wallpaper"
+
+
+
+
 
 const SettingContainer = ({ children }: { children: ReactNode }) => {
   const [settingConfig, setSettingConfig] = useAtom(settingConfigStore)
@@ -271,13 +285,14 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   onClick={onCustomizeWallpaper}>
                   自定义壁纸 🚀
                 </ContextMenu.Item>
-
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={onOpenWallpaperMarket as any}>
                   所有壁纸 <div className="RightSlot">Alt+.</div>
                 </ContextMenu.Item>
+      
                 <ContextMenu.Separator className="ContextMenuSeparator" />
+
                 <ContextMenu.Label className="ContextMenuLabel">
                   页面组件
                 </ContextMenu.Label>
@@ -319,7 +334,18 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                     <CheckIcon />
                   </ContextMenu.ItemIndicator>
                   稍后阅读
-                </ContextMenu.CheckboxItem>image-20230628004333170-min
+                </ContextMenu.CheckboxItem>
+                <ContextMenu.CheckboxItem
+                  className="ContextMenuCheckboxItem"
+                  checked={settingConfig.dailyWallpaper}
+                  onCheckedChange={(v) => {
+                    setSettingConfig({ ...settingConfig, dailyWallpaper: v })
+                  }}>
+                  <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
+                    <CheckIcon />
+                  </ContextMenu.ItemIndicator>
+                   每日尝鲜
+                </ContextMenu.CheckboxItem>
               </ContextMenu.SubContent>
             </ContextMenu.Portal>
           </ContextMenu.Sub>
@@ -350,6 +376,16 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             onClick={() => setShowAsideSetting(true)}>
             设置
             <div className="RightSlot">⚙</div>
+          </ContextMenu.Item>
+          <ContextMenu.Item
+            className="ContextMenuItem"
+            onClick={() =>
+              window.open("https://github.com/Developer27149", "_blank")
+            }>
+            联系建议
+            <div className="RightSlot">
+              <GrGithub />
+            </div>
           </ContextMenu.Item>
         </ContextMenu.Content>
       </ContextMenu.Portal>

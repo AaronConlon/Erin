@@ -13,7 +13,7 @@ export default function ({
   url: string
   size?: number
   bgColor?: string
-  styles?: CSSProperties,
+  styles?: CSSProperties
   onClick?: () => void
 }) {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -22,7 +22,7 @@ export default function ({
     <div
       className="inline-block rounded-md relative"
       onClick={onClick}
-      style={{ backgroundColor: bgColor, ...styles }}>
+      style={{ ...styles, background: "none" }}>
       <BiConfused
         className={clsx(
           { "opacity-0": isError === undefined },
