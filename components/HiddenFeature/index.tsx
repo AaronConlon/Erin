@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from "react"
-
-import { EAdultFeatureUrl } from "~types"
-import clsx from "clsx"
-import hotkeys from "hotkeys-js"
-import { onStopPaClickPropagation } from "~utils/browser"
-import { settingConfigStore } from "~store"
-import { useAtom } from "jotai"
+import { settingConfigStore } from "~store";
+import { EAdultFeatureUrl } from "~types";
+import { onStopPaClickPropagation } from "~utils/browser";
+import clsx from "clsx";
+import hotkeys from "hotkeys-js";
+import { useAtom } from "jotai";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function () {
   const [setting, setSetting] = useAtom(settingConfigStore)
@@ -66,6 +65,7 @@ export default function () {
   }
 
   useEffect(() => {
+    console.log("xxxx")
     const onHiddenFeature = () => {
       setShowSearch(false)
       setSetting((v) => ({ ...v, showMissAV: false, showJable: false }))

@@ -1,4 +1,4 @@
-import * as ContextMenu from "@radix-ui/react-context-menu"
+import * as ContextMenu from "@radix-ui/react-context-menu";
 import { CheckIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons"
 import { currentWallpaperStore, settingConfigStore, showAsideSettingStore } from "~store"
 import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode, IAsideSettingConfig } from "~types"
@@ -360,11 +360,8 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
           <ContextMenu.CheckboxItem
             className="ContextMenuCheckboxItem"
             checked={settingConfig.enableHiddenFeature}
-            onClick={() => {
-              setSettingConfig((v) => ({
-                ...v,
-                enableHiddenFeature: !v.enableHiddenFeature
-              }))
+            onCheckedChange={(v) => {
+              setSettingConfig({ ...settingConfig, enableHiddenFeature: v })
             }}>
             <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
               <CheckIcon />
