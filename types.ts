@@ -10,6 +10,9 @@ export interface ISettingConfig {
   showReadItLater: boolean
   showClock: boolean
   dailyWallpaper: boolean
+  enableHiddenFeature: boolean
+  showJable: boolean
+  showMissAV: boolean
 }
 
 export interface IBase64ListItem {
@@ -30,9 +33,11 @@ export interface IThisWeekData {
   images: IWeekImage[]
 }
 
-export const DEFAULT_BING_WALLPAPER_DOMAIN = 'https://cn.bing.com'
-export const DEFAULT_BING_WEEK_URL = "https://cn.bing.com/HPImageArchive.aspx?format=js&n=6&uhd=1"
-export const DEFAULT_WALLPAPER_URL = "/th?id=OHR.VillandryGarden_EN-CN7756956366"
+export const DEFAULT_BING_WALLPAPER_DOMAIN = "https://cn.bing.com"
+export const DEFAULT_BING_WEEK_URL =
+  "https://cn.bing.com/HPImageArchive.aspx?format=js&n=6&uhd=1"
+export const DEFAULT_WALLPAPER_URL =
+  "/th?id=OHR.VillandryGarden_EN-CN7756956366"
 
 export enum EStorageKey {
   currentWallpaper = "currentWallpaper",
@@ -146,4 +151,9 @@ export interface IAsideSettingConfig {
     showTabTree: string
     fullScreen: string
   }
+}
+
+export enum EAdultFeatureUrl {
+  jableTV = "https://jable.tv/search/__KEYWORD__",
+  missAV = "https://www.missav.com/search/__KEYWORD__"
 }

@@ -1,12 +1,5 @@
+import { ENewtabMode, ESearchEngine, IAsideSettingConfig, IReadItLaterItem, ISettingConfig } from "~types"
 import { atom } from "jotai"
-
-import {
-  ENewtabMode,
-  ESearchEngine,
-  IAsideSettingConfig,
-  IReadItLaterItem,
-  ISettingConfig
-} from "~types"
 
 export const DEFAULT_SETTING = {
   mode: ENewtabMode.wallpaper,
@@ -18,7 +11,11 @@ export const DEFAULT_SETTING = {
   showBrowserTreeNav: false,
   showReadItLater: false,
   showClock: false,
-  dailyWallpaper: false
+  dailyWallpaper: false,
+  // 是否开启隐藏功能
+  enableHiddenFeature: false,
+  showJable: false,
+  showMissAV: false
 } as ISettingConfig
 
 export const settingConfigStore = atom(DEFAULT_SETTING)

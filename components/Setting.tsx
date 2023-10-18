@@ -1,16 +1,23 @@
-import * as ContextMenu from "@radix-ui/react-context-menu";
-import { CheckIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons";
-import hotkeys from "hotkeys-js";
-import { useAtom } from "jotai";
-import React, { ReactNode, useEffect } from "react";
-import { GrGithub } from "react-icons/gr";
+import * as ContextMenu from "@radix-ui/react-context-menu"
 
-
-
-import { currentWallpaperStore, settingConfigStore, showAsideSettingStore } from "~store";
-import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode, IAsideSettingConfig } from "~types";
-import { generateId, showErrorToast, showSuccessToast } from "~utils/browser";
-import { addNote, getConfigLocalAsideSetting } from "~utils/storage";
+import {
+  CheckIcon,
+  ChevronRightIcon,
+  DotFilledIcon
+} from "@radix-ui/react-icons"
+import {
+  DEFAULT_BING_WALLPAPER_DOMAIN,
+  ENewtabMode,
+  IAsideSettingConfig
+} from "~types"
+import React, { ReactNode, useEffect } from "react"
+import { addNote, getConfigLocalAsideSetting } from "~utils/storage"
+import {
+  currentWallpaperStore,
+  settingConfigStore,
+  showAsideSettingStore
+} from "~store"
+import { generateId, showErrorToast, showSuccessToast } from "~utils/browser"
 import {
   getWallpaperBase64FromUrl,
   onDownloadCurrentWallpaper,
@@ -19,9 +26,9 @@ import {
   onSetCustomWallpaperToStorage
 } from "~utils/wallpaper"
 
-
-
-
+import { GrGithub } from "react-icons/gr"
+import hotkeys from "hotkeys-js"
+import { useAtom } from "jotai"
 
 const SettingContainer = ({ children }: { children: ReactNode }) => {
   const [settingConfig, setSettingConfig] = useAtom(settingConfigStore)
@@ -290,7 +297,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   onClick={onOpenWallpaperMarket as any}>
                   所有壁纸 <div className="RightSlot">Alt+.</div>
                 </ContextMenu.Item>
-      
+
                 <ContextMenu.Separator className="ContextMenuSeparator" />
 
                 <ContextMenu.Label className="ContextMenuLabel">
@@ -344,7 +351,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
                     <CheckIcon />
                   </ContextMenu.ItemIndicator>
-                   每日尝鲜
+                  每日尝鲜
                 </ContextMenu.CheckboxItem>
               </ContextMenu.SubContent>
             </ContextMenu.Portal>
@@ -369,6 +376,65 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             </ContextMenu.ItemIndicator>
             显示时间
           </ContextMenu.CheckboxItem>
+          {/* clock component */}
+          <ContextMenu.CheckboxItem
+            className="ContextMenuCheckboxItem"
+            checked={settingConfig.enableHiddenFeature}
+            onCheckedChange={(v) => {
+              setSettingConfig({ ...settingConfig, enableHiddenFeature: v })
+            }}>
+            <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
+              <CheckIcon />
+            </ContextMenu.ItemIndicator>
+            Are you 18+?
+          </ContextMenu.CheckboxItem>
+
+          {settingConfig.enableHiddenFeature && (
+            <ContextMenu.Sub>
+              <ContextMenu.SubTrigger className="ContextMenuSubTrigger">
+                18 +
+                <div className="RightSlot">
+                  <ChevronRightIcon />
+                </div>
+              </ContextMenu.SubTrigger>
+              <ContextMenu.Portal>
+                <ContextMenu.SubContent
+                  className="ContextMenuSubContent"
+                  sideOffset={2}
+                  alignOffset={-5}>
+                  <ContextMenu.Label className="ContextMenuLabel">
+                    AV
+                  </ContextMenu.Label>
+
+                  <ContextMenu.Item
+                    className="ContextMenuItem"
+                    onClick={() => {
+                      setSettingConfig((v) => ({ ...v, showJable: true }))
+                    }}>
+                    JableTV{" "}
+                    <div className="RightSlot">
+                      <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
+                        J
+                      </span>
+                    </div>
+                  </ContextMenu.Item>
+                  <ContextMenu.Item
+                    className="ContextMenuItem"
+                    onClick={() => {
+                      setSettingConfig((v) => ({ ...v, showMissAV: true }))
+                    }}>
+                    MissAV{" "}
+                    <div className="RightSlot">
+                      <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
+                        M
+                      </span>
+                    </div>
+                  </ContextMenu.Item>
+                </ContextMenu.SubContent>
+              </ContextMenu.Portal>
+            </ContextMenu.Sub>
+          )}
+
           <ContextMenu.Separator className="ContextMenuSeparator" />
 
           <ContextMenu.Item

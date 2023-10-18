@@ -1,25 +1,21 @@
-import "../animation.css"
-import "../markdown.css"
-import "../radix.css"
-import "../style.css"
-
-import { useAtom } from "jotai"
-import { useEffect, useState } from "react"
-import { Toaster } from "react-hot-toast"
-
-import AsideSetting from "~components/AsideSetting"
+import AsideSetting from "~components/AsideSetting";
 import Clock from "~components/Clock"
+import HiddenFeature from "~components/HiddenFeature"
 import Note from "~components/Note"
 import Setting from "~components/Setting"
 import Wallpaper from "~components/Wallpaper"
-import {
-  asideSettingConfigStore,
-  currentWallpaperStore,
-  settingConfigStore
-} from "~store"
+import { asideSettingConfigStore, currentWallpaperStore, settingConfigStore } from "~store"
 import { ENewtabMode, EStorageKey, ISettingConfig } from "~types"
 import { getConfigLocalAsideSetting } from "~utils/storage"
 import { onGetCurrentWallpaper } from "~utils/wallpaper"
+import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
+
+import "../animation.css";
+import "../markdown.css";
+import "../radix.css";
+import "../style.css";
 
 function Newtab() {
   const [setting, setSetting] = useAtom(settingConfigStore)
@@ -67,6 +63,7 @@ function Newtab() {
       {setting.mode === ENewtabMode.note && <Note />}
       <AsideSetting />
       <Clock />
+      <HiddenFeature />
     </Setting>
   )
 }
