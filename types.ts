@@ -13,6 +13,8 @@ export interface ISettingConfig {
   enableHiddenFeature: boolean
   showJable: boolean
   showMissAV: boolean
+  showAcg: boolean
+  showNaiflix: boolean
 }
 
 export interface IBase64ListItem {
@@ -155,5 +157,7 @@ export interface IAsideSettingConfig {
 
 export enum EAdultFeatureUrl {
   jableTV = "https://jable.tv/search/__KEYWORD__",
-  missAV = "https://www.missav.com/search/__KEYWORD__"
+  missAV = "https://www.missav.com/search/__KEYWORD__",
+  Naiflix = "https://www.naiflix.com/search/?wd=__KEYWORD__",
+  Acg = "https://www.acg.rw/search/__KEYWORD__/"
 }

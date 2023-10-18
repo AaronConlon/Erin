@@ -1,34 +1,14 @@
 import * as ContextMenu from "@radix-ui/react-context-menu"
-
-import {
-  CheckIcon,
-  ChevronRightIcon,
-  DotFilledIcon
-} from "@radix-ui/react-icons"
-import {
-  DEFAULT_BING_WALLPAPER_DOMAIN,
-  ENewtabMode,
-  IAsideSettingConfig
-} from "~types"
-import React, { ReactNode, useEffect } from "react"
-import { addNote, getConfigLocalAsideSetting } from "~utils/storage"
-import {
-  currentWallpaperStore,
-  settingConfigStore,
-  showAsideSettingStore
-} from "~store"
+import { CheckIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons"
+import { currentWallpaperStore, settingConfigStore, showAsideSettingStore } from "~store"
+import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode, IAsideSettingConfig } from "~types"
 import { generateId, showErrorToast, showSuccessToast } from "~utils/browser"
-import {
-  getWallpaperBase64FromUrl,
-  onDownloadCurrentWallpaper,
-  onGetCurrentWallpaper,
-  onGetPrevOrNextWallpaper,
-  onSetCustomWallpaperToStorage
-} from "~utils/wallpaper"
-
-import { GrGithub } from "react-icons/gr"
+import { addNote, getConfigLocalAsideSetting } from "~utils/storage"
+import { getWallpaperBase64FromUrl, onDownloadCurrentWallpaper, onGetCurrentWallpaper, onGetPrevOrNextWallpaper, onSetCustomWallpaperToStorage } from "~utils/wallpaper"
 import hotkeys from "hotkeys-js"
 import { useAtom } from "jotai"
+import React, { ReactNode, useEffect } from "react"
+import { GrGithub } from "react-icons/gr"
 
 const SettingContainer = ({ children }: { children: ReactNode }) => {
   const [settingConfig, setSettingConfig] = useAtom(settingConfigStore)
@@ -380,60 +360,90 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
           <ContextMenu.CheckboxItem
             className="ContextMenuCheckboxItem"
             checked={settingConfig.enableHiddenFeature}
-            onCheckedChange={(v) => {
-              setSettingConfig({ ...settingConfig, enableHiddenFeature: v })
+            onClick={() => {
+              setSettingConfig((v) => ({
+                ...v,
+                enableHiddenFeature: !v.enableHiddenFeature
+              }))
             }}>
             <ContextMenu.ItemIndicator className="ContextMenuItemIndicator">
               <CheckIcon />
             </ContextMenu.ItemIndicator>
-            Are you 18+?
+            大人的世界
           </ContextMenu.CheckboxItem>
 
-          {settingConfig.enableHiddenFeature && (
-            <ContextMenu.Sub>
-              <ContextMenu.SubTrigger className="ContextMenuSubTrigger">
-                18 +
-                <div className="RightSlot">
-                  <ChevronRightIcon />
-                </div>
-              </ContextMenu.SubTrigger>
-              <ContextMenu.Portal>
-                <ContextMenu.SubContent
-                  className="ContextMenuSubContent"
-                  sideOffset={2}
-                  alignOffset={-5}>
-                  <ContextMenu.Label className="ContextMenuLabel">
-                    AV
-                  </ContextMenu.Label>
+          <ContextMenu.Sub>
+            <ContextMenu.SubTrigger
+              className="ContextMenuSubTrigger"
+              disabled={!settingConfig.enableHiddenFeature}>
+              18 +
+              <div className="RightSlot">
+                <ChevronRightIcon />
+              </div>
+            </ContextMenu.SubTrigger>
+            <ContextMenu.Portal>
+              <ContextMenu.SubContent
+                className="ContextMenuSubContent"
+                sideOffset={2}
+                alignOffset={-5}>
+                <ContextMenu.Label className="ContextMenuLabel">
+                  <div className="flex justify-between items-center">
+                    <span>选项</span>
+                    <span className="text-gray pr-1 text-sm">快捷键</span>
+                  </div>
+                </ContextMenu.Label>
 
-                  <ContextMenu.Item
-                    className="ContextMenuItem"
-                    onClick={() => {
-                      setSettingConfig((v) => ({ ...v, showJable: true }))
-                    }}>
-                    JableTV{" "}
-                    <div className="RightSlot">
-                      <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
-                        J
-                      </span>
-                    </div>
-                  </ContextMenu.Item>
-                  <ContextMenu.Item
-                    className="ContextMenuItem"
-                    onClick={() => {
-                      setSettingConfig((v) => ({ ...v, showMissAV: true }))
-                    }}>
-                    MissAV{" "}
-                    <div className="RightSlot">
-                      <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
-                        M
-                      </span>
-                    </div>
-                  </ContextMenu.Item>
-                </ContextMenu.SubContent>
-              </ContextMenu.Portal>
-            </ContextMenu.Sub>
-          )}
+                <ContextMenu.Item
+                  className="ContextMenuItem"
+                  onClick={() => {
+                    setSettingConfig((v) => ({ ...v, showJable: true }))
+                  }}>
+                  JableTV{" "}
+                  <div className="RightSlot">
+                    <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
+                      J
+                    </span>
+                  </div>
+                </ContextMenu.Item>
+                <ContextMenu.Item
+                  className="ContextMenuItem"
+                  onClick={() => {
+                    setSettingConfig((v) => ({ ...v, showMissAV: true }))
+                  }}>
+                  MissAV{" "}
+                  <div className="RightSlot">
+                    <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
+                      M
+                    </span>
+                  </div>
+                </ContextMenu.Item>
+                <ContextMenu.Item
+                  className="ContextMenuItem"
+                  onClick={() => {
+                    setSettingConfig((v) => ({ ...v, showAcg: true }))
+                  }}>
+                  ACG 动漫{" "}
+                  <div className="RightSlot">
+                    <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
+                      A
+                    </span>
+                  </div>
+                </ContextMenu.Item>
+                <ContextMenu.Item
+                  className="ContextMenuItem"
+                  onClick={() => {
+                    setSettingConfig((v) => ({ ...v, showNaiflix: true }))
+                  }}>
+                  Naiflix电影{" "}
+                  <div className="RightSlot">
+                    <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
+                      N
+                    </span>
+                  </div>
+                </ContextMenu.Item>
+              </ContextMenu.SubContent>
+            </ContextMenu.Portal>
+          </ContextMenu.Sub>
 
           <ContextMenu.Separator className="ContextMenuSeparator" />
 

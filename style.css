@@ -1,8 +1,10 @@
 @tailwind base;
 :root {
   --primary: #7c3aed;
-  --scroolbar-primary: #eeeeee80;
-  --scrollbar-secondary: #3e3e3e50;
+  /* --scroolbar-primary: #eeeeee80; */
+  --scroolbar-primary: transparent;
+  /* --scrollbar-secondary: #3e3e3e50; */
+  --scrollbar-secondary: transparent;
 }
 [data-white] {
   --scroolbar-primary: #eeeeee80;
@@ -123,7 +125,15 @@ html {
 }
 
 .read-it-later-item {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* display: grid; */
+  /* grid-template-columns: repeat(4, 1fr); */
   gap: 12px;
+}
+
+@media screen and (max-width: 1100px) {
+ 
+}
+
+@media screen and (max-width: 960px) {
+ 
 }

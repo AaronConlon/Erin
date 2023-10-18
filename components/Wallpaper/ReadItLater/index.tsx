@@ -1,13 +1,13 @@
-import { ReadItLaterStore } from "~store"
 import { EReadItLaterLevel, EZIndexRecord } from "~types"
-import { onStopPaClickPropagation, openNewTab } from "~utils/browser"
 import { getReadItLaterList, removeReadItLaterList } from "~utils/storage"
+import { onStopPaClickPropagation, openNewTab } from "~utils/browser"
+
+import BookmarkFavicon from "../BookmarkFavicon"
+import { CiTrash } from "react-icons/ci"
+import { ReadItLaterStore } from "~store"
 import clsx from "clsx"
 import { useAtom } from "jotai"
 import { useEffect } from "react"
-import { CiTrash } from "react-icons/ci"
-
-import BookmarkFavicon from "../BookmarkFavicon"
 
 export default function ReadItLater() {
   const [readList, setReadList] = useAtom(ReadItLaterStore)
@@ -32,17 +32,17 @@ export default function ReadItLater() {
   return (
     <div
       style={{ zIndex: EZIndexRecord.readItLater }}
-      className="w-[960px] max-w-[60vw] min-h-[20vh] p-4 rounded-md flex flex-col items-start fixed top-[30vh] left-0 right-0 mx-auto">
+      className="w-[960px] 2xl:w-[1200px] xl:max-w-[60vw] 2xl:max-w-[80vw] min-h-[20vh] p-4 rounded-md flex flex-col items-start fixed top-[30vh] left-0 right-0 mx-auto overflow-hidden">
       <h3 className="heading-8 text-2xl font-bold capitalize text-gray-50 mb-4">
         稍后阅读
       </h3>
-      <div className="read-it-later-item max-h-[50vh] overflow-auto pr-2 pb-24">
+      <div className="read-it-later-item max-h-[50vh] overflow-auto p-2 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
         {readList.map((i) => (
           <div
             key={i.id}
             onContextMenu={onStopPaClickPropagation}
             className="group relative flex justify-between items-center rounded-md p-2 bg-gray-700 bg-opacity-50 hover:bg-opacity-90 mb-2">
-            <div className="flex flex-col justify-between text-left pr-4 text-gray-50 relative gap-2 min-w-[150px]">
+            <div className="flex flex-col justify-between text-left pr-4 text-gray-50 relative gap-2">
               <div className="h-[36px]">
                 <span
                   onClick={() => openNewTab(i.url)}
