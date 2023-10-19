@@ -393,48 +393,65 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={() => {
-                    setSettingConfig((v) => ({ ...v, showJable: true }))
+                    setSettingConfig((v) => ({
+                      ...v,
+                      showJable: true,
+                      showHiddenFeatureSearch: true
+                    }))
                   }}>
                   JableTV{" "}
                   <div className="RightSlot">
                     <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
-                      J
+                      j
                     </span>
                   </div>
                 </ContextMenu.Item>
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={() => {
-                    setSettingConfig((v) => ({ ...v, showMissAV: true }))
+                    setSettingConfig((v) => ({
+                      ...v,
+                      showMissAV: true,
+                      showHiddenFeatureSearch: true
+                    }))
                   }}>
                   MissAV{" "}
                   <div className="RightSlot">
                     <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
-                      M
+                      m
                     </span>
                   </div>
                 </ContextMenu.Item>
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={() => {
-                    setSettingConfig((v) => ({ ...v, showAcg: true }))
+                    console.log("show acg...")
+                    setSettingConfig((v) => ({
+                      ...v,
+                      showAcg: true,
+                      showHiddenFeatureSearch: true
+                    }))
                   }}>
                   ACG 动漫{" "}
                   <div className="RightSlot">
                     <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
-                      A
+                      a
                     </span>
                   </div>
                 </ContextMenu.Item>
                 <ContextMenu.Item
                   className="ContextMenuItem"
                   onClick={() => {
-                    setSettingConfig((v) => ({ ...v, showNaiflix: true }))
+                    setSettingConfig((v) => ({
+                      ...v,
+                      showNaiflix: true,
+                      showHiddenFeatureSearch: true
+                    }))
                   }}>
                   Naiflix电影{" "}
                   <div className="RightSlot">
                     <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
-                      N
+                      n
                     </span>
                   </div>
                 </ContextMenu.Item>

@@ -15,6 +15,7 @@ export interface ISettingConfig {
   showMissAV: boolean
   showAcg: boolean
   showNaiflix: boolean
+  showHiddenFeatureSearch: boolean
 }
 
 export interface IBase64ListItem {

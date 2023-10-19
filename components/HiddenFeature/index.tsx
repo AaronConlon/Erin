@@ -1,16 +1,14 @@
-import { settingConfigStore } from "~store";
-import { EAdultFeatureUrl } from "~types";
-import { onStopPaClickPropagation } from "~utils/browser";
-import clsx from "clsx";
-import hotkeys from "hotkeys-js";
-import { useAtom } from "jotai";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { settingConfigStore } from "~store"
+import { EAdultFeatureUrl } from "~types"
+import { onStopPaClickPropagation } from "~utils/browser"
+import clsx from "clsx"
+import hotkeys from "hotkeys-js"
+import { useAtom } from "jotai"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 export default function () {
   const [setting, setSetting] = useAtom(settingConfigStore)
-  const [showSearch, setShowSearch] = useState(false)
   const inputRef = useRef<HTMLInputElement>()
-  const onceRef = useRef(false)
 
   const getSearchPrefixText = () => {
     if (setting.showJable) return "JableTV"
@@ -21,10 +19,10 @@ export default function () {
   }
 
   const getPlaceholderText = () => {
-    if (setting.showJable) return "JUFE-200？"
-    if (setting.showMissAV) return "DLDSS-199?"
-    if (setting.showAcg) return "通灵王?"
-    if (setting.showNaiflix) return "变形金刚?"
+    if (setting.showJable) return "JUFE-200"
+    if (setting.showMissAV) return "DLDSS-199"
+    if (setting.showAcg) return "通灵王"
+    if (setting.showNaiflix) return "变形金刚"
     return "Search keyword and ......"
   }
 
@@ -36,7 +34,7 @@ export default function () {
         ?.replace("Search keyword and ......", "")
     }
     if (setting.showJable)
-      return EAdultFeatureUrl.jableTV.replace("__KEYWORD__", value)
+      return EAdultFeatureUrl.jableTV.replace("__KEYWORD__", value + "/")
     if (setting.showMissAV)
       return EAdultFeatureUrl.missAV.replace("__KEYWORD__", value)
     if (setting.showAcg)
@@ -50,53 +48,61 @@ export default function () {
     if (e.key === "Enter") {
       const value = e.target.value?.trim()
       e.target.value = ""
-      setShowSearch(false)
-      window.open(getTargetUrl(value), "_blank")
-    } else if (e.key === "Escape") {
-      setShowSearch(false)
       setSetting((v) => ({
         ...v,
         showMissAV: false,
         showJable: false,
         showAcg: false,
-        showNaiflix: false
+        showNaiflix: false,
+        showHiddenFeatureSearch: false
+      }))
+      window.open(getTargetUrl(value), "_blank")
+    } else if (e.key === "Escape") {
+      setSetting((v) => ({
+        ...v,
+        showMissAV: false,
+        showJable: false,
+        showAcg: false,
+        showNaiflix: false,
+        showHiddenFeatureSearch: false
       }))
     }
   }
 
   useEffect(() => {
-    console.log("xxxx")
     const onHiddenFeature = () => {
-      setShowSearch(false)
-      setSetting((v) => ({ ...v, showMissAV: false, showJable: false }))
+      setSetting((v) => ({
+        ...v,
+        showMissAV: false,
+        showJable: false,
+        showHiddenFeatureSearch: false
+      }))
     }
-    if (onceRef.current === false) {
-      onceRef.current = true
-      hotkeys("j,m,a,n", (e, handler) => {
-        setShowSearch(true)
-        // 获取站点类型
-        setSetting((v) => ({
-          ...v,
-          showMissAV: handler.key === "m",
-          showJable: handler.key === "j",
-          showAcg: handler.key === "a",
-          showNaiflix: handler.key === "n"
-        }))
-        setTimeout(() => {
-          inputRef.current?.focus()
-        }, 300)
-      })
-
-      window.addEventListener("click", onHiddenFeature)
-    }
+    hotkeys("j, m, a, n", (e, handler) => {
+      // 获取站点类型
+      setSetting((v) => ({
+        ...v,
+        showMissAV: handler.key === "m",
+        showJable: handler.key === "j",
+        showAcg: handler.key === "a",
+        showNaiflix: handler.key === "n",
+        showHiddenFeatureSearch: true
+      }))
+      setTimeout(() => {
+        inputRef.current?.focus()
+      }, 300)
+    })
 
     return () => {
-      hotkeys.unbind("j,m,a,n")
+      hotkeys.unbind("j, m, a, n")
       window.removeEventListener("click", onHiddenFeature)
     }
   }, [setting.enableHiddenFeature])
 
-  if (setting.enableHiddenFeature === false || showSearch === false) {
+  if (
+    setting.enableHiddenFeature === false ||
+    setting.showHiddenFeatureSearch === false
+  ) {
     return null
   }
 
@@ -109,17 +115,17 @@ export default function () {
           showMissAV: false,
           showJable: false,
           showAcg: false,
-          showNaiflix: false
+          showNaiflix: false,
+          showHiddenFeatureSearch: false
         }))
-        setShowSearch(false)
       }}
       onContextMenu={onStopPaClickPropagation}>
       <div
         className={clsx(
           "relative p-2 rounded-md bg-white transition-all ease-in-out flex justify-between items-center",
           {
-            "top-0 opacity-1": showSearch,
-            "top-4 opacity-0": !showSearch
+            "top-0 opacity-1": setting.showHiddenFeatureSearch,
+            "top-4 opacity-0": !setting.showHiddenFeatureSearch
           }
         )}
         onClick={onStopPaClickPropagation}
@@ -136,7 +142,15 @@ export default function () {
             }
           )}
           onClick={() => {
-            setShowSearch(false)
+            setSetting((v) => ({
+              ...v,
+              showMissAV: false,
+              showJable: false,
+              showAcg: false,
+              showNaiflix: false,
+              showHiddenFeatureSearch: false
+            }))
+            window.open(getTargetUrl(getPlaceholderText()), "_blank")
           }}>
           {getSearchPrefixText()}
         </span>

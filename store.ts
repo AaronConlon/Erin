@@ -15,6 +15,7 @@ export const DEFAULT_SETTING = {
   dailyWallpaper: false,
   // 是否开启隐藏功能
   enableHiddenFeature: false,
+  showHiddenFeatureSearch: false,
   showJable: false,
   showMissAV: false,
   showAcg: false,

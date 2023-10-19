@@ -1,8 +1,8 @@
 {
   "name": "Erin",
-  "displayName": "Erin",
-  "version": "0.2.8",
-  "description": "Define your browser newtab page",
+  "displayName": "Erin - 纯净的新标签页",
+  "version": "0.3.0",
+  "description": "用极简的观念重新定义你的新标签页",
   "author": "Developer27149",
   "scripts": {
     "dev": "plasmo dev",
