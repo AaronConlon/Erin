@@ -1,13 +1,14 @@
-import { EReadItLaterLevel, EZIndexRecord } from "~types"
-import { getReadItLaterList, removeReadItLaterList } from "~utils/storage"
-import { onStopPaClickPropagation, openNewTab } from "~utils/browser"
-
-import BookmarkFavicon from "../BookmarkFavicon"
-import { CiTrash } from "react-icons/ci"
-import { ReadItLaterStore } from "~store"
 import clsx from "clsx"
 import { useAtom } from "jotai"
 import { useEffect } from "react"
+import { CiTrash } from "react-icons/ci"
+
+import { ReadItLaterStore } from "~store"
+import { EReadItLaterLevel, EZIndexRecord } from "~types"
+import { onStopPaClickPropagation, openNewTab } from "~utils/browser"
+import { getReadItLaterList, removeReadItLaterList } from "~utils/storage"
+
+import BookmarkFavicon from "../BookmarkFavicon"
 
 export default function ReadItLater() {
   const [readList, setReadList] = useAtom(ReadItLaterStore)
@@ -36,26 +37,23 @@ export default function ReadItLater() {
       <h3 className="heading-8 text-2xl font-bold capitalize text-gray-50 mb-4">
         稍后阅读
       </h3>
-      <div className="read-it-later-item max-h-[50vh] overflow-auto p-2 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+      <div className="read-it-later-item max-h-[50vh] overflow-auto p-2 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
         {readList.map((i) => (
           <div
             key={i.id}
             onContextMenu={onStopPaClickPropagation}
             className="group relative flex justify-between items-center rounded-md p-2 bg-gray-700 bg-opacity-50 hover:bg-opacity-90 mb-2">
-            <div className="flex flex-col justify-between text-left pr-4 text-gray-50 relative gap-2">
-              <div className="h-[36px]">
-                <span
-                  onClick={() => openNewTab(i.url)}
-                  className="text-[13px] leading-[18px] line-clamp-2 text-left cursor-pointer">
-                  {i.title}
-                </span>
+            <div
+              className="flex flex-col justify-between text-left pr-4 text-gray-50 relative gap-2"
+              style={{
+                maxWidth: "calc(100% - 32px)"
+              }}>
+              <div
+                onClick={() => openNewTab(i.url)}
+                className="text-[13px] leading-[18px] line-clamp-2 text-left cursor-pointer h-[36px]">
+                {i.title}
               </div>
               <div className="relative flex items-center gap-1">
-                {/* <button
-                  className="p-1 text-[18px] opacity-50 hover:opacity-100"
-                  onClick={() => window.open(i.url, '_blank')}>
-                  <LuExternalLink />
-                </button> */}
                 <span
                   className={clsx(
                     "text-opacity-60 bg-opacity-50 p-0.5 px-1 rounded-sm group-hover:bg-opacity-100 transition-all",

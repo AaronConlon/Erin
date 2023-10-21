@@ -2,7 +2,6 @@ import { Cross2Icon } from "@radix-ui/react-icons"
 import clsx from "clsx"
 import { useMemo, useState } from "react"
 
-import Icon from "~components/Icon"
 import BookmarkFavicon from "~components/Wallpaper/BookmarkFavicon"
 import { ENavTreeMode } from "~types"
 import { closeTab, openTab } from "~utils/browser"
