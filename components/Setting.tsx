@@ -357,7 +357,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             显示时间
           </ContextMenu.CheckboxItem>
           {/* clock component */}
-          <ContextMenu.CheckboxItem
+          {/* <ContextMenu.CheckboxItem
             className="ContextMenuCheckboxItem"
             checked={settingConfig.enableHiddenFeature}
             onCheckedChange={(v) => {
@@ -367,7 +367,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
               <CheckIcon />
             </ContextMenu.ItemIndicator>
             大人的世界
-          </ContextMenu.CheckboxItem>
+          </ContextMenu.CheckboxItem> */}
 
           <ContextMenu.Sub>
             <ContextMenu.SubTrigger

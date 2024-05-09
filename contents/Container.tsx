@@ -1,10 +1,16 @@
-import styleText from "data-text:../style.css"
-import hotkeys from "hotkeys-js"
-import type { PlasmoGetStyle } from "plasmo"
-import { useEffect, useState } from "react"
+import styleText from "data-text:../style.css";
+import hotkeys from "hotkeys-js";
+import type { PlasmoGetStyle } from "plasmo";
+import { useEffect, useState } from "react";
 
-import TreeNavigation from "~components/TreeNavigation"
-import { ENavTreeMode } from "~types"
+
+
+import TreeNavigation from "~components/TreeNavigation";
+import { ENavTreeMode } from "~types";
+
+
+
+
 
 export const getStyle: PlasmoGetStyle = () => {
   const style = document.createElement("style")
@@ -18,7 +24,7 @@ const CustomButton = () => {
     hotkeys("f1", () => {
       setShowNavbar(true)
     })
-
+    
     return () => {
       hotkeys.unbind("f1")
     }

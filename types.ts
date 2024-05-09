@@ -99,7 +99,8 @@ export interface IReadItLaterItem {
 export enum EBgMessageName {
   copyMdContentToClipboard = "copyMdContentToClipboard",
   downloadImgWithFormat = "downloadImgWithFormat",
-  applyPicInPicMode = "applyPicInPicMode"
+  applyPicInPicMode = "applyPicInPicMode",
+  viewImgInContent = "viewImgInContent"
 }
 
 export enum EMenuItemId {
@@ -125,6 +126,7 @@ export enum EReadItLaterLevel {
 }
 
 export enum EContentMenuImgAction {
+  "view" = "🔍 查看",
   "copyImgAsMarkdown" = "🚀 复制为 markdown 图片",
   "downloadCurrentImg" = "⏬ 立即下载",
   "downloadFormat" = "🔃 格式转化下载",

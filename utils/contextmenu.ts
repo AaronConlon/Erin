@@ -1,11 +1,12 @@
-import { sendToContentScript } from "@plasmohq/messaging"
+import { sendToContentScript } from "@plasmohq/messaging";
+
+
 
 import {
   EBgMessageName,
   EContentMenuImgAction,
   EMenuItemId,
-  EReadItLaterLevel,
-  EStorageKey
+  EReadItLaterLevel
 } from "~types"
 import { addReadItLaterList } from "~utils/storage"
 
@@ -60,6 +61,7 @@ export default async function initContextMenu() {
   })
 
   const imgActions = [
+    EContentMenuImgAction.view,
     EContentMenuImgAction.copyImgAsMarkdown,
     EContentMenuImgAction.downloadCurrentImg,
     EContentMenuImgAction.downloadFormat
@@ -127,6 +129,13 @@ export default async function initContextMenu() {
           })
         } else if (menuItemId === EContentMenuImgAction.downloadCurrentImg) {
           chrome.downloads.download({ url: srcUrl })
+        } else if (menuItemId === EContentMenuImgAction.view) {
+          sendToContentScript({
+            name: EBgMessageName.viewImgInContent,
+            body: {
+              srcUrl
+            }
+          })
         }
       } else if (formatImgItems.includes(menuItemId.toString() as any)) {
         // cover format to target format

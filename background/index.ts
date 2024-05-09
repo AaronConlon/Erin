@@ -1,9 +1,9 @@
-import { DEFAULT_WALLPAPER_URL, EBgMessageName, EContentMenuImgAction, EMenuItemId, EReadItLaterLevel, EStorageKey } from "~types";
+import { DEFAULT_WALLPAPER_URL, EStorageKey } from "~types";
 import { generateWallpaperUrl, getWallpaperBase64FromUrl } from "~utils/wallpaper";
 
 import { DEFAULT_SETTING } from "~store";
-import { getBingWeeklyImages } from "~utils/request";
 import initContextMenu from "~utils/contextmenu";
+import { getBingWeeklyImages } from "~utils/request";
 
 // fetch init data when plugin installed
 chrome.runtime.onInstalled.addListener(function (details) {
