@@ -1,14 +1,36 @@
 import * as ContextMenu from "@radix-ui/react-context-menu";
-import { CheckIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons"
-import { currentWallpaperStore, settingConfigStore, showAsideSettingStore } from "~store"
-import { DEFAULT_BING_WALLPAPER_DOMAIN, ENewtabMode, IAsideSettingConfig } from "~types"
-import { generateId, showErrorToast, showSuccessToast } from "~utils/browser"
-import { addNote, getConfigLocalAsideSetting } from "~utils/storage"
-import { getWallpaperBase64FromUrl, onDownloadCurrentWallpaper, onGetCurrentWallpaper, onGetPrevOrNextWallpaper, onSetCustomWallpaperToStorage } from "~utils/wallpaper"
-import hotkeys from "hotkeys-js"
-import { useAtom } from "jotai"
-import React, { ReactNode, useEffect } from "react"
-import { GrGithub } from "react-icons/gr"
+import {
+  CheckIcon,
+  ChevronRightIcon,
+  DotFilledIcon
+} from "@radix-ui/react-icons";
+import hotkeys from "hotkeys-js";
+import { useAtom } from "jotai";
+import React, { ReactNode, useEffect } from "react";
+import { CiMail } from "react-icons/ci";
+
+import { RiTwitterLine } from "react-icons/ri";
+import {
+  currentWallpaperStore,
+  settingConfigStore,
+  showAsideSettingStore
+} from "~store";
+import {
+  DEFAULT_BING_WALLPAPER_DOMAIN,
+  ENewtabMode,
+  IAsideSettingConfig
+} from "~types";
+import { generateId, showErrorToast, showSuccessToast } from "~utils/browser";
+import { addNote, getConfigLocalAsideSetting } from "~utils/storage";
+import {
+  getWallpaperBase64FromUrl,
+  onDownloadCurrentWallpaper,
+  onGetCurrentWallpaper,
+  onGetPrevOrNextWallpaper,
+  onSetCustomWallpaperToStorage
+} from "~utils/wallpaper";
+
+
 
 const SettingContainer = ({ children }: { children: ReactNode }) => {
   const [settingConfig, setSettingConfig] = useAtom(settingConfigStore)
@@ -369,7 +391,8 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
             大人的世界
           </ContextMenu.CheckboxItem> */}
 
-          <ContextMenu.Sub>
+          {/**
+           *     <ContextMenu.Sub>
             <ContextMenu.SubTrigger
               className="ContextMenuSubTrigger"
               disabled={!settingConfig.enableHiddenFeature}>
@@ -384,9 +407,9 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                 sideOffset={2}
                 alignOffset={-5}>
                 <ContextMenu.Label className="ContextMenuLabel">
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span>选项</span>
-                    <span className="text-gray pr-1 text-sm">快捷键</span>
+                    <span className="pr-1 text-sm text-gray">快捷键</span>
                   </div>
                 </ContextMenu.Label>
 
@@ -401,7 +424,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   }}>
                   JableTV{" "}
                   <div className="RightSlot">
-                    <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
+                    <span className="inline-block px-2 py-1 text-white bg-pink-500 rounded-sm">
                       j
                     </span>
                   </div>
@@ -417,7 +440,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   }}>
                   MissAV{" "}
                   <div className="RightSlot">
-                    <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
+                    <span className="inline-block px-2 py-1 text-white bg-pink-500 rounded-sm">
                       m
                     </span>
                   </div>
@@ -434,7 +457,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   }}>
                   ACG 动漫{" "}
                   <div className="RightSlot">
-                    <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
+                    <span className="inline-block px-2 py-1 text-white bg-pink-500 rounded-sm">
                       a
                     </span>
                   </div>
@@ -450,7 +473,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
                   }}>
                   Naiflix电影{" "}
                   <div className="RightSlot">
-                    <span className="bg-pink-500 px-2 py-1 inline-block rounded-sm text-white">
+                    <span className="inline-block px-2 py-1 text-white bg-pink-500 rounded-sm">
                       n
                     </span>
                   </div>
@@ -458,6 +481,7 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
               </ContextMenu.SubContent>
             </ContextMenu.Portal>
           </ContextMenu.Sub>
+           */}
 
           <ContextMenu.Separator className="ContextMenuSeparator" />
 
@@ -469,13 +493,19 @@ const SettingContainer = ({ children }: { children: ReactNode }) => {
           </ContextMenu.Item>
           <ContextMenu.Item
             className="ContextMenuItem"
-            onClick={() =>
-              window.open("https://github.com/Developer27149", "_blank")
-            }>
-            联系建议
-            <div className="RightSlot">
-              <GrGithub />
-            </div>
+          >
+            <a href="mailto:rivenqinyy@gmail.com" className="flex justify-between w-full">
+              联系我
+              <CiMail />
+            </a>
+          </ContextMenu.Item>
+          <ContextMenu.Item
+            className="ContextMenuItem"
+          >
+            <a href="https://twitter.com/intent/user?screen_name=AaronConlonDev" className="flex justify-between w-full" target="_blank">
+              Follow Me
+              <RiTwitterLine />
+            </a>
           </ContextMenu.Item>
         </ContextMenu.Content>
       </ContextMenu.Portal>

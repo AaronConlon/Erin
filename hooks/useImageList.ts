@@ -1,7 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { EStorageKey, IWeekImage } from "~types"
-import { onGetCurrentWallpaper } from "~utils/wallpaper"
+
+
+import { EStorageKey, IWeekImage } from "~types";
+import { onGetCurrentWallpaper } from "~utils/wallpaper";
+
+
+
+
 
 export default function useImageList() {
   const imgList = useRef([] as IWeekImage[])
@@ -58,7 +64,8 @@ export default function useImageList() {
       const { url } = await onGetCurrentWallpaper()
       const imageListData = (
         result[EStorageKey.imageList] as IWeekImage[]
-      ).filter((item) => !url.includes(item.urlbase))
+      ).filter((item) => !url?.includes(item.urlbase))
+
       imgList.current = imageListData.sort((a, b) => +b.enddate - +a.enddate)
       setWallpaperList(imageListData.slice(0, limit.current))
       const syncResult = await chrome.storage.sync.get(EStorageKey.likeList)

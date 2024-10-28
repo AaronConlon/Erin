@@ -2,11 +2,11 @@ import { ChangeEvent, useState } from "react"
 import { asideSettingConfigStore, settingConfigStore } from "~store"
 import { onOpenQueryAtNewTab, onStopPaClickPropagation } from "~utils/browser"
 
+import { useAtom } from "jotai"
 import { AiOutlineSearch } from "react-icons/ai"
+import useBingSearchSuggestion from "~hooks/useBingSearchSuggestion"
 import { EZIndexRecord } from "~types"
 import SearchEngineSwitch from "./SearchEngineSwitch"
-import { useAtom } from "jotai"
-import useBingSearchSuggestion from "~hooks/useBingSearchSuggestion"
 
 export default function () {
   const [value, setValue] = useState("")
@@ -33,7 +33,7 @@ export default function () {
         scale: `${asideConfig.searchBar.iconSize / 24}`
       }}
       onClick={onStopPaClickPropagation}
-      className="mx-auto left-0 right-0 rounded-md origin-center bg-gray-50 fixed top-[20vh]  w-[500px] transform flex items-center p-2 py-2 gap-2">
+      className="mx-auto left-0 right-0 rounded-md origin-center bg-gray-50 fixed top-[10vh]  w-[500px] transform flex items-center p-2 py-2 gap-2">
       <SearchEngineSwitch />
       <input
         type="text"
@@ -59,7 +59,7 @@ export default function () {
           {suggestions.slice(0, 9).map((s, idx) => (
             <div
               key={s}
-              className="flex items-center gap-2 pl-2 rounded-md flex-wrap text-gray-500 hover:bg-gray-50 hover:bg-opacity-50 hover:text-primary">
+              className="flex flex-wrap items-center gap-2 pl-2 text-gray-500 rounded-md hover:bg-gray-50 hover:bg-opacity-50 hover:text-primary">
               <span
                 style={{ color: `rgba(124,58,237,0.${9 - idx})` }}
                 className="w-4 text-left text-[12px]">

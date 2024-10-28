@@ -1,17 +1,27 @@
-import { getResponseCache, setResponseCache } from "./storage"
+import { endOfToday } from "date-fns"
+import { uniq, uniqBy } from "lodash-es"
 
 import { EStorageKey, type IThisWeekData, type IWeekImage } from "~types"
-import { endOfToday } from 'date-fns'
-import { uniq, uniqBy } from "lodash-es"
+
+import { getResponseCache, setResponseCache } from "./storage"
 
 export const getBingWeeklyImages = async (): Promise<IThisWeekData> => {
   try {
-    const url = "https://cn.bing.com/HPImageArchive.aspx?format=js&n=6&uhd=1"
+    let mkt = "en-US"
+    try {
+      const result = await chrome.storage.sync.get("wallpaperMkt")
+      mkt = result.wallpaperMkt || mkt
+    } catch (error) {
+      const result = await chrome.storage.local.get("wallpaperMkt")
+      mkt = result.wallpaperMkt || mkt
+    }
+    const url = `https://cn.bing.com/HPImageArchive.aspx?format=js&n=8&uhd=1&mkt=${mkt}`
+
     const jsonData = await fetchJsonResponse<IThisWeekData>(url)
     // save new data into imageList
     const result = await chrome.storage.local.get(EStorageKey.imageList)
-    const imageList = result[EStorageKey.imageList] as IWeekImage[] || []
-    const newImageList = uniqBy([...imageList, ...jsonData.images], 'urlbase')
+    const imageList = (result[EStorageKey.imageList] as IWeekImage[]) || []
+    const newImageList = uniqBy([...imageList, ...jsonData.images], "urlbase")
     chrome.storage.local.set({
       [EStorageKey.imageList]: newImageList
     })
@@ -25,7 +35,10 @@ export const getBingWeeklyImages = async (): Promise<IThisWeekData> => {
 }
 
 // custom fetch function, add cache support
-export const fetchJsonResponse = async <T>(url: string, options?: RequestInit & {isRaw?: boolean}) => {
+export const fetchJsonResponse = async <T>(
+  url: string,
+  options?: RequestInit & { isRaw?: boolean }
+) => {
   const cacheData = await getResponseCache<T>(url)
   if (cacheData) {
     // console.log('get data from cache:', cacheData)
@@ -33,8 +46,8 @@ export const fetchJsonResponse = async <T>(url: string, options?: RequestInit & 
   }
   const res = await fetch(url, options)
   const expireTime = endOfToday().getTime()
-  if(options?.isRaw) {
-    return res as T;
+  if (options?.isRaw) {
+    return res as T
   }
   const jsonData = await res.json()
   setResponseCache(url, jsonData, expireTime)
@@ -42,22 +55,26 @@ export const fetchJsonResponse = async <T>(url: string, options?: RequestInit & 
 }
 
 // 从必应搜索获取搜索建议，解析出来的数据格式
-function extractJsonData(str): null | {
-  Suggests: {
-    'Txt': string
-  }[]
-}[] {
-  const match = str.replace(/\/\*.*?\*\//ig, '').match(/window\.bing\.sug\((\{.*\})\)/);
+function extractJsonData(str):
+  | null
+  | {
+      Suggests: {
+        Txt: string
+      }[]
+    }[] {
+  const match = str
+    .replace(/\/\*.*?\*\//gi, "")
+    .match(/window\.bing\.sug\((\{.*\})\)/)
   if (match) {
-    const jsonStr = match[1];
-    const jsonData = JSON.parse(jsonStr);
+    const jsonStr = match[1]
+    const jsonData = JSON.parse(jsonStr)
     if (jsonData.AS && jsonData.AS.Results && jsonData.AS.Results.length > 0) {
-      return jsonData.AS.Results;
+      return jsonData.AS.Results
     } else {
-      return null;
+      return null
     }
   } else {
-    return null;
+    return null
   }
 }
 
@@ -77,7 +94,12 @@ export const getSearchSuggestions = async (query: string) => {
     // raw string is a executable js function
     const rawString = await response.text()
     const results = extractJsonData(rawString)
-    const data = uniq(results.map(i => i.Suggests).flat().map(i => i['Txt']))
+    const data = uniq(
+      results
+        .map((i) => i.Suggests)
+        .flat()
+        .map((i) => i["Txt"])
+    )
     setResponseCache(searchSuggestApiUrl, data, endOfToday().getTime())
     return data
   } catch (error) {

@@ -33,18 +33,18 @@ export default function ReadItLater() {
   return (
     <div
       style={{ zIndex: EZIndexRecord.readItLater }}
-      className="w-[960px] 2xl:w-[1200px] xl:max-w-[60vw] 2xl:max-w-[80vw] min-h-[20vh] p-4 rounded-md flex flex-col items-start fixed top-[30vh] left-0 right-0 mx-auto overflow-hidden">
-      <h3 className="heading-8 text-2xl font-bold capitalize text-gray-50 mb-4">
+      className="lg:w-[960px] 2xl:w-[1200px] xl:max-w-[60vw] 2xl:max-w-[80vw] min-h-[20vh] p-4 rounded-md flex flex-col items-start fixed top-[20vh] left-0 right-0 mx-auto overflow-hidden">
+      <h3 className="mb-4 text-2xl font-bold capitalize heading-8 text-gray-50">
         稍后阅读
       </h3>
-      <div className="read-it-later-item max-h-[50vh] overflow-auto p-2 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+      <div className="read-it-later-item max-h-[50vh] overflow-auto p-2 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
         {readList.map((i) => (
           <div
             key={i.id}
             onContextMenu={onStopPaClickPropagation}
-            className="group relative flex justify-between items-center rounded-md p-2 bg-gray-700 bg-opacity-50 hover:bg-opacity-90 mb-2">
+            className="relative flex items-center justify-between p-2 rounded-md group backdrop-blur-[3px] hover:backdrop-blur-md transition-all border border-gray-50/10 hover:border-gray-50/20 z-10">
             <div
-              className="flex flex-col justify-between text-left pr-4 text-gray-50 relative gap-2"
+              className="relative flex flex-col justify-between gap-2 pr-4 text-left text-gray-50"
               style={{
                 maxWidth: "calc(100% - 32px)"
               }}>
@@ -56,7 +56,7 @@ export default function ReadItLater() {
               <div className="relative flex items-center gap-1">
                 <span
                   className={clsx(
-                    "text-opacity-60 bg-opacity-50 p-0.5 px-1 rounded-sm group-hover:bg-opacity-100 transition-all",
+                    "text-opacity-60 p-0.5 px-1 rounded-sm",
                     {
                       "bg-green-500": i.level === EReadItLaterLevel.later,
                       "bg-yellow-500": i.level === EReadItLaterLevel.urgent,
@@ -77,8 +77,10 @@ export default function ReadItLater() {
               size={32}
               styles={{
                 borderRadius: "4px",
-                background: "#ffffff40",
-                cursor: "pointer"
+                cursor: "pointer",
+                overflow: 'hidden',
+                backgroundColor: '#eeeeee',
+                padding: '1px'
               }}
               onClick={() => openNewTab(i.url)}
             />

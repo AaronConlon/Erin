@@ -48,7 +48,7 @@ export const getWallpaperBase64FromUrl = async (
   // }
   if (!force) {
     const cache = await chrome.storage.local.get(EStorageKey.currentWallpaper)
-    if (cache[EStorageKey.currentWallpaper].url === url) {
+    if (cache[EStorageKey.currentWallpaper]?.url === url) {
       return cache.currentWallpaper.base64
     }
   }
