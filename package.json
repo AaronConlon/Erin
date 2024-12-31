@@ -1,9 +1,9 @@
 {
   "name": "Erin",
   "displayName": "Erin - 纯净的新标签页",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "用极简的观念重新定义你的新标签页",
-  "author": "Developer27149",
+  "author": "Aaron Conlon",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",

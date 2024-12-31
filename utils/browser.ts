@@ -1,4 +1,3 @@
-import { ReactNode } from "react"
 import toast from "react-hot-toast"
 
 import { sendToBackground } from "@plasmohq/messaging"
@@ -148,4 +147,17 @@ export function faviconURL(u: string, size: number | string) {
   url.searchParams.set("pageUrl", u)
   url.searchParams.set("size", size.toString())
   return url.toString()
+}
+
+export const onCopyTextToClipboard = (text: string) => {
+  console.log("just copy text to clipboard:", text)
+  const textarea = document.createElement("textarea")
+  textarea.style.position = "fixed"
+  textarea.style.top = "-1000px"
+  textarea.style.left = "-1000px"
+  textarea.value = text
+  document.body.appendChild(textarea)
+  textarea.select()
+  document.execCommand("copy")
+  document.body.removeChild(textarea)
 }

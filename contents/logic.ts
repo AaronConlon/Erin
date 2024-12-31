@@ -1,6 +1,7 @@
 import { sendToBackground } from "@plasmohq/messaging"
 
 import { EBgMessageName } from "~types"
+import { onCopyTextToClipboard } from "~utils/browser"
 import { triggerNavTreeUpdate } from "~utils/storage"
 import { onDownloadImgByUrlAndFormat } from "~utils/wallpaper"
 
@@ -11,7 +12,9 @@ chrome.runtime.onMessage.addListener(({ name, body }) => {
   if (name === EBgMessageName.copyMdContentToClipboard) {
     const { text } = body
     console.log("copyMdContentToClipboard", text)
-    navigator.clipboard.writeText(text)
+    console.log("here.....")
+    onCopyTextToClipboard(text)
+    alert("copy success:" + text)
   } else if (name === EBgMessageName.downloadImgWithFormat) {
     // handle download img with difference format
     const { url, format } = body
